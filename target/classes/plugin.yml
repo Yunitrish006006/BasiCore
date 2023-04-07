@@ -1,0 +1,16 @@
+name: BasiCore
+version: '1.0'
+main: com.mc.basicore.BasiCore
+api-version: 1.19
+prefix: BasiCore
+authors: [Yunitrish]
+commands:
+  fly:
+    description: fly
+    usage: /<command>
+  chat:
+    description: chat
+    usage: /<command>
+  space:
+    description: teleport
+    usage: /<command>
