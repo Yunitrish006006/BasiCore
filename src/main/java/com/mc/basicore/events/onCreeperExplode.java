@@ -18,14 +18,15 @@ public class onCreeperExplode implements Listener {
         if(event.getEntity() instanceof Creeper) {
             Creeper creeper = (Creeper) event.getEntity();
             Location c_location = creeper.getLocation();
-            List<Entity> nearbyEntities = new ArrayList<>(Objects.requireNonNull(c_location.getWorld()).getNearbyEntities(c_location, 4.0, 4.0, 4.0));
+            double range = 4.0;
+            List<Entity> nearbyEntities = new ArrayList<>(Objects.requireNonNull(c_location.getWorld()).getNearbyEntities(c_location, range, range, range));
             for (Entity nearbyEntity : nearbyEntities) {
                 Location ori = nearbyEntity.getLocation();
                 Vector vector = new Vector();
-                vector.setX(ori.getX() - c_location.getX());
-                vector.setY((ori.getY() - c_location.getY())+2);
-                vector.setZ(ori.getZ() - c_location.getZ());
-                nearbyEntity.setVelocity(vector.multiply(3));
+                vector.setX(range - (ori.getX() - c_location.getX()) );
+                vector.setY(range - (ori.getY() - c_location.getY()) );
+                vector.setZ(range - (ori.getZ() - c_location.getZ()) );
+                nearbyEntity.setVelocity(vector.multiply(0.1));
             }
             event.setCancelled(true);
         }

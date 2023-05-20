@@ -32,7 +32,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new onDispenserShot(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
-        ExtraFoodsEvent.apple_pie_recipe();
+        ExtraFoodsEvent.add_recipes();
 
         getCommand("chat").setExecutor(new ChatCommand());
         getCommand("chat").setTabCompleter(new ChatTabComplete());

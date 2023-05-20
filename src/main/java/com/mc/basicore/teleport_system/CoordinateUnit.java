@@ -196,6 +196,14 @@ public class CoordinateUnit {
             }
         }
     }
+    public static void toPlayer(Player player,Player target) {
+        if(player.isOp()) {
+            player.teleport(player);
+        }
+        else {
+            target.sendMessage(ChatColor.RESET+"");
+        }
+    }
     public void teleportCountDown(Player player) {
         Location spaceRecord = player.getLocation();
         for (int i = time;i>0;i--) {

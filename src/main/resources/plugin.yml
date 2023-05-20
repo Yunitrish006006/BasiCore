@@ -8,6 +8,9 @@ commands:
   fly:
     description: fly
     usage: /<command>
+  hat:
+    description: hat
+    usage: /<command>
   chat:
     description: chat
     usage: /<command>

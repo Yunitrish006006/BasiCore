@@ -1,5 +1,6 @@
 package com.mc.basicore.teleport_system;
 
+import com.mc.basicore.Basics;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -17,11 +18,13 @@ public class TeleportTabComplete implements TabCompleter {
         List<String> options = new ArrayList<>();
         switch (strings.length) {
             case 1:
+                options.add("player");
                 options.add("add");
                 options.add("delete");
                 options.add("own");
                 options.add("group");
                 options.add("public");
+                options.add("GUI");
                 if(player.isOp()) {
                     options.add("allSpaces");
                 }
@@ -47,6 +50,9 @@ public class TeleportTabComplete implements TabCompleter {
                     }
                     case "own": {
                         return CoordinateUnit.getUnitList(player);
+                    }
+                    case "player": {
+                        return Basics.getPlayerList();
                     }
                     case "group":
                     case "public": {

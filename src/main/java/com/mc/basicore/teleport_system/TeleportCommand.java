@@ -1,11 +1,14 @@
 package com.mc.basicore.teleport_system;
 
 import com.mc.basicore.BasiCore;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Objects;
 
 
 public class TeleportCommand implements CommandExecutor {
@@ -49,6 +52,10 @@ public class TeleportCommand implements CommandExecutor {
                     case "allSpaces": {
                         CoordinateUnit unit = new CoordinateUnit(strings[1]);
                         unit.toUnit(player);
+                        return true;
+                    }
+                    case "player": {
+                        player.teleport(Objects.requireNonNull(Bukkit.getPlayer(strings[1])).getLocation());
                         return true;
                     }
                     case "group":

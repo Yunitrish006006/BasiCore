@@ -21,6 +21,7 @@ com\mc\basicore\teleport_system\TeleportNameSetGUI.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Image.class
 com\mc\basicore\discord\DiscordWebhook.class
 com\mc\basicore\chat_system\ChatTabComplete.class
+com\mc\basicore\Basics.class
 com\mc\basicore\teleport_system\TeleportTabComplete.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Field.class
 com\mc\basicore\teleport_system\TeleportUnitSetGUI.class

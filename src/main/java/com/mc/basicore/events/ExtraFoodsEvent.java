@@ -38,12 +38,24 @@ public class ExtraFoodsEvent implements Listener {
             }
         }
     }
-    public static void apple_pie_recipe() {
+    public static void add_recipes() {
+        apple_pie_recipe();
+        cocoa_recipe();
+    }
+    private static void apple_pie_recipe() {
         ShapelessRecipe apple_pie_recipe = new ShapelessRecipe(NamespacedKey.minecraft("apple_pie"), itemGroups.apple_pie());
         apple_pie_recipe.addIngredient(Material.EGG);
         apple_pie_recipe.addIngredient(Material.SUGAR);
         apple_pie_recipe.addIngredient(Material.WHEAT);
         apple_pie_recipe.addIngredient(Material.APPLE);
         Bukkit.getServer().addRecipe(apple_pie_recipe);
+    }
+    private static void cocoa_recipe() {
+        ShapelessRecipe cocoa_recipe = new ShapelessRecipe(NamespacedKey.minecraft("cocoa"), itemGroups.cocoa());
+        cocoa_recipe.addIngredient(Material.COCOA_BEANS);
+        cocoa_recipe.addIngredient(Material.COCOA_BEANS);
+        cocoa_recipe.addIngredient(Material.SUGAR);
+        cocoa_recipe.addIngredient(Material.GLASS_BOTTLE);
+        Bukkit.getServer().addRecipe(cocoa_recipe);
     }
 }

@@ -1,10 +1,14 @@
 package com.mc.basicore;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -132,6 +136,19 @@ public class itemGroups {
         apple_pie_meta.setDisplayName(ChatColor.RESET + "蘋果派");
         apple_pie.setItemMeta(apple_pie_meta);
         return apple_pie;
+    }
+    public static ItemStack cocoa() {
+        ItemStack cocoa = new ItemStack(Material.POTION);
+        PotionMeta cocoa_meta = (PotionMeta) cocoa.getItemMeta();
+        PotionEffect cocoa_effect_1 = new PotionEffect(PotionEffectType.REGENERATION,(int)(Math.random()*480),0,true,true,false);
+        PotionEffect cocoa_effect_2 = new PotionEffect(PotionEffectType.SATURATION,(int)(Math.random()*480),0,true,true,false);
+        Objects.requireNonNull(cocoa_meta).addCustomEffect(cocoa_effect_1,true);
+        Objects.requireNonNull(cocoa_meta).addCustomEffect(cocoa_effect_2,true);
+        cocoa_meta.setLocalizedName("item.minecraft.cocoa");
+        cocoa_meta.setColor(Color.MAROON);
+        cocoa_meta.setDisplayName(ChatColor.RESET + "熱可可");
+        cocoa.setItemMeta(cocoa_meta);
+        return cocoa;
     }
     public static ItemStack wooden_hammer() {
         ItemStack wooden_hammer = new ItemStack(Material.WOODEN_PICKAXE);
