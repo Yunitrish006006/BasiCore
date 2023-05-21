@@ -29,10 +29,10 @@ public class SpaceUnit {
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
         if (
             uuidList.contains(playerUUID.toString()) &&
-            new ArrayList<>(config.getConfigurationSection(playerUUID.toString()).getKeys(false)).contains("CoordinateUnits") &&
+            new ArrayList<>(config.getConfigurationSection(playerUUID.toString()).getKeys(false)).contains("Units") &&
             getUnitList().contains(name)
             ) {
-            ConfigurationSection data = config.getConfigurationSection(playerUUID+".CoordinateUnits."+name);
+            ConfigurationSection data = config.getConfigurationSection(playerUUID+".Units."+name);
             location = new Location(
                     Bukkit.getWorld(data.getString(".World")),
                     data.getDouble(".X"),
@@ -90,7 +90,7 @@ public class SpaceUnit {
         }
     }
     public void addUnit() {
-        String prefix = playerUUID+".CoordinateUnits."+displayName+".";
+        String prefix = playerUUID+".Units."+displayName+".";
         config.set(prefix+"owner",owner);
         config.set(prefix+"purview",purview);
         config.set(prefix+"icon",icon);
@@ -109,20 +109,20 @@ public class SpaceUnit {
     public static void deleteUnit(Player player,String name) {
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
         for (String s : uuidList) {
-            if (config.getConfigurationSection(s + ".CoordinateUnits." + name) != null) {
+            if (config.getConfigurationSection(s + ".Units." + name) != null) {
                 if (player.isOp() || s.equals(player.getUniqueId().toString())) {
-                    config.set(s + ".CoordinateUnits." + name, null);
+                    config.set(s + ".Units." + name, null);
                     Basics.saveFile();
                 }
             }
         }
     }
     public void deleteUnit() {
-        config.set(playerUUID+".CoordinateUnits."+displayName,null);
+        config.set(playerUUID+".Units."+displayName,null);
         Basics.saveFile();
     }
     public static List<String> getUnitList(Player player) {
-        String prefix = player.getUniqueId()+".CoordinateUnits";
+        String prefix = player.getUniqueId()+".Units";
         if (config.getConfigurationSection(prefix) != null) {
             return new ArrayList<>(config.getConfigurationSection(prefix).getKeys(false));
         }
@@ -133,10 +133,15 @@ public class SpaceUnit {
     public static List<String> getUnitList() {
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
         List<String> units = new ArrayList<>();
-        for (String s : uuidList) {
-            String prefix = s + ".CoordinateUnits";
-            List<String> names = new ArrayList<>(config.getConfigurationSection(prefix).getKeys(false));
-            units.addAll(names);
+        try {
+            for (String s : uuidList) {
+                String prefix = s + ".Units";
+                List<String> names = new ArrayList<>(config.getConfigurationSection(prefix).getKeys(false));
+                units.addAll(names);
+            }
+        }
+        catch (Exception exception) {
+            Bukkit.getServer().broadcast("Error on get UnitList:",exception.toString());
         }
         return units;
     }
@@ -145,6 +150,11 @@ public class SpaceUnit {
         switch (purview) {
             case "private": {
                 if(player.getUniqueId().equals(playerUUID) || player.isOp()) {
+                    String x = String.valueOf(Math.round(location.getX()*100.0)/100.0);
+                    String y = String.valueOf(Math.round(location.getY()*100.0)/100.0);
+                    String z = String.valueOf(Math.round(location.getZ()*100.0)/100.0);
+                    player.sendTitle("",x+","+y+","+z,10,10,10);
+                    player.sendMessage(x+","+y+","+z);
                     player.teleport(location);
                 }
                 else {
@@ -175,7 +185,9 @@ public class SpaceUnit {
             BukkitScheduler scheduler = Bukkit.getScheduler();
             int finalI = i;
             scheduler.runTaskLater(BasiCore.getPlugin(),() -> {
-                if (player.getLocation().equals(spaceRecord)) {
+                if (player.getLocation().getX() == spaceRecord.getX() &&
+                    player.getLocation().getY() == spaceRecord.getY() &&
+                    player.getLocation().getZ() == spaceRecord.getZ()) {
                     player.sendTitle(""+ (time-finalI+1),"",10,10,10);
                     player.playSound(spaceRecord, Sound.ENTITY_ARROW_HIT_PLAYER, SoundCategory.MASTER, 0.4f, 0.96f);
                 }
@@ -183,7 +195,9 @@ public class SpaceUnit {
         }
         BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskLater(BasiCore.getPlugin(),() -> {
-            if (player.getLocation().equals(spaceRecord)) {
+            if (player.getLocation().getX() == spaceRecord.getX() &&
+                    player.getLocation().getY() == spaceRecord.getY() &&
+                    player.getLocation().getZ() == spaceRecord.getZ()) {
                 toUnit(player);
                 player.playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.MASTER, 0.6f, 0.96f);
             }

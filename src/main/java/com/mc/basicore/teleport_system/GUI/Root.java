@@ -53,6 +53,9 @@ public class Root implements InventoryHolder {
         lore.add(ChatColor.RESET+""+ChatColor.WHITE+"所有權人: "+ChatColor.GOLD+unit.owner);
         lore.add(ChatColor.RESET+""+ChatColor.WHITE+"倒數時間: "+ChatColor.GOLD+unit.time);
         lore.add(ChatColor.RESET+""+ChatColor.WHITE+"權限設定: "+ChatColor.GOLD+unit.purview);
+        lore.add(ChatColor.RESET+""+ChatColor.WHITE+"X: "+ChatColor.GOLD+Math.round(unit.location.getX()*100.0)/100.0);
+        lore.add(ChatColor.RESET+""+ChatColor.WHITE+"Y: "+ChatColor.GOLD+Math.round(unit.location.getY()*100.0)/100.0);
+        lore.add(ChatColor.RESET+""+ChatColor.WHITE+"Z: "+ChatColor.GOLD+Math.round(unit.location.getZ()*100.0)/100.0);
         meta.setLore(lore);
         meta.setLocalizedName("BasiCore.unitButton");
         meta.setDisplayName(ChatColor.RESET+unit.displayName);
