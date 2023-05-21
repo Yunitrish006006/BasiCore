@@ -25,6 +25,7 @@ public class TeleportTabComplete implements TabCompleter {
                 options.add("group");
                 options.add("public");
                 options.add("GUI");
+                options.add("rename");
                 if(player.isOp()) {
                     options.add("allSpaces");
                 }
@@ -48,7 +49,8 @@ public class TeleportTabComplete implements TabCompleter {
                             return SpaceUnit.getUnitList(player);
                         }
                     }
-                    case "own": {
+                    case "own":
+                    case "rename": {
                         return SpaceUnit.getUnitList(player);
                     }
                     case "player": {
@@ -61,6 +63,19 @@ public class TeleportTabComplete implements TabCompleter {
                     case "allSpaces": {
                         if(player.isOp()) options = SpaceUnit.getUnitList();
                         return options;
+                    }
+                }
+            case 3:
+                switch (strings[0]) {
+                    case "rename": {
+                        StringBuilder x = new StringBuilder();
+                        for(int i=0;i<4;i++) {
+                            x.append((char) ('a' + (Math.random() * 26)));
+                        }
+                        List<String> random_id = new ArrayList<>();
+                        random_id.add(x.toString());
+                        random_id.add("你要的名字");
+                        return random_id;
                     }
                 }
             default:

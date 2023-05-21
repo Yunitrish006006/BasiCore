@@ -1,6 +1,7 @@
 package com.mc.basicore.teleport_system;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -61,6 +62,18 @@ public class TeleportCommand implements CommandExecutor {
                     case "group":
                     case "public": {
                         player.sendMessage(ChatColor.GOLD + "still developing this function");
+                        return true;
+                    }
+                    default: return true;
+                }
+            }
+            case 3: {
+                switch (strings[0]) {
+                    case "rename": {
+                        SpaceUnit unit = new SpaceUnit(strings[1],player);
+                        unit.deleteUnit();
+                        unit.displayName = strings[2];
+                        unit.addUnit();
                         return true;
                     }
                     default: return true;

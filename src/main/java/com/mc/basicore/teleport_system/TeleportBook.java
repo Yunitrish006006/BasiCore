@@ -84,10 +84,10 @@ public class TeleportBook extends ItemStack implements Listener {
                         player.closeInventory();
                     }
                     break;
-//                case "BasiCore.setNameButton":
-//                    if (event.getClick().isLeftClick()) {
-//                        player.openInventory(new NameSet().getInventory());
-//                    }
+                case "BasiCore.setNameButton":
+                    if (event.getClick().isLeftClick()) {
+                        player.openInventory(new NameSet().getInventory());
+                    }
                 default:
                     break;
             }
