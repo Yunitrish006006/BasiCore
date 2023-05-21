@@ -42,14 +42,14 @@ public class TeleportTabComplete implements TabCompleter {
                     }
                     case "delete": {
                         if (player.isOp()) {
-                            return CoordinateUnit.getUnitList();
+                            return SpaceUnit.getUnitList();
                         }
                         else {
-                            return CoordinateUnit.getUnitList(player);
+                            return SpaceUnit.getUnitList(player);
                         }
                     }
                     case "own": {
-                        return CoordinateUnit.getUnitList(player);
+                        return SpaceUnit.getUnitList(player);
                     }
                     case "player": {
                         return Basics.getPlayerList();
@@ -59,7 +59,7 @@ public class TeleportTabComplete implements TabCompleter {
                         return options;
                     }
                     case "allSpaces": {
-                        if(player.isOp()) options = CoordinateUnit.getUnitList();
+                        if(player.isOp()) options = SpaceUnit.getUnitList();
                         return options;
                     }
                 }

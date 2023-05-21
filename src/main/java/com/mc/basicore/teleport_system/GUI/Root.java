@@ -1,5 +1,6 @@
-package com.mc.basicore.teleport_system;
+package com.mc.basicore.teleport_system.GUI;
 
+import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,13 +15,13 @@ import java.util.List;
 
 import static org.bukkit.Material.*;
 
-public class TeleportRootGUI implements InventoryHolder {
+public class Root implements InventoryHolder {
     private final Inventory inventory;
 
-    public TeleportRootGUI(Player player) {
+    public Root(Player player) {
         this.inventory = Bukkit.createInventory(this,9*4, ChatColor.BLUE + "Teleport Hub");
         this.inventory.setItem(27,addSpaceButton());
-        List<String> unitNames = CoordinateUnit.getUnitList(player);
+        List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
             this.getInventory().addItem(unitButton(unitName,player));
         }
@@ -42,7 +43,7 @@ public class TeleportRootGUI implements InventoryHolder {
     }
 
     public static ItemStack unitButton(String pointName, Player player) {
-        CoordinateUnit unit = new CoordinateUnit(pointName,player);
+        SpaceUnit unit = new SpaceUnit(pointName,player);
         ItemStack item = new ItemStack(Material.getMaterial(unit.icon.toUpperCase()));
         ItemMeta meta = item.getItemMeta();
         assert meta != null;

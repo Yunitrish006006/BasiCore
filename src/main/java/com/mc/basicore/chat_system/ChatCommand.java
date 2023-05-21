@@ -24,8 +24,8 @@ public class ChatCommand implements CommandExecutor {
                     return true;
                 }
                 else if(strings[0].equalsIgnoreCase("reset")){
-                    chatSet.reset();
-                    chatSet.setChatSet();
+                    chatSet.resetChat();
+                    chatSet.saveChatSet();
                     return true;
                 }
             }
@@ -42,7 +42,7 @@ public class ChatCommand implements CommandExecutor {
                 else {
                     player.sendMessage(ChatColor.DARK_RED + "only <name_color/content_color/custom_name> is available");
                 }
-                chatSet.setChatSet();
+                chatSet.saveChatSet();
                 return true;
             }
         }

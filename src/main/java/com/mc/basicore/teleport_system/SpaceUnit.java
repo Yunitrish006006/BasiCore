@@ -1,53 +1,18 @@
 package com.mc.basicore.teleport_system;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 @SuppressWarnings("ConstantConditions")
-public class CoordinateUnit {
+public class SpaceUnit {
     /*========file system==========*/
-    private static File file;
-    private static final String fileName = "PlayerData.yml";
-    private static FileConfiguration config;
-    private static void setFile() {
-        file = new File(BasiCore.getRootFolder(),fileName);
-        if (!file.exists()) {
-            try {
-                if (file.createNewFile()) {
-                    Bukkit.getServer().getConsoleSender().sendMessage("creating files: ");
-                    Bukkit.getServer().getConsoleSender().sendMessage(BasiCore.getRootFolder(),fileName);
-                }
-                else {
-                    Bukkit.getServer().getConsoleSender().sendMessage("initializing files");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        config = YamlConfiguration.loadConfiguration(file);
-    }
-    private static void saveFile() {
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private static void reloadFile() {
-        config = YamlConfiguration.loadConfiguration(file);
-    }
-    public static void initFile() {
-        setFile();
-        saveFile();
-    }
+    public static FileConfiguration config = Basics.config;
     /*========basic data==========*/
     public Location location = new Location(Bukkit.getWorld("world"),0,0,0);
     public String owner  = "none";
@@ -59,7 +24,7 @@ public class CoordinateUnit {
     public int time = 0;
     public String icon = "stone";
 
-    public CoordinateUnit(String name, Player player) {
+    public SpaceUnit(String name, Player player) {
         playerUUID = player.getUniqueId();
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
         if (
@@ -93,8 +58,8 @@ public class CoordinateUnit {
             icon = "stone";
         }
     }
-    public CoordinateUnit(String name) {
-        List<String> uuidList = CoordinateUnit.getUnitList();
+    public SpaceUnit(String name) {
+        List<String> uuidList = SpaceUnit.getUnitList();
         if(getUnitList().contains(name)) {
             for (String s : uuidList) {
                 if (config.getConfigurationSection(s + "." + name) != null) {
@@ -139,7 +104,7 @@ public class CoordinateUnit {
         config.set(prefix+"Yaw",location.getYaw());
         config.set(prefix+"Pitch",location.getPitch());
 
-        saveFile();
+        Basics.saveFile();
     }
     public static void deleteUnit(Player player,String name) {
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
@@ -147,14 +112,14 @@ public class CoordinateUnit {
             if (config.getConfigurationSection(s + ".CoordinateUnits." + name) != null) {
                 if (player.isOp() || s.equals(player.getUniqueId().toString())) {
                     config.set(s + ".CoordinateUnits." + name, null);
-                    saveFile();
+                    Basics.saveFile();
                 }
             }
         }
     }
     public void deleteUnit() {
         config.set(playerUUID+".CoordinateUnits."+displayName,null);
-        saveFile();
+        Basics.saveFile();
     }
     public static List<String> getUnitList(Player player) {
         String prefix = player.getUniqueId()+".CoordinateUnits";

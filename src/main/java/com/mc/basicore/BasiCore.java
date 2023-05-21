@@ -3,10 +3,7 @@ package com.mc.basicore;
 import com.mc.basicore.chat_system.*;
 import com.mc.basicore.commands.fly;
 import com.mc.basicore.discord.onPlayerChatDiscord;
-import com.mc.basicore.events.ExtraFoodsEvent;
-import com.mc.basicore.events.onCreeperExplode;
-import com.mc.basicore.events.onPlayerFished;
-import com.mc.basicore.events.onDispenserShot;
+import com.mc.basicore.events.*;
 import com.mc.basicore.teleport_system.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,14 +21,14 @@ public final class BasiCore extends JavaPlugin {
         /*=====================initialize===================*/
         BasiCore.plugin = this;
         this.saveDefaultConfig();
-        CoordinateUnit.initFile();
-        ChatSet.initFile();
+        Basics.initFile();
         /*==================register====================*/
         getCommand("fly").setExecutor(new fly());
         getServer().getPluginManager().registerEvents(new onPlayerFished(),this);
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new onDispenserShot(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
+        getServer().getPluginManager().registerEvents(new onPlayerJoin(),this);
         ExtraFoodsEvent.add_recipes();
 
         getCommand("chat").setExecutor(new ChatCommand());

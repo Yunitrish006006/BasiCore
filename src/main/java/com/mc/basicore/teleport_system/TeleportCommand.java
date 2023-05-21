@@ -36,21 +36,21 @@ public class TeleportCommand implements CommandExecutor {
                 switch (strings[0]) {
 
                     case "add": {
-                        CoordinateUnit unit = new CoordinateUnit(strings[1],player);
+                        SpaceUnit unit = new SpaceUnit(strings[1],player);
                         unit.addUnit();
                         return true;
                     }
                     case "delete": {
-                        CoordinateUnit.deleteUnit(player,strings[1]);
+                        SpaceUnit.deleteUnit(player,strings[1]);
                         return true;
                     }
                     case "own": {
-                        CoordinateUnit unit = new CoordinateUnit(strings[1],player);
+                        SpaceUnit unit = new SpaceUnit(strings[1],player);
                         unit.toUnit(player);
                         return true;
                     }
                     case "allSpaces": {
-                        CoordinateUnit unit = new CoordinateUnit(strings[1]);
+                        SpaceUnit unit = new SpaceUnit(strings[1]);
                         unit.toUnit(player);
                         return true;
                     }

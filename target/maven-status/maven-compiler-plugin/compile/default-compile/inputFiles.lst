@@ -13,6 +13,7 @@ D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\chat_system\ChatTabComplete.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\discord\onPlayerChatDiscord.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\commands\hat.java
+D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onPlayerJoin.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\ExtraFoodsEvent.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\commands\fly.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onDispenserShot.java

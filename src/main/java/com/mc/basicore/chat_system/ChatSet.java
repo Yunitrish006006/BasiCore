@@ -1,55 +1,19 @@
 package com.mc.basicore.chat_system;
 
-import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
 public class ChatSet implements Serializable {
 
-    private static File file;
-    private static final String fileName = "PlayerData.yml";
-    private static FileConfiguration config;
-    private static void setFile() {
-        file = new File(BasiCore.getRootFolder(),fileName);
-        if (!file.exists()) {
-            try {
-                if (file.createNewFile()) {
-                    Bukkit.getServer().getConsoleSender().sendMessage("creating files: ");
-                    Bukkit.getServer().getConsoleSender().sendMessage(BasiCore.getRootFolder(),fileName);
-                }
-                else {
-                    Bukkit.getServer().getConsoleSender().sendMessage("initializing files");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        config = YamlConfiguration.loadConfiguration(file);
-    }
-    private static void saveFile() {
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    private static void reloadFile() {
-        config = YamlConfiguration.loadConfiguration(file);
-    }
-    public static void initFile() {
-        setFile();
-        saveFile();
-    }
+    FileConfiguration config = Basics.config;
 
     public ChatColor NameColor = ChatColor.WHITE;
     public ChatColor ContentColor = ChatColor.WHITE;
@@ -60,8 +24,8 @@ public class ChatSet implements Serializable {
         playerUUID = player.getUniqueId();
         if (!config.getKeys(true).contains(player.getUniqueId().toString())){
             config.set(player.getUniqueId()+".type","player");
-            CustomName = player.getDisplayName();
-            saveFile();
+            CustomName = player.getName();
+            saveChatSet();
         }
         ConfigurationSection section = config.getConfigurationSection(player.getUniqueId().toString());
         if (section.getKeys(true).contains("ChatSets")) {
@@ -70,19 +34,18 @@ public class ChatSet implements Serializable {
             ContentColor = ChatColor.valueOf(section.getString(".ChatSets.ContentColor"));
         }
     }
-    public void setChatSet () {
+    public void saveChatSet() {
         String prefix = playerUUID+".ChatSets.";
         config.set(prefix+"CustomName",CustomName);
         config.set(prefix+"ContentColor",ContentColor.name());
         config.set(prefix+"NameColor",NameColor.name());
-        saveFile();
+        Basics.saveFile();
     }
-    public void reset() {
+    public void resetChat() {
         CustomName = Bukkit.getPlayer(playerUUID).getName();
         ContentColor = ChatColor.WHITE;
         NameColor = ChatColor.WHITE;
     }
-
     public void setContentColor(ChatColor color) {
         this.ContentColor = color;
     }
