@@ -20,6 +20,7 @@ D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\chat_system\ChatTabComplete.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\discord\onPlayerChatDiscord.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\collector_system\TreeCutter.java
+D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onShovelOnGravel.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\commands\fly.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onCreeperExplode.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\itemGroups.java

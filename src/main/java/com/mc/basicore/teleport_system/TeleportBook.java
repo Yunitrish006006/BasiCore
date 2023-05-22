@@ -97,14 +97,14 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void TeleportNameSetEvent(InventoryClickEvent event) {
-        ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
-        Bukkit.broadcastMessage(itemMeta.getLocalizedName());
-        if (event.getInventory().getType()==InventoryType.ANVIL) {
-            AnvilInventory anvilInventory = (AnvilInventory) event.getClickedInventory();
-            if (itemMeta != null && itemMeta.getLocalizedName().equals("BasiCore.confirmNameButton")) {
-                Bukkit.broadcastMessage("Rename button clicked!");
-                event.setCancelled(true);
-            }
-        }
+//        ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
+//        Bukkit.broadcastMessage(itemMeta.getLocalizedName());
+//        if (event.getInventory().getType()==InventoryType.ANVIL) {
+//            AnvilInventory anvilInventory = (AnvilInventory) event.getClickedInventory();
+//            if (itemMeta != null && itemMeta.getLocalizedName().equals("BasiCore.confirmNameButton")) {
+//                Bukkit.broadcastMessage("Rename button clicked!");
+//                event.setCancelled(true);
+//            }
+//        }
     }
 }

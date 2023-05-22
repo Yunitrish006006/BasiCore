@@ -28,8 +28,11 @@ com\mc\basicore\discord\DiscordWebhook$EmbedObject$Field.class
 com\mc\basicore\collector_system\TreeCutter.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Footer.class
 com\mc\basicore\events\ExtraFoodsEvent.class
+com\mc\basicore\teleport_system\events\onPlayerDeath.class
 com\mc\basicore\teleport_system\TeleportBook$1.class
 com\mc\basicore\discord\DiscordWebhook$1.class
+com\mc\basicore\events\onShovelOnGravel.class
+com\mc\basicore\recipes\furnace_dirt_gravel.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Thumbnail.class
 com\mc\basicore\teleport_system\GUI\Root.class
 com\mc\basicore\events\onPlayerFished$1.class

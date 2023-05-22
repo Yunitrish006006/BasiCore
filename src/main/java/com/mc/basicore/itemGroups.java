@@ -17,6 +17,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class itemGroups {
+    public static List<Material> shovels() {
+        List<Material> shovels = new ArrayList<>();
+        shovels.add(Material.WOODEN_SHOVEL);
+        shovels.add(Material.STONE_SHOVEL);
+        shovels.add(Material.IRON_SHOVEL);
+        shovels.add(Material.GOLDEN_SHOVEL);
+        shovels.add(Material.DIAMOND_SHOVEL);
+        shovels.add(Material.NETHERITE_SHOVEL);
+        return shovels;
+    }
     public static ItemStack[] hammers() {
         return new ItemStack[]{
                 wooden_hammer(),
