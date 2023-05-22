@@ -1,6 +1,7 @@
 package com.mc.basicore;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -53,5 +54,8 @@ public class Basics {
             names.add(p.getName());
         }
         return names;
+    }
+    public static boolean inBLockTypes(List<Material> blocks, Material target) {
+        return blocks.contains(target);
     }
 }

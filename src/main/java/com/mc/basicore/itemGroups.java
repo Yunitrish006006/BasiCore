@@ -1,5 +1,6 @@
 package com.mc.basicore;
 
+import com.sun.tools.javac.util.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -10,7 +11,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class itemGroups {
@@ -219,5 +222,71 @@ public class itemGroups {
         chipped_emerald_meta.setLocalizedName("item.minecraft.chipped_emerald");
         chipped_emerald.setItemMeta(chipped_emerald_meta);
         return chipped_emerald;
+    }
+    /*=================Tree blocks=====================*/
+    public static List<List<Material>> Trees() {
+        ArrayList<List<Material>> trees = new ArrayList<>();
+        trees.add(Oaks());
+        trees.add(Spruces());
+        trees.add(Birches());
+        trees.add(Jungles());
+        trees.add(Acacias());
+        trees.add(DarkOaks());
+        trees.add(ManGroves());
+        return trees;
+    }
+    public static List<Pair<List<Material>,Double>> TreeRange() {
+        List<Pair<List<Material>,Double>> trees = new ArrayList<>();
+        trees.add(Pair.of(Oaks(),6.0));
+        trees.add(Pair.of(Spruces(),6.0));
+        trees.add(Pair.of(Birches(),6.0));
+        trees.add(Pair.of(Jungles(),6.0));
+        trees.add(Pair.of(Acacias(),6.0));
+        trees.add(Pair.of(DarkOaks(),9.0));
+        trees.add(Pair.of(ManGroves(),6.0));
+        return trees;
+    }
+    public static List<Material> Oaks() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.OAK_LOG);
+        Trees.add(Material.OAK_LEAVES);
+        return Trees;
+    }
+    public static List<Material> Spruces() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.SPRUCE_LOG);
+        Trees.add(Material.SPRUCE_LEAVES);
+        return Trees;
+    }
+    public static List<Material> Birches() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.BIRCH_LOG);
+        Trees.add(Material.BIRCH_LEAVES);
+        return Trees;
+    }
+    public static List<Material> Jungles() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.JUNGLE_LOG);
+        Trees.add(Material.JUNGLE_LEAVES);
+        return Trees;
+    }
+    public static List<Material> Acacias() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.ACACIA_LOG);
+        Trees.add(Material.ACACIA_LEAVES);
+        return Trees;
+    }
+    public static List<Material> DarkOaks() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.DARK_OAK_LOG);
+        Trees.add(Material.DARK_OAK_LEAVES);
+        return Trees;
+    }
+    public static List<Material> ManGroves() {
+        List<Material> Trees = new ArrayList<>();
+        Trees.add(Material.MANGROVE_LOG);
+        Trees.add(Material.MANGROVE_LEAVES);
+        Trees.add(Material.MANGROVE_ROOTS);
+        return Trees;
     }
 }

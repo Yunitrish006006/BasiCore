@@ -25,6 +25,7 @@ com\mc\basicore\teleport_system\GUI\NameSet.class
 com\mc\basicore\Basics.class
 com\mc\basicore\teleport_system\TeleportTabComplete.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Field.class
+com\mc\basicore\collector_system\TreeCutter.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Footer.class
 com\mc\basicore\events\ExtraFoodsEvent.class
 com\mc\basicore\teleport_system\TeleportBook$1.class

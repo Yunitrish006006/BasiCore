@@ -40,7 +40,6 @@
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <outputFile>D:\minecraft\.SERVERS\TestServer\plugins\basic.jar</outputFile>
-                            <outputFile>D:\minecraft\.SERVERS\Spigot-1.19.4\plugins\basic.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

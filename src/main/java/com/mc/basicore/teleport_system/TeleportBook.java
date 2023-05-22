@@ -9,8 +9,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -95,9 +96,15 @@ public class TeleportBook extends ItemStack implements Listener {
         }
     }
     @EventHandler
-    public void onPrepareAnvil(PrepareAnvilEvent event) {
-        if (event.getInventory() instanceof NameSet) {
-            Bukkit.broadcastMessage("anvil activated!");
+    public void TeleportNameSetEvent(InventoryClickEvent event) {
+        ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
+        Bukkit.broadcastMessage(itemMeta.getLocalizedName());
+        if (event.getInventory().getType()==InventoryType.ANVIL) {
+            AnvilInventory anvilInventory = (AnvilInventory) event.getClickedInventory();
+            if (itemMeta != null && itemMeta.getLocalizedName().equals("BasiCore.confirmNameButton")) {
+                Bukkit.broadcastMessage("Rename button clicked!");
+                event.setCancelled(true);
+            }
         }
     }
 }

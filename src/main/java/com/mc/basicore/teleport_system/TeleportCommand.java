@@ -1,7 +1,5 @@
 package com.mc.basicore.teleport_system;
 
-import com.mc.basicore.BasiCore;
-import com.mc.basicore.Basics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,7 +19,7 @@ public class TeleportCommand implements CommandExecutor {
         switch (strings.length) {
             case 0: {
                 player.sendMessage(ChatColor.GOLD + "help:");
-                player.sendMessage(ChatColor.GOLD + "\t" + BasiCore.getPlugin().getName());
+                player.sendMessage(ChatColor.GOLD+"GUI");
             }
             case 1: {
                 switch (strings[0]) {
@@ -35,7 +33,6 @@ public class TeleportCommand implements CommandExecutor {
             }
             case 2: {
                 switch (strings[0]) {
-
                     case "add": {
                         SpaceUnit unit = new SpaceUnit(strings[1],player);
                         unit.addUnit();
