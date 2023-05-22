@@ -8,7 +8,7 @@ import com.mc.basicore.discord.onPlayerChatDiscord;
 import com.mc.basicore.events.*;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
 import com.mc.basicore.teleport_system.*;
-import com.mc.basicore.teleport_system.events.onPlayerDeath;
+import com.mc.basicore.teleport_system.events.onPlayerDeathOrReborn;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BasiCore extends JavaPlugin {
@@ -49,7 +49,7 @@ public final class BasiCore extends JavaPlugin {
         getCommand("space").setExecutor(new TeleportCommand());
         getCommand("space").setTabCompleter(new TeleportTabComplete());
         getServer().getPluginManager().registerEvents(new TeleportBook(),this);
-        getServer().getPluginManager().registerEvents(new onPlayerDeath(),this);
+        getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
     }
 
     @Override

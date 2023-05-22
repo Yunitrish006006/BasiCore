@@ -9,9 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,7 +18,7 @@ import java.util.*;
 @SuppressWarnings("ConstantConditions")
 public class TeleportBook extends ItemStack implements Listener {
     public TeleportBook() {
-        super(Material.BOOK);
+        super(Material.PAPER);
         ItemMeta meta = getItemMeta();
         Objects.requireNonNull(meta).setDisplayName(ChatColor.RESET+""+ChatColor.GOLD+""+ChatColor.BOLD+"傳送之書");
         ArrayList<String> lore = new ArrayList<>();
