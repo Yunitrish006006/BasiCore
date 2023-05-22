@@ -9,8 +9,6 @@ import com.mc.basicore.events.*;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
 import com.mc.basicore.teleport_system.*;
 import com.mc.basicore.teleport_system.events.onPlayerDeath;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BasiCore extends JavaPlugin {
@@ -33,6 +31,7 @@ public final class BasiCore extends JavaPlugin {
         getCommand("hat").setExecutor(new hat());
         getServer().getPluginManager().registerEvents(new onPlayerFished(),this);
         getServer().getPluginManager().registerEvents(new onShovelOnGravel(),this);
+        getServer().getPluginManager().registerEvents(new onPlayerRide(),this);
 
         getServer().getPluginManager().registerEvents(new TreeCutter(),this);
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);

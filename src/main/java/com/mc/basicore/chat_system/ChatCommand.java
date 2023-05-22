@@ -43,6 +43,9 @@ public class ChatCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.DARK_RED + "only <name_color/content_color/custom_name> is available");
                 }
                 chatSet.saveChatSet();
+                player.setDisplayName(chatSet.NameColor+chatSet.CustomName);
+                player.setCustomName(chatSet.NameColor+chatSet.CustomName);
+                player.setPlayerListName(chatSet.NameColor+chatSet.CustomName);
                 return true;
             }
         }

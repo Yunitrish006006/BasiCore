@@ -35,4 +35,5 @@ com\mc\basicore\events\onShovelOnGravel.class
 com\mc\basicore\recipes\furnace_dirt_gravel.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Thumbnail.class
 com\mc\basicore\teleport_system\GUI\Root.class
+com\mc\basicore\events\onPlayerRide.class
 com\mc\basicore\events\onPlayerFished$1.class
