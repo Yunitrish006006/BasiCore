@@ -20,6 +20,7 @@ public class TeleportBook extends ItemStack implements Listener {
     public TeleportBook() {
         super(Material.PAPER);
         ItemMeta meta = getItemMeta();
+        meta.setLocalizedName("BasiCore.TeleportBook");
         Objects.requireNonNull(meta).setDisplayName(ChatColor.RESET+""+ChatColor.GOLD+""+ChatColor.BOLD+"傳送之書");
         ArrayList<String> lore = new ArrayList<>();
         lore.add("【右鍵】開啟傳送介面");

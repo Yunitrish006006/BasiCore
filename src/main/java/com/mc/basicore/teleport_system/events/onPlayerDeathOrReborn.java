@@ -27,7 +27,7 @@ public class onPlayerDeathOrReborn implements Listener {
     public void onItemSpawn(ItemSpawnEvent event) {
         Item item = event.getEntity();
         ItemStack itemStack = item.getItemStack();
-        if (itemStack.getItemMeta().getLocalizedName().equals( new TeleportBook().getItemMeta().getLocalizedName())) {
+        if (itemStack.getItemMeta().getLocalizedName().equals(new TeleportBook().getItemMeta().getLocalizedName())) {
             item.remove();
         }
     }
