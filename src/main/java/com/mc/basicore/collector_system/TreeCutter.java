@@ -22,12 +22,14 @@ import static com.mc.basicore.itemGroups.*;
 public class TreeCutter implements Listener {
     @EventHandler
     public void handleBlockBreak(BlockBreakEvent event) {
+        if (!axes().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) return;
         Block block = event.getBlock();
         Material blockType = block.getType();
+        if(!inBLockTypes(itemGroups.Stems(),blockType)) return;
         List<ItemStack> drops = new ArrayList<>();
         TreeStructure type = Trees().get(0);
         for (TreeStructure tree: Trees()) {
-            if(inBLockTypes(tree.Stems,blockType) && axes().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
+            if(inBLockTypes(tree.Stems,blockType)) {
                 type = tree;
             }
         }

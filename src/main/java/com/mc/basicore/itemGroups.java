@@ -261,6 +261,13 @@ public class itemGroups {
             return (int)(bushCount*0.05+stemCount);
         }
     }
+    public static List<Material> Stems() {
+        List<Material> stems = new ArrayList<>();
+        for (TreeStructure tree:Trees()) {
+            stems.addAll(tree.Stems);
+        }
+        return stems;
+    }
     public static List<TreeStructure> Trees() {
         ArrayList<TreeStructure> trees = new ArrayList<>();
         trees.add(Oaks());

@@ -37,6 +37,7 @@ com\mc\basicore\teleport_system\GUI\NameSet.class
 com\mc\basicore\Basics.class
 com\mc\basicore\teleport_system\TeleportTabComplete.class
 com\mc\basicore\teleport_system\events\onPlayerDeathOrReborn.class
+com\mc\basicore\teleport_system\GUI\PlayerSet.class
 com\mc\basicore\itemGroups$1.class
 com\mc\basicore\collector_system\TreeCutter.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Footer.class

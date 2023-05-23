@@ -7,6 +7,8 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
+
 import static org.bukkit.Material.*;
 
 public class UnitSet implements InventoryHolder {
