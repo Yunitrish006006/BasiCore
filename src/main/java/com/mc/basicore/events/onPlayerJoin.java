@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class onPlayerJoin implements Listener {
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void playerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         player.playSound(player, Sound.BLOCK_DEEPSLATE_BRICKS_BREAK,1.0f,1.0f);
     }

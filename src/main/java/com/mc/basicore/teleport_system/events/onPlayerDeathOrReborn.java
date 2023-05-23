@@ -1,6 +1,7 @@
 package com.mc.basicore.teleport_system.events;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import com.mc.basicore.teleport_system.SpaceUnit;
 import com.mc.basicore.teleport_system.TeleportBook;
 import org.bukkit.Bukkit;
@@ -27,7 +28,7 @@ public class onPlayerDeathOrReborn implements Listener {
     public void onItemSpawn(ItemSpawnEvent event) {
         Item item = event.getEntity();
         ItemStack itemStack = item.getItemStack();
-        if (itemStack.getItemMeta().getLocalizedName().equals(new TeleportBook().getItemMeta().getLocalizedName())) {
+        if (Basics.getID(itemStack).equals(Basics.getID(new TeleportBook()))) {
             item.remove();
         }
     }

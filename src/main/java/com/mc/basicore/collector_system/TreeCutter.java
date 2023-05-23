@@ -2,7 +2,7 @@ package com.mc.basicore.collector_system;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.itemGroups;
-import com.sun.tools.javac.util.Pair;
+import com.mc.basicore.itemGroups.TreeStructure;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,46 +11,58 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TreeCutter implements Listener {
+import static com.mc.basicore.Basics.*;
+import static com.mc.basicore.itemGroups.*;
 
+public class TreeCutter implements Listener {
     @EventHandler
     public void handleBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
         Material blockType = block.getType();
-        for (List<Material> tree: itemGroups.Trees()) {
-            if(Basics.inBLockTypes(tree,blockType)) {
-                cutTree(block,tree,block.getLocation());
+        List<ItemStack> drops = new ArrayList<>();
+        TreeStructure type = Trees().get(0);
+        for (TreeStructure tree: Trees()) {
+            if(inBLockTypes(tree.Stems,blockType) && axes().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) {
+                type = tree;
             }
+        }
+        cutTree(block,type,block.getLocation(),drops,event.getPlayer().getInventory().getItemInMainHand());
+        Basics.useItem(event.getPlayer().getInventory().getItemInMainHand(),type.getDurabilityCost());
+        for (ItemStack item:drops) {
+            block.getWorld().dropItem(block.getLocation(),item);
         }
     }
 
-    private void cutTree(Block block, List<Material> treeBlocks, Location original_space) {
-        block.breakNaturally();
-        for (Block relativeBlock : getAdjacentBlocks(block)) {
-            double RangeX = Math.abs(block.getLocation().getX() - original_space.getX());
-            double RangeZ = Math.abs(block.getLocation().getZ() - original_space.getZ());
-            if (Basics.inBLockTypes(treeBlocks,relativeBlock.getType())
-            && RangeX < 2
-            && RangeZ < 2
-            ) {
-//                Bukkit.broadcastMessage("Range: " + "("+RangeX + "," + RangeZ+"),Type:"+relativeBlock.getType());
-                cutTree(relativeBlock,treeBlocks,original_space);
+    private void cutTree(Block block, TreeStructure treeBlocks, Location original_space, List<ItemStack> drops, ItemStack tool) {
+        drops.addAll(block.getDrops(tool));
+        block.setType(Material.AIR);
+        for (Block relativeBlock : getAdjacentBlocks(block, treeBlocks,original_space)) {
+            if(getFlatDistance(relativeBlock.getLocation(),original_space) < treeBlocks.Range) {
+                if(inBLockTypes(treeBlocks.Stems,relativeBlock.getType())){
+                    treeBlocks.stemCount+=1;
+                    cutTree(relativeBlock,treeBlocks,original_space, drops, tool);
+                }
+                else if(inBLockTypes(treeBlocks.Bushes,relativeBlock.getType())) {
+                    treeBlocks.bushCount+=1;
+                    cutTree(relativeBlock,treeBlocks,original_space, drops, tool);
+                }
             }
         }
     }
-
-    private Block[] getAdjacentBlocks(Block block) {
-        Block[] adjacentBlocks = new Block[6];
-        adjacentBlocks[0] = block.getRelative(BlockFace.UP);
-        adjacentBlocks[1] = block.getRelative(BlockFace.DOWN);
-        adjacentBlocks[2] = block.getRelative(BlockFace.NORTH);
-        adjacentBlocks[3] = block.getRelative(BlockFace.SOUTH);
-        adjacentBlocks[4] = block.getRelative(BlockFace.EAST);
-        adjacentBlocks[5] = block.getRelative(BlockFace.WEST);
-        return adjacentBlocks;
+    private Block[] getAdjacentBlocks(Block block, TreeStructure treeBlocks, Location original_space) {
+        List<Block> adjacentBlocks = new ArrayList<>();
+        adjacentBlocks.add(block.getRelative(BlockFace.UP));
+        adjacentBlocks.add(block.getRelative(BlockFace.DOWN));
+        adjacentBlocks.add(block.getRelative(BlockFace.NORTH));
+        adjacentBlocks.add(block.getRelative(BlockFace.SOUTH));
+        adjacentBlocks.add(block.getRelative(BlockFace.EAST));
+        adjacentBlocks.add(block.getRelative(BlockFace.WEST));
+        return adjacentBlocks.toArray(new Block[adjacentBlocks.size()]);
     }
 
 }

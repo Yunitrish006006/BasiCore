@@ -1,9 +1,9 @@
 package com.mc.basicore;
 
-import com.sun.tools.javac.util.Pair;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -11,10 +11,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class itemGroups {
     public static List<Material> shovels() {
@@ -25,6 +22,16 @@ public class itemGroups {
         shovels.add(Material.GOLDEN_SHOVEL);
         shovels.add(Material.DIAMOND_SHOVEL);
         shovels.add(Material.NETHERITE_SHOVEL);
+        return shovels;
+    }
+    public static List<Material> axes() {
+        List<Material> shovels = new ArrayList<>();
+        shovels.add(Material.WOODEN_AXE);
+        shovels.add(Material.STONE_AXE);
+        shovels.add(Material.IRON_AXE);
+        shovels.add(Material.GOLDEN_AXE);
+        shovels.add(Material.DIAMOND_AXE);
+        shovels.add(Material.NETHERITE_AXE);
         return shovels;
     }
     public static ItemStack[] hammers() {
@@ -234,8 +241,28 @@ public class itemGroups {
         return chipped_emerald;
     }
     /*=================Tree blocks=====================*/
-    public static List<List<Material>> Trees() {
-        ArrayList<List<Material>> trees = new ArrayList<>();
+    public static abstract class TreeStructure {
+        public List<Material> Stems = new ArrayList<>();
+        public List<Material> Bushes = new ArrayList<>();
+        public Float StemRange;
+        public Float BushRange;
+        public Float Range;
+        public int bushCount = 0;
+        public int stemCount = 0;
+        public TreeStructure(List<Material> stems, List<Material> bushes, Float stem_range, Float bush_range, Float range) {
+            Stems.addAll(stems);
+            Bushes.addAll(bushes);
+            StemRange = stem_range;
+            BushRange = bush_range;
+            Range = range;
+        }
+        public abstract Block[] getTree();
+        public int getDurabilityCost() {
+            return (int)(bushCount*0.05+stemCount);
+        }
+    }
+    public static List<TreeStructure> Trees() {
+        ArrayList<TreeStructure> trees = new ArrayList<>();
         trees.add(Oaks());
         trees.add(Spruces());
         trees.add(Birches());
@@ -245,58 +272,81 @@ public class itemGroups {
         trees.add(ManGroves());
         return trees;
     }
-    public static List<Pair<List<Material>,Double>> TreeRange() {
-        List<Pair<List<Material>,Double>> trees = new ArrayList<>();
-        trees.add(Pair.of(Oaks(),6.0));
-        trees.add(Pair.of(Spruces(),6.0));
-        trees.add(Pair.of(Birches(),6.0));
-        trees.add(Pair.of(Jungles(),6.0));
-        trees.add(Pair.of(Acacias(),6.0));
-        trees.add(Pair.of(DarkOaks(),9.0));
-        trees.add(Pair.of(ManGroves(),6.0));
-        return trees;
+    public static TreeStructure Oaks() {
+        return new TreeStructure(
+                Arrays.asList(Material.OAK_LOG, Material.OAK_WOOD),
+                Arrays.asList(Material.OAK_LEAVES, Material.VINE),
+                2.3f, 2.3f, 2.83f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> Oaks() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.OAK_LOG);
-        Trees.add(Material.OAK_LEAVES);
-        return Trees;
+    public static TreeStructure Spruces() {
+        return new TreeStructure(
+                Arrays.asList(Material.SPRUCE_LOG, Material.SPRUCE_WOOD),
+                Collections.singletonList(Material.SPRUCE_LEAVES),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> Spruces() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.SPRUCE_LOG);
-        Trees.add(Material.SPRUCE_LEAVES);
-        return Trees;
+    public static TreeStructure Birches() {
+        return new TreeStructure(
+                Arrays.asList(Material.BIRCH_LOG, Material.BIRCH_WOOD),
+                Collections.singletonList(Material.BIRCH_LEAVES),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> Birches() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.BIRCH_LOG);
-        Trees.add(Material.BIRCH_LEAVES);
-        return Trees;
+    public static TreeStructure Jungles() {
+        return new TreeStructure(
+                Arrays.asList(Material.JUNGLE_LOG, Material.JUNGLE_WOOD),
+                Arrays.asList(Material.JUNGLE_LEAVES, Material.VINE, Material.COCOA),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> Jungles() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.JUNGLE_LOG);
-        Trees.add(Material.JUNGLE_LEAVES);
-        return Trees;
+    public static TreeStructure Acacias() {
+        return new TreeStructure(
+                Arrays.asList(Material.ACACIA_LOG, Material.ACACIA_WOOD),
+                Collections.singletonList(Material.ACACIA_LEAVES),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> Acacias() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.ACACIA_LOG);
-        Trees.add(Material.ACACIA_LEAVES);
-        return Trees;
+    public static TreeStructure DarkOaks() {
+        return new TreeStructure(
+                Arrays.asList(Material.DARK_OAK_LOG, Material.DARK_OAK_WOOD),
+                Collections.singletonList(Material.ACACIA_LEAVES),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
-    public static List<Material> DarkOaks() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.DARK_OAK_LOG);
-        Trees.add(Material.DARK_OAK_LEAVES);
-        return Trees;
-    }
-    public static List<Material> ManGroves() {
-        List<Material> Trees = new ArrayList<>();
-        Trees.add(Material.MANGROVE_LOG);
-        Trees.add(Material.MANGROVE_LEAVES);
-        Trees.add(Material.MANGROVE_ROOTS);
-        return Trees;
+    public static TreeStructure ManGroves() {
+        return new TreeStructure(
+                Arrays.asList(Material.MANGROVE_LOG, Material.MANGROVE_WOOD, Material.MANGROVE_ROOTS),
+                Arrays.asList(Material.MANGROVE_LEAVES, Material.VINE),
+                2.3f, 2.3f, 2.3f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
 }
