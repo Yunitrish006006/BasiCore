@@ -176,7 +176,7 @@ public class SpaceUnit {
             player.teleport(player);
         }
         else {
-            target.sendMessage(ChatColor.RESET+"");
+            target.sendMessage(ChatColor.RESET+" ");
         }
     }
     public void teleportCountDown(Player player) {
@@ -188,7 +188,7 @@ public class SpaceUnit {
                 if (player.getLocation().getX() == spaceRecord.getX() &&
                     player.getLocation().getY() == spaceRecord.getY() &&
                     player.getLocation().getZ() == spaceRecord.getZ()) {
-                    player.sendTitle(""+ (time-finalI+1),"",10,10,10);
+                    player.sendTitle(" "+ (time-finalI+1),"",10,10,10);
                     player.playSound(spaceRecord, Sound.ENTITY_ARROW_HIT_PLAYER, SoundCategory.MASTER, 0.4f, 0.96f);
                 }
             },(i-1)*20L);

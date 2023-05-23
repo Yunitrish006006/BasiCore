@@ -26,6 +26,7 @@ public final class BasiCore extends JavaPlugin {
         BasiCore.plugin = this;
         this.saveDefaultConfig();
         Basics.initFile();
+        ChatSet.chatInit();
         /*==================register====================*/
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());

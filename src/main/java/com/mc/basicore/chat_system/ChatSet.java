@@ -8,6 +8,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
@@ -18,7 +20,7 @@ public class ChatSet implements Serializable {
     public ChatColor NameColor = ChatColor.WHITE;
     public ChatColor ContentColor = ChatColor.WHITE;
     public String CustomName = "None";
-    public UUID playerUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+    public UUID playerUUID;
 
     public ChatSet(Player player) {
         playerUUID = player.getUniqueId();
@@ -32,6 +34,15 @@ public class ChatSet implements Serializable {
             CustomName = section.getString(".ChatSets.CustomName");
             NameColor = ChatColor.valueOf(section.getString(".ChatSets.NameColor"));
             ContentColor = ChatColor.valueOf(section.getString(".ChatSets.ContentColor"));
+        }
+    }
+    public static void chatInit() {
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+        for (Player player:players) {
+            ChatSet chatSet = new ChatSet(player);
+            player.setDisplayName(chatSet.NameColor+chatSet.CustomName);
+            player.setCustomName(chatSet.NameColor+chatSet.CustomName);
+            player.setPlayerListName(chatSet.NameColor+chatSet.CustomName);
         }
     }
     public void saveChatSet() {
