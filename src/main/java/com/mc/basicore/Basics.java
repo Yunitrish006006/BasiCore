@@ -1,6 +1,7 @@
 package com.mc.basicore;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,12 +11,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static java.lang.Math.round;
 
 public class Basics {
     public static File file;
@@ -97,5 +101,28 @@ public class Basics {
             meta.setDamage(meta.getDamage()+cost);
             itemStack.setItemMeta(meta);
         }
+    }
+    public static Material getMaterialFromName(String id) {
+        if(id == null) return Material.STONE;
+        if (Material.matchMaterial(id)!=null) return Material.matchMaterial(id);
+        else return Material.STONE;
+    }
+    public static Double standard(Double number) {
+        return round(number*100.0)/100.0;
+    }
+    public static String getStandardPosition(Location location) {
+        return ChatColor.RESET+" "+ChatColor.BOLD+" "
+                + ChatColor.RED + standard(location.getX())+" "
+                + ChatColor.GREEN + standard(location.getY())+" "
+                + ChatColor.BLUE + standard(location.getZ())
+                +ChatColor.RESET;
+    }
+    public static ItemStack getPlayerSkull(String playerName) {
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+        assert skullMeta != null;
+        skullMeta.setOwningPlayer(Bukkit.getPlayer(playerName));
+        skull.setItemMeta(skullMeta);
+        return skull;
     }
 }

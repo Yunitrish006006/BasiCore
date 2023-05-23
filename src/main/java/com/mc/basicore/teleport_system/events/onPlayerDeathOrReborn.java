@@ -18,7 +18,7 @@ import java.util.Objects;
 public class onPlayerDeathOrReborn implements Listener {
     @EventHandler
     public static void addDeathPoint(PlayerDeathEvent event) {
-        SpaceUnit spaceUnit = new SpaceUnit("DeathPoint【"+LocalTime.now().getHour()+":"+LocalTime.now().getMinute()+":"+LocalTime.now().getSecond()+"】",event.getEntity());
+        SpaceUnit spaceUnit = new SpaceUnit("["+LocalTime.now().getHour()+":"+LocalTime.now().getMinute()+":"+LocalTime.now().getSecond()+"] died",event.getEntity());
         spaceUnit.addUnit();
         Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> Objects.requireNonNull(event.getEntity().getPlayer()).getInventory().addItem(new TeleportBook()), 20L);
         event.setDeathMessage(event.getEventName() + event.getDeathMessage());

@@ -1,7 +1,8 @@
 package com.mc.basicore.teleport_system;
 
 import com.mc.basicore.teleport_system.GUI.NameSet;
-import com.mc.basicore.teleport_system.GUI.Root;
+import com.mc.basicore.teleport_system.GUI.PlayersPage;
+import com.mc.basicore.teleport_system.GUI.UnitsPage;
 import com.mc.basicore.teleport_system.GUI.UnitSet;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -31,14 +32,14 @@ public class TeleportBook extends ItemStack implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (this.isSimilar(event.getItem()) && (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
-            player.openInventory(new Root(player).getInventory());
+            player.openInventory(new UnitsPage(player).getInventory());
         }
     }
     @EventHandler
-    public void TeleportRootUIEvent(InventoryClickEvent event) {
+    public void UnitsPage(InventoryClickEvent event) {
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (event.getInventory().getHolder() instanceof Root) {
+        if (event.getInventory().getHolder() instanceof UnitsPage) {
             switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
                 case "BasiCore.unitButton":
                     switch (event.getClick()) {
@@ -54,7 +55,7 @@ public class TeleportBook extends ItemStack implements Listener {
                             break;
                     }
                     break;
-                case "BasiCore.addUnitButton":
+                case "BasiCore.GUI.addUnit":
                     if (event.getClick().isLeftClick()) {
                         StringBuilder x = new StringBuilder();
                         for(int i=0;i<4;i++) {
@@ -63,8 +64,13 @@ public class TeleportBook extends ItemStack implements Listener {
                         SpaceUnit unit = new SpaceUnit(x.toString(),player);
                         unit.addUnit();
                         player.closeInventory();
+                        player.openInventory(new UnitsPage(player).getInventory());
                     }
                     break;
+                case "BasiCore.GUI.PlayerPage":
+                    if (event.getClick().isLeftClick()) {
+                        player.openInventory(new PlayersPage(player).getInventory());
+                    }
                 default:
                     break;
             }
@@ -72,7 +78,7 @@ public class TeleportBook extends ItemStack implements Listener {
         }
     }
     @EventHandler
-    public void TeleportSetUIEvent(InventoryClickEvent event) {
+    public void UnitSetUIEvent(InventoryClickEvent event) {
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
         if (event.getInventory().getHolder() instanceof UnitSet) {
@@ -82,12 +88,33 @@ public class TeleportBook extends ItemStack implements Listener {
                         UnitSet ui = (UnitSet) event.getInventory().getHolder();
                         SpaceUnit.deleteUnit(player,ui.unitName);
                         player.closeInventory();
+                        player.openInventory(new UnitsPage(player).getInventory());
                     }
                     break;
                 case "BasiCore.setNameButton":
                     if (event.getClick().isLeftClick()) {
                         player.openInventory(new NameSet().getInventory());
                     }
+                default:
+                    break;
+            }
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void PlayersPage(InventoryClickEvent event) {
+        if (event.getCurrentItem()==null) return;
+        Player player = (Player) event.getWhoClicked();
+        if (event.getInventory().getHolder() instanceof PlayersPage) {
+            switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
+                case "BasiCore.GUI.playerButton":
+                    if (event.getClick().isLeftClick()) {
+                        PlayersPage ui = (PlayersPage) event.getInventory().getHolder();
+                        Player target = Bukkit.getPlayer(event.getCurrentItem().getItemMeta().getDisplayName());
+                        player.teleport(target.getLocation());
+                        player.closeInventory();
+                    }
+                    break;
                 default:
                     break;
             }

@@ -8,7 +8,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class onPlayerChat implements Listener {
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
+    public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         ChatSet chatSet = new ChatSet(player);
         player.setDisplayName(chatSet.NameColor + chatSet.CustomName);
