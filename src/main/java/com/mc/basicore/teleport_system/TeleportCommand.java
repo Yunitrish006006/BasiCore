@@ -22,19 +22,18 @@ public class TeleportCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.GOLD+"GUI");
             }
             case 1: {
-                switch (strings[0]) {
-                    case "GUI": {
-                        if (!player.getInventory().contains(new TeleportBook())) {
-                            player.getInventory().addItem(new TeleportBook());
-                        }
-                        return true;
+                if (strings[0].equals("GUI")) {
+                    if (!player.getInventory().contains(new TeleportBook())) {
+                        player.getInventory().addItem(new TeleportBook());
                     }
+                    return true;
                 }
+                return true;
             }
             case 2: {
                 switch (strings[0]) {
                     case "add": {
-                        SpaceUnit unit = new SpaceUnit(strings[1],player);
+                        SpaceUnit unit = SpaceUnit.create(strings[1],player);
                         unit.addUnit();
                         return true;
                     }
@@ -43,8 +42,13 @@ public class TeleportCommand implements CommandExecutor {
                         return true;
                     }
                     case "own": {
-                        SpaceUnit unit = new SpaceUnit(strings[1],player);
+                        SpaceUnit unit = SpaceUnit.query(strings[1],player);
                         unit.toUnit(player);
+                        return true;
+                    }
+                    case "query": {
+                        SpaceUnit unit = SpaceUnit.query(strings[1],player);
+                        unit.sendUnitData();
                         return true;
                     }
                     case "allSpaces": {
@@ -65,16 +69,14 @@ public class TeleportCommand implements CommandExecutor {
                 }
             }
             case 3: {
-                switch (strings[0]) {
-                    case "rename": {
-                        SpaceUnit unit = new SpaceUnit(strings[1],player);
-                        unit.deleteUnit();
-                        unit.displayName = strings[2];
-                        unit.addUnit();
-                        return true;
-                    }
-                    default: return true;
+                if (strings[0].equals("rename")) {
+                    SpaceUnit unit = SpaceUnit.query(strings[1], player);
+                    unit.deleteUnit();
+                    unit.displayName = strings[2];
+                    unit.addUnit();
+                    return true;
                 }
+                return true;
             }
             default: return true;
         }

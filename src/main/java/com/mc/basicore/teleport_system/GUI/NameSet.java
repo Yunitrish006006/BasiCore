@@ -8,13 +8,15 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nonnull;
+
 import static org.bukkit.Material.NAME_TAG;
 
 public class NameSet implements InventoryHolder {
     private final Inventory inventory;
     public String value;
     public NameSet() {
-        this.inventory = Bukkit.createInventory(null , InventoryType.ANVIL, "Enter Name");
+        this.inventory = Bukkit.createInventory(this , InventoryType.ANVIL, "Enter Name");
         this.inventory.setItem(0,confirmNameButton());
     }
     private ItemStack confirmNameButton() {
@@ -26,7 +28,7 @@ public class NameSet implements InventoryHolder {
         item.setItemMeta(meta);
         return item;
     }
-    @Override
+    @Override @Nonnull
     public Inventory getInventory() {
         return this.inventory;
     }

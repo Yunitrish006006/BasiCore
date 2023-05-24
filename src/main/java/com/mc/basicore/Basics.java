@@ -107,7 +107,7 @@ public class Basics {
         if (Material.matchMaterial(id)!=null) return Material.matchMaterial(id);
         else return Material.STONE;
     }
-    public static Double standard(Double number) {
+    public static double standard(double number) {
         return round(number*100.0)/100.0;
     }
     public static String getStandardPosition(Location location) {

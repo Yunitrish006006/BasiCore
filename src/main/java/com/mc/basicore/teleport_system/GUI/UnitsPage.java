@@ -56,7 +56,7 @@ public class UnitsPage implements InventoryHolder {
     }
 
     public static ItemStack unitButton(String pointName, Player player) {
-        SpaceUnit unit = new SpaceUnit(pointName,player);
+        SpaceUnit unit = SpaceUnit.query(pointName,player);
         ItemStack item = new ItemStack(Basics.getMaterialFromName(unit.icon.toUpperCase()));
         ItemMeta meta = item.getItemMeta();
         assert meta != null;

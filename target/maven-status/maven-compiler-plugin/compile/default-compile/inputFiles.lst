@@ -10,10 +10,11 @@ D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\Ex
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_system\SpaceUnit.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onDispenserShot.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\recipes\furnace_dirt_gravel.java
+D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_system\GUI\IconsPage.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\commands\light.java
-D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_system\GUI\UnitSet.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\BasiCore.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\chat_system\ChatSet.java
+D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_system\GUI\UnitSetPage.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\events\onPlayerRide.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\teleport_system\GUI\PlayersPage.java
 D:\minecraft\devlopement\spigot\BasiCore\src\main\java\com\mc\basicore\chat_system\onPlayerChat.java

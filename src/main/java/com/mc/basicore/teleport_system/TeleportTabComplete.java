@@ -26,6 +26,7 @@ public class TeleportTabComplete implements TabCompleter {
                 options.add("public");
                 options.add("GUI");
                 options.add("rename");
+                options.add("query");
                 if(player.isOp()) {
                     options.add("allSpaces");
                 }
@@ -49,6 +50,7 @@ public class TeleportTabComplete implements TabCompleter {
                             return SpaceUnit.getUnitList(player);
                         }
                     }
+                    case "query":
                     case "own":
                     case "rename": {
                         return SpaceUnit.getUnitList(player);
