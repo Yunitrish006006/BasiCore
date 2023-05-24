@@ -17,7 +17,8 @@ public class UnitSetPage implements InventoryHolder {
     public UnitSetPage(String name) {
         this.inventory = Bukkit.createInventory(this,9*3, ChatColor.GOLD + "傳送點設定");
         this.inventory.setItem(10,setNameButton());
-        this.inventory.setItem(13,setIconButton());
+        this.inventory.setItem(12,setIconButton());
+        this.inventory.setItem(14,setPurviewButton());
         this.inventory.setItem(16,deleteButton());
         this.inventory.setItem(26,returnButton());
         this.unitName = name;
@@ -26,6 +27,15 @@ public class UnitSetPage implements InventoryHolder {
     @Override @Nonnull
     public Inventory getInventory() {
         return inventory;
+    }
+    private ItemStack setPurviewButton() {
+        ItemStack item = new ItemStack(DARK_OAK_DOOR);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.setPurview");
+        meta.setDisplayName(ChatColor.RESET+"設定可見範圍");
+        item.setItemMeta(meta);
+        return item;
     }
     private ItemStack returnButton() {
         ItemStack item = new ItemStack(ARROW);

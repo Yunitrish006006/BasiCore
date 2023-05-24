@@ -21,6 +21,7 @@ public class TeleportBook extends ItemStack implements Listener {
         super(Material.PAPER);
         ItemMeta meta = getItemMeta();
         meta.setLocalizedName("BasiCore.TeleportBook");
+        meta.setCustomModelData((Integer) 1);
         Objects.requireNonNull(meta).setDisplayName(ChatColor.RESET+String.valueOf(ChatColor.GOLD)+ChatColor.BOLD+"傳送之書");
         ArrayList<String> lore = new ArrayList<>();
         lore.add("【右鍵】開啟傳送介面");
@@ -40,7 +41,7 @@ public class TeleportBook extends ItemStack implements Listener {
         Player player = (Player) event.getWhoClicked();
         if (!(event.getInventory().getHolder() instanceof UnitsPage)) return;
         switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
-            case "BasiCore.unitButton":
+            case "BasiCore.GUI.unit":
                 switch (event.getClick()) {
                     case LEFT:
                         SpaceUnit target = SpaceUnit.query(event.getCurrentItem().getItemMeta().getDisplayName(),player);

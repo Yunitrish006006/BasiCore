@@ -22,8 +22,8 @@ public class IconsPage implements InventoryHolder {
     public SpaceUnit spaceUnit;
 
     public IconsPage(Player player,SpaceUnit unit) {
-        Bukkit.broadcastMessage("Icon Page Initializing!");
         spaceUnit = unit;
+        unit.sendUnitData();
         this.inventory = Bukkit.createInventory(this,9*4, ChatColor.GOLD + "圖像設定");
         List<Material> materials = new ArrayList<>();
         materials.add(Material.GRASS_BLOCK);

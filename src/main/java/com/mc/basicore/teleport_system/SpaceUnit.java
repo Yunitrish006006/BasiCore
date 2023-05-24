@@ -11,18 +11,16 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.*;
 @SuppressWarnings("ConstantConditions")
 public class SpaceUnit {
-    /*========file system==========*/
     public static FileConfiguration config = Basics.config;
-    /*========basic data==========*/
     public Location location = new Location(Bukkit.getWorld("world"),0,100,0);
     public String owner  = "none";
     public UUID playerUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
-    /*========optional==========*/
     public String displayName = "Error Unknown";
     public boolean gravity = true;
     public String purview = "private";
     public int time = 3;
     public String icon = "stone";
+
     public SpaceUnit(String name) {
         List<String> uuidList = SpaceUnit.getUnitList();
         if(getUnitList().contains(name)) {
@@ -65,42 +63,6 @@ public class SpaceUnit {
         unit.icon = "grass_block";
         unit.time = 3;
         unit.addUnit();
-        return unit;
-    }
-    public static SpaceUnit query_old(String name, Player player) {
-        SpaceUnit unit = new SpaceUnit();
-        if (!config.getKeys(false).contains(player.getUniqueId().toString())) {
-            unit.displayName = "[E] uuid not found";
-            return unit;
-        }
-        unit.playerUUID = player.getUniqueId();
-        ConfigurationSection section = config.getConfigurationSection(player.getUniqueId().toString());
-        if (!section.getKeys(false).contains("Units")) {
-            unit.displayName = "[E] Unit section not found";
-            config.set(player.getUniqueId()+".Units",null);
-            Basics.saveFile();
-            return unit;
-        }
-        section = config.getConfigurationSection(player.getUniqueId()+".Units.");
-        if (!section.getKeys(false).contains(name)) {
-            unit.displayName = "[E] space name not found";
-            return unit;
-        }
-        section = config.getConfigurationSection(player.getUniqueId()+".Units."+name);
-        unit.location = new Location(
-                Bukkit.getWorld(section.getString(".World")),
-                section.getDouble(".X"),
-                section.getDouble(".Y"),
-                section.getDouble(".Z"),
-                Float.parseFloat(section.getString(".Yaw")),
-                Float.parseFloat(section.getString(".Pitch"))
-        );
-        unit.owner = section.getString(".owner");
-        unit.displayName = name;
-        unit.gravity = section.getBoolean(".gravity");
-        unit.purview = section.getString(".purview");
-        unit.time = section.getInt(".time");
-        unit.icon = section.getString(".icon");
         return unit;
     }
     public static SpaceUnit query(String name, Player player) {

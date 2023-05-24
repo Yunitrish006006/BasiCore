@@ -68,7 +68,7 @@ public class UnitsPage implements InventoryHolder {
         lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"權限設定: "+ChatColor.GOLD+unit.purview);
         lore.add(ChatColor.RESET+"• "+Basics.getStandardPosition(unit.location));
         meta.setLore(lore);
-        meta.setLocalizedName("BasiCore.unitButton");
+        meta.setLocalizedName("BasiCore.GUI.unit");
         meta.setDisplayName(ChatColor.RESET+unit.displayName);
         item.setItemMeta(meta);
         return item;
