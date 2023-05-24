@@ -1,6 +1,7 @@
 package com.mc.basicore.teleport_system.GUI;
 
 import com.mc.basicore.Basics;
+import com.mc.basicore.chat_system.ChatSet;
 import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.bukkit.Material.*;
 
@@ -71,10 +73,11 @@ public class UnitsPage implements InventoryHolder {
         ItemStack item = new ItemStack(Basics.getMaterialFromName(unit.icon.toUpperCase()));
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
+        ChatSet chatSet = new ChatSet(Objects.requireNonNull(Bukkit.getServer().getPlayer(unit.owner)));
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.RESET+"• "+ChatColor.LIGHT_PURPLE+"【左鍵】"+ChatColor.GOLD+"傳送");
         lore.add(ChatColor.RESET+"• "+ChatColor.LIGHT_PURPLE+"【右鍵】"+ChatColor.GOLD+"設定");
-        lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"所有權人: "+ChatColor.GOLD+unit.owner);
+        lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"所有權人: "+ chatSet.NameColor + chatSet.CustomName);
         lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"倒數時間: "+ChatColor.GOLD+unit.time);
         lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"權限設定: "+ChatColor.GOLD+unit.purview);
         lore.add(ChatColor.RESET+"• "+Basics.getStandardPosition(unit.location));

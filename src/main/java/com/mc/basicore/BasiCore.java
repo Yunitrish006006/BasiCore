@@ -1,5 +1,6 @@
 package com.mc.basicore;
 
+import com.mc.basicore.Sleep.SleepFunction;
 import com.mc.basicore.chat_system.*;
 import com.mc.basicore.collector_system.TreeCutter;
 import com.mc.basicore.commands.fly;
@@ -11,6 +12,7 @@ import com.mc.basicore.recipes.furnace_dirt_gravel;
 import com.mc.basicore.teleport_system.*;
 import com.mc.basicore.teleport_system.events.onPlayerDeathOrReborn;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public final class BasiCore extends JavaPlugin {
     private static BasiCore plugin;
@@ -53,6 +55,14 @@ public final class BasiCore extends JavaPlugin {
         getCommand("space").setTabCompleter(new TeleportTabComplete());
         getServer().getPluginManager().registerEvents(new TeleportBook(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                SleepFunction sleepFunction = new SleepFunction(1);
+                sleepFunction.run();
+            }
+        }.runTaskTimer(plugin, 0, 1200);
+
     }
 
     @Override

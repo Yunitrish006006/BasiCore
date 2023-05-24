@@ -202,7 +202,6 @@ public class TeleportBook extends ItemStack implements Listener {
         if (event.getCurrentItem()==null) return;
         ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
         if (event.getInventory().getType() != InventoryType.ANVIL) return;
-        Bukkit.broadcastMessage(itemMeta.getLocalizedName());
         AnvilInventory anvilInventory = (AnvilInventory) event.getClickedInventory();
         if (itemMeta != null && itemMeta.getLocalizedName().equals("BasiCore.confirmNameButton")) {
             Bukkit.broadcastMessage("Rename button clicked!");

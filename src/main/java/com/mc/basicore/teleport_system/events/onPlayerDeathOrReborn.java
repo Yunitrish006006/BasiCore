@@ -21,7 +21,6 @@ public class onPlayerDeathOrReborn implements Listener {
         SpaceUnit spaceUnit = SpaceUnit.create("["+LocalTime.now().getHour()+":"+LocalTime.now().getMinute()+":"+LocalTime.now().getSecond()+"] died",event.getEntity());
         spaceUnit.addUnit();
         Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> Objects.requireNonNull(event.getEntity().getPlayer()).getInventory().addItem(new TeleportBook()), 20L);
-        event.setDeathMessage(event.getEventName() + event.getDeathMessage());
     }
 
     @EventHandler
