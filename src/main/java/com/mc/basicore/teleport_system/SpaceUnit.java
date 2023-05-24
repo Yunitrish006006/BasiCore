@@ -102,6 +102,41 @@ public class SpaceUnit {
         unit.icon = section.getString(".icon");
         return unit;
     }
+    public static SpaceUnit query(String name, String uuid) {
+        SpaceUnit unit = new SpaceUnit();
+        if (!config.getKeys(false).contains(uuid)) {
+            unit.displayName = "[E] uuid not found";
+            return unit;
+        }
+        ConfigurationSection section = config.getConfigurationSection(uuid);
+        if (!section.getKeys(false).contains("Units")) {
+            unit.displayName = "[E] Unit section not found";
+            config.set(uuid+".Units",null);
+            Basics.saveFile();
+            return unit;
+        }
+        section = config.getConfigurationSection(uuid+".Units.");
+        if (!section.getKeys(false).contains(name)) {
+            unit.displayName = "[E] space name not found";
+            return unit;
+        }
+        section = config.getConfigurationSection(uuid+".Units."+name);
+        unit.location = new Location(
+                Bukkit.getWorld(section.getString(".World")),
+                Double.parseDouble(section.getString(".X")),
+                Double.parseDouble(section.getString(".Y")),
+                Double.parseDouble(section.getString(".Z")),
+                Float.parseFloat(section.getString(".Yaw")),
+                Float.parseFloat(section.getString(".Pitch"))
+        );
+        unit.owner = section.getString(".owner");
+        unit.displayName = name;
+        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
+        unit.purview = section.getString(".purview");
+        unit.time = Integer.parseInt(section.getString(".time"));
+        unit.icon = section.getString(".icon");
+        return unit;
+    }
     public void addUnit() {
         String prefix = playerUUID+".Units."+displayName+".";
         config.set(prefix+"owner",owner);
@@ -158,16 +193,28 @@ public class SpaceUnit {
         }
         return units;
     }
+    public static List<SpaceUnit> getPublicUnits() {
+        List<SpaceUnit> publicUnits = new ArrayList<>();
+        try {
+            for (String uuid:new ArrayList<>(config.getKeys(false))) {
+                String prefix = uuid + ".Units";
+                for (String name:new ArrayList<>(config.getConfigurationSection(prefix).getKeys(false))) {
+                    SpaceUnit unit = SpaceUnit.query(name,uuid);
+                    unit.playerUUID = UUID.fromString(uuid);
+                    if (unit.purview.equals("public")) {
+                        publicUnits.add(unit);
+                    }
+                }
+            }
+        }
+        catch(Exception ignored) {}
+        return publicUnits;
+    }
     public void toUnit(Player player) {
         if (playerUUID.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) return;
         switch (purview) {
             case "private": {
                 if(player.getUniqueId().equals(playerUUID) || player.isOp()) {
-                    String x = String.valueOf(Math.round(location.getX()*100.0)/100.0);
-                    String y = String.valueOf(Math.round(location.getY()*100.0)/100.0);
-                    String z = String.valueOf(Math.round(location.getZ()*100.0)/100.0);
-                    player.sendTitle("",x+","+y+","+z,10,10,10);
-                    player.sendMessage(x+","+y+","+z);
                     player.teleport(location);
                 }
                 else {
@@ -175,9 +222,11 @@ public class SpaceUnit {
                 }
                 return;
             }
-            case "group": {
-            }
             case "public": {
+                player.teleport(location);
+                return;
+            }
+            case "group": {
             }
             default: {
                 player.sendMessage(ChatColor.RED + "wrong purview settings[ "+purview+" ]");

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,7 +22,7 @@ public class TeleportBook extends ItemStack implements Listener {
         super(Material.PAPER);
         ItemMeta meta = getItemMeta();
         meta.setLocalizedName("BasiCore.TeleportBook");
-        meta.setCustomModelData((Integer) 1);
+        meta.setCustomModelData(1);
         Objects.requireNonNull(meta).setDisplayName(ChatColor.RESET+String.valueOf(ChatColor.GOLD)+ChatColor.BOLD+"傳送之書");
         ArrayList<String> lore = new ArrayList<>();
         lore.add("【右鍵】開啟傳送介面");
@@ -49,7 +50,7 @@ public class TeleportBook extends ItemStack implements Listener {
                         player.closeInventory();
                         break;
                     case RIGHT:
-                        player.openInventory(new UnitSetPage(SpaceUnit.query(event.getCurrentItem().getItemMeta().getDisplayName(),player).displayName).getInventory());
+                        player.openInventory(new UnitSetPage(SpaceUnit.query(event.getCurrentItem().getItemMeta().getDisplayName(),player)).getInventory());
                         break;
                     default:
                         break;
@@ -66,10 +67,45 @@ public class TeleportBook extends ItemStack implements Listener {
                     player.openInventory(new UnitsPage(player).getInventory());
                 }
                 break;
-            case "BasiCore.GUI.PlayerPage":
+            case "BasiCore.GUI.playerPage":
                 if (event.getClick().isLeftClick()) {
                     player.openInventory(new PlayersPage(player).getInventory());
                 }
+                break;
+            case "BasiCore.GUI.publicPage":
+                if (event.getClick().isLeftClick()) {
+                    player.openInventory(new PublicPage(player).getInventory());
+                }
+                break;
+            default:
+                break;
+        }
+        event.setCancelled(true);
+    }
+    @EventHandler
+    public void PublicPage(InventoryClickEvent event) {
+        if (event.getCurrentItem()==null) return;
+        Player player = (Player) event.getWhoClicked();
+        if (!(event.getInventory().getHolder() instanceof PublicPage)) return;
+        switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
+            case "BasiCore.GUI.publicUnit":
+                if (event.getClick() == ClickType.LEFT) {
+                    List<SpaceUnit> units = SpaceUnit.getPublicUnits();
+                    for (SpaceUnit u: units) {
+                        if (u.displayName.equals(event.getCurrentItem().getItemMeta().getDisplayName())) {
+                            u.teleportCountDown(player);
+                            break;
+                        }
+                    }
+                    player.closeInventory();
+                }
+                break;
+            case "BasiCore.GUI.return":
+                if (event.getClick().isLeftClick()) {
+                    player.closeInventory();
+                    player.openInventory(new UnitsPage(player).getInventory());
+                }
+                break;
             default:
                 break;
         }
@@ -84,7 +120,7 @@ public class TeleportBook extends ItemStack implements Listener {
         switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
             case "BasiCore.GUI.deleteUnit":
                 if (event.getClick().isLeftClick()) {
-                    SpaceUnit.deleteUnit(player,ui.unitName);
+                    SpaceUnit.deleteUnit(player,ui.unit.displayName);
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
                 }
@@ -93,16 +129,30 @@ public class TeleportBook extends ItemStack implements Listener {
                 if (event.getClick().isLeftClick()) {
                     player.openInventory(new NameSet().getInventory());
                 }
+                break;
+            case "BasiCore.GUI.setPurview":
+                if (event.getClick().isLeftClick()) {
+                    SpaceUnit unit = SpaceUnit.query(ui.unit.displayName,player);
+                    unit.deleteUnit();
+                    if (unit.purview.equals("private")) unit.purview = "public";
+                    else unit.purview = "private";
+                    unit.addUnit();
+                    player.closeInventory();
+                    player.openInventory(new UnitSetPage(unit).getInventory());
+                }
+                break;
             case "BasiCore.GUI.setIcon":
                 if (event.getClick().isLeftClick()) {
                     player.closeInventory();
-                    player.openInventory(new IconsPage(player,SpaceUnit.query(ui.unitName,player)).getInventory());
+                    player.openInventory(new IconsPage(player,SpaceUnit.query(ui.unit.displayName,player)).getInventory());
                 }
+                break;
             case "BasiCore.GUI.return":
                 if (event.getClick().isLeftClick()) {
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
                 }
+                break;
             default:
                 break;
         }
@@ -113,9 +163,8 @@ public class TeleportBook extends ItemStack implements Listener {
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
         if (!(event.getInventory().getHolder() instanceof IconsPage)) return;
+        SpaceUnit unit = ((IconsPage)event.getInventory().getHolder()).spaceUnit;
         String ID = event.getCurrentItem().getItemMeta().getLocalizedName();
-
-        Bukkit.broadcastMessage("iconPage");
         switch (ID) {
             case "BasiCore.GUI.return":
                 if (event.getClick().isLeftClick()) {
@@ -126,7 +175,7 @@ public class TeleportBook extends ItemStack implements Listener {
             case "BasiCore.GUI.iconOption":
                 IconsPage page = (IconsPage) event.getInventory().getHolder();
                 page.setIcon(event.getCurrentItem().getItemMeta().getDisplayName());
-                player.openInventory(new UnitSetPage(event.getCurrentItem().getItemMeta().getDisplayName()).getInventory());
+                player.openInventory(new UnitSetPage(unit).getInventory());
                 break;
             default:
                 break;

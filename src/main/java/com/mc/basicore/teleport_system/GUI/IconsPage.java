@@ -23,7 +23,6 @@ public class IconsPage implements InventoryHolder {
 
     public IconsPage(Player player,SpaceUnit unit) {
         spaceUnit = unit;
-        unit.sendUnitData();
         this.inventory = Bukkit.createInventory(this,9*4, ChatColor.GOLD + "圖像設定");
         List<Material> materials = new ArrayList<>();
         materials.add(Material.GRASS_BLOCK);
@@ -31,6 +30,7 @@ public class IconsPage implements InventoryHolder {
         materials.add(Material.RED_BED);
         materials.add(Material.IRON_ORE);
         materials.add(Material.WHEAT);
+        materials.add(Material.SPAWNER);
         for (Material m : materials) {
             this.getInventory().addItem(icon(m));
         }
@@ -38,7 +38,6 @@ public class IconsPage implements InventoryHolder {
     }
 
     public void setIcon(String material) {
-        Bukkit.broadcastMessage("Material setting");
         spaceUnit.deleteUnit();
         spaceUnit.icon = material;
         spaceUnit.addUnit();

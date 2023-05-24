@@ -76,6 +76,13 @@ public class TeleportCommand implements CommandExecutor {
                     unit.addUnit();
                     return true;
                 }
+                else if (strings[0].equals("set_icon")) {
+                    SpaceUnit unit = SpaceUnit.query(strings[1], player);
+                    unit.deleteUnit();
+                    unit.icon = strings[2];
+                    unit.addUnit();
+                    return true;
+                }
                 return true;
             }
             default: return true;

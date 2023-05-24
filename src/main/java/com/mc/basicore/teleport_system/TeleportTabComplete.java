@@ -26,6 +26,7 @@ public class TeleportTabComplete implements TabCompleter {
                 options.add("public");
                 options.add("GUI");
                 options.add("rename");
+                options.add("set_icon");
                 options.add("query");
                 if(player.isOp()) {
                     options.add("allSpaces");
@@ -52,6 +53,7 @@ public class TeleportTabComplete implements TabCompleter {
                     }
                     case "query":
                     case "own":
+                    case "set_icon":
                     case "rename": {
                         return SpaceUnit.getUnitList(player);
                     }
@@ -60,6 +62,9 @@ public class TeleportTabComplete implements TabCompleter {
                     }
                     case "group":
                     case "public": {
+                        for (SpaceUnit unit: SpaceUnit.getPublicUnits()) {
+                            options.add(unit.displayName);
+                        }
                         return options;
                     }
                     case "allSpaces": {
@@ -78,6 +83,15 @@ public class TeleportTabComplete implements TabCompleter {
                         random_id.add(x.toString());
                         random_id.add("你要的名字");
                         return random_id;
+                    }
+                    case "set_icon": {
+                        List<String> option = new ArrayList<>();
+                        option.add("grass_block");
+                        option.add("stone");
+                        option.add("red_bed");
+                        option.add("iron_ore");
+                        option.add("wheat");
+                        return option;
                     }
                 }
             default:

@@ -5,6 +5,9 @@ api-version: 1.19
 prefix: BasiCore
 authors: [Yunitrish]
 commands:
+  laugh:
+    description: laugh
+    usage: /<command>
   fly:
     description: fly
     usage: /<command>

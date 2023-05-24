@@ -4,6 +4,7 @@ import com.mc.basicore.chat_system.*;
 import com.mc.basicore.collector_system.TreeCutter;
 import com.mc.basicore.commands.fly;
 import com.mc.basicore.commands.hat;
+import com.mc.basicore.commands.laugh;
 import com.mc.basicore.discord.onPlayerChatDiscord;
 import com.mc.basicore.events.*;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
@@ -30,6 +31,7 @@ public final class BasiCore extends JavaPlugin {
         /*==================register====================*/
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());
+        getCommand("laugh").setExecutor(new laugh());
         getServer().getPluginManager().registerEvents(new onPlayerFished(),this);
         getServer().getPluginManager().registerEvents(new onShovelOnGravel(),this);
         getServer().getPluginManager().registerEvents(new onPlayerRide(),this);

@@ -23,6 +23,7 @@ public class UnitsPage implements InventoryHolder {
         this.inventory = Bukkit.createInventory(this,9*4, ChatColor.BLUE + "Teleport Hub");
         this.inventory.setItem(27,addSpaceButton());
         this.inventory.setItem(29,playerPageButton());
+        this.inventory.setItem(31,publicPageButton());
         List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
             this.getInventory().addItem(unitButton(unitName,player));
@@ -49,8 +50,18 @@ public class UnitsPage implements InventoryHolder {
         ItemStack item = new ItemStack(PLAYER_HEAD);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.PlayerPage");
+        meta.setLocalizedName("BasiCore.GUI.playerPage");
         meta.setDisplayName(ChatColor.RESET+"玩家列表");
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack publicPageButton() {
+        ItemStack item = new ItemStack(WRITABLE_BOOK);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.publicPage");
+        meta.setDisplayName(ChatColor.RESET+"公用傳送點列表");
         item.setItemMeta(meta);
         return item;
     }

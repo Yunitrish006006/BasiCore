@@ -1,5 +1,6 @@
 package com.mc.basicore.teleport_system.GUI;
 
+import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
@@ -9,19 +10,22 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.bukkit.Material.*;
 
 public class UnitSetPage implements InventoryHolder {
     private final Inventory inventory;
-    public String unitName;
-    public UnitSetPage(String name) {
+    public SpaceUnit unit;
+    public UnitSetPage(SpaceUnit u) {
         this.inventory = Bukkit.createInventory(this,9*3, ChatColor.GOLD + "傳送點設定");
+        unit = u;
         this.inventory.setItem(10,setNameButton());
         this.inventory.setItem(12,setIconButton());
         this.inventory.setItem(14,setPurviewButton());
         this.inventory.setItem(16,deleteButton());
         this.inventory.setItem(26,returnButton());
-        this.unitName = name;
     }
 
     @Override @Nonnull
@@ -34,6 +38,9 @@ public class UnitSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setPurview");
         meta.setDisplayName(ChatColor.RESET+"設定可見範圍");
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.RESET+"• "+ChatColor.GOLD+unit.purview);
+        meta.setLore(lore);
         item.setItemMeta(meta);
         return item;
     }
