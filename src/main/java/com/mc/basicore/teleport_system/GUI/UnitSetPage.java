@@ -18,6 +18,7 @@ import static org.bukkit.Material.*;
 public class UnitSetPage implements InventoryHolder {
     private final Inventory inventory;
     public SpaceUnit unit;
+    private String playerNameInput;
     public UnitSetPage(SpaceUnit u) {
         this.inventory = Bukkit.createInventory(this,9*3, ChatColor.GOLD + "傳送點設定");
         unit = u;
@@ -27,7 +28,10 @@ public class UnitSetPage implements InventoryHolder {
         this.inventory.setItem(16,deleteButton());
         this.inventory.setItem(26,returnButton());
     }
-
+    public String getPlayerNameInput() {
+        return playerNameInput;
+    }
+    public void setPlayerNameInput(String input) { playerNameInput = input;}
     @Override @Nonnull
     public Inventory getInventory() {
         return inventory;

@@ -1,6 +1,7 @@
 package com.mc.basicore.teleport_system.GUI;
 
 import com.mc.basicore.Basics;
+import com.mc.basicore.chat_system.ChatSet;
 import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -50,10 +51,14 @@ public class PlayersPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         List<String> lore = new ArrayList<>();
-        lore.add(RESET+"• "+ LIGHT_PURPLE+"【左/右鍵】"+ GOLD+"傳送/設定");
+        lore.add(RESET+player.getName());
+        lore.add(RESET+"• "+ LIGHT_PURPLE+"【左鍵】"+ GOLD+"傳送");
         meta.setLore(lore);
         meta.setLocalizedName("BasiCore.GUI.playerButton");
-        meta.setDisplayName(RESET+player.getName());
+        ChatSet chatSet = new ChatSet(player);
+        String name = player.getName();
+        if (chatSet.CustomName != null) name = chatSet.NameColor+chatSet.CustomName;
+        meta.setDisplayName(RESET+name);
         item.setItemMeta(meta);
         return item;
     }

@@ -8,6 +8,7 @@ import com.mc.basicore.commands.hat;
 import com.mc.basicore.commands.laugh;
 import com.mc.basicore.discord.onPlayerChatDiscord;
 import com.mc.basicore.events.*;
+import com.mc.basicore.mob_system.events.skeleton_sword;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
 import com.mc.basicore.teleport_system.*;
 import com.mc.basicore.teleport_system.events.onPlayerDeathOrReborn;
@@ -31,9 +32,12 @@ public final class BasiCore extends JavaPlugin {
         Basics.initFile();
         ChatSet.chatInit();
         /*==================register====================*/
+        getServer().getPluginManager().registerEvents(new skill_system(),this);
+
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());
         getCommand("laugh").setExecutor(new laugh());
+        getServer().getPluginManager().registerEvents(new skeleton_sword(),this);
         getServer().getPluginManager().registerEvents(new onPlayerFished(),this);
         getServer().getPluginManager().registerEvents(new onShovelOnGravel(),this);
         getServer().getPluginManager().registerEvents(new onPlayerRide(),this);

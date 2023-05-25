@@ -1,18 +1,18 @@
 package com.mc.basicore.teleport_system;
 
+import com.mc.basicore.BasiCore;
 import com.mc.basicore.teleport_system.GUI.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.*;
 
@@ -38,9 +38,9 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void UnitsPage(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof UnitsPage)) return;
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (!(event.getInventory().getHolder() instanceof UnitsPage)) return;
         switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
             case "BasiCore.GUI.unit":
                 switch (event.getClick()) {
@@ -84,9 +84,9 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void PublicPage(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof PublicPage)) return;
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (!(event.getInventory().getHolder() instanceof PublicPage)) return;
         switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
             case "BasiCore.GUI.publicUnit":
                 if (event.getClick() == ClickType.LEFT) {
@@ -113,9 +113,9 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void UnitSetPage(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof UnitSetPage)) return;
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (!(event.getInventory().getHolder() instanceof UnitSetPage)) return;
         UnitSetPage ui = (UnitSetPage) event.getInventory().getHolder();
         switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
             case "BasiCore.GUI.deleteUnit":
@@ -127,7 +127,12 @@ public class TeleportBook extends ItemStack implements Listener {
                 break;
             case "BasiCore.GUI.setName":
                 if (event.getClick().isLeftClick()) {
-                    player.openInventory(new NameSet().getInventory());
+                    event.setCancelled(true);
+                    player.closeInventory();
+                    player.sendMessage(ChatColor.YELLOW + "Enter the player name:");
+                    ui.setPlayerNameInput("");
+                    player.setMetadata("teleport_name_input", new FixedMetadataValue(BasiCore.getPlugin(), ui));
+                    player.sendTitle("", ChatColor.GREEN + "Enter Player Name", 0, 40, 20);
                 }
                 break;
             case "BasiCore.GUI.setPurview":
@@ -160,9 +165,9 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void IconsPage(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof IconsPage)) return;
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (!(event.getInventory().getHolder() instanceof IconsPage)) return;
         SpaceUnit unit = ((IconsPage)event.getInventory().getHolder()).spaceUnit;
         String ID = event.getCurrentItem().getItemMeta().getLocalizedName();
         switch (ID) {
@@ -184,13 +189,13 @@ public class TeleportBook extends ItemStack implements Listener {
     }
     @EventHandler
     public void PlayersPage(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof PlayersPage)) return;
         if (event.getCurrentItem()==null) return;
         Player player = (Player) event.getWhoClicked();
-        if (!(event.getInventory().getHolder() instanceof PlayersPage)) return;
         if (event.getCurrentItem().getItemMeta().getLocalizedName().equals("BasiCore.GUI.playerButton")) {
             if (event.getClick().isLeftClick()) {
                 PlayersPage ui = (PlayersPage) event.getInventory().getHolder();
-                Player target = Bukkit.getPlayer(event.getCurrentItem().getItemMeta().getDisplayName());
+                Player target = Bukkit.getPlayer(event.getCurrentItem().getItemMeta().getLore().get(0));
                 player.teleport(target.getLocation());
                 player.closeInventory();
             }
@@ -198,14 +203,20 @@ public class TeleportBook extends ItemStack implements Listener {
         event.setCancelled(true);
     }
     @EventHandler
-    public void TeleportNameSetEvent(InventoryClickEvent event) {
-        if (event.getCurrentItem()==null) return;
-        ItemMeta itemMeta = event.getCurrentItem().getItemMeta();
-        if (event.getInventory().getType() != InventoryType.ANVIL) return;
-        AnvilInventory anvilInventory = (AnvilInventory) event.getClickedInventory();
-        if (itemMeta != null && itemMeta.getLocalizedName().equals("BasiCore.confirmNameButton")) {
-            Bukkit.broadcastMessage("Rename button clicked!");
+    public void NameSetPage(AsyncPlayerChatEvent event) {
+        Player player = event.getPlayer();
+        if (player.hasMetadata("teleport_name_input")) {
             event.setCancelled(true);
+            String input = event.getMessage();
+            UnitSetPage ui = (UnitSetPage) player.getMetadata("teleport_name_input").get(0).value();
+            ui.setPlayerNameInput(input);
+            String old = ui.unit.displayName;
+            ui.unit.deleteUnit();
+            ui.unit.displayName = ui.getPlayerNameInput();
+            ui.unit.addUnit();
+            player.sendTitle("",ChatColor.WHITE + old + ChatColor.GREEN + "=>"+ChatColor.WHITE+ui.getPlayerNameInput(), 0, 40, 20);
+            player.removeMetadata("teleport_name_input", BasiCore.getPlugin());
+            player.openInventory(new UnitSetPage(ui.unit).getInventory());
         }
     }
 }
