@@ -205,18 +205,18 @@ public class TeleportBook extends ItemStack implements Listener {
     @EventHandler
     public void NameSetPage(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
-        if (player.hasMetadata("teleport_name_input")) {
-            event.setCancelled(true);
-            String input = event.getMessage();
-            UnitSetPage ui = (UnitSetPage) player.getMetadata("teleport_name_input").get(0).value();
-            ui.setPlayerNameInput(input);
-            String old = ui.unit.displayName;
-            ui.unit.deleteUnit();
-            ui.unit.displayName = ui.getPlayerNameInput();
-            ui.unit.addUnit();
-            player.sendTitle("",ChatColor.WHITE + old + ChatColor.GREEN + "=>"+ChatColor.WHITE+ui.getPlayerNameInput(), 0, 40, 20);
-            player.removeMetadata("teleport_name_input", BasiCore.getPlugin());
-            player.openInventory(new UnitSetPage(ui.unit).getInventory());
-        }
+        if (!player.hasMetadata("teleport_name_input")) return;
+        if (!player.getMetadata("teleport_name_input").equals(null)) return;
+        event.setCancelled(true);
+        String input = event.getMessage();
+        UnitSetPage ui = (UnitSetPage) player.getMetadata("teleport_name_input").get(0).value();
+        ui.setPlayerNameInput(input);
+        String old = ui.unit.displayName;
+        ui.unit.deleteUnit();
+        ui.unit.displayName = ui.getPlayerNameInput();
+        ui.unit.addUnit();
+        player.sendTitle("",ChatColor.WHITE + old + ChatColor.GREEN + "=>"+ChatColor.WHITE+ui.getPlayerNameInput(), 0, 40, 20);
+        player.removeMetadata("teleport_name_input", BasiCore.getPlugin());
+        player.openInventory(new UnitSetPage(ui.unit).getInventory());
     }
 }

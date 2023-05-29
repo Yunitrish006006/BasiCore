@@ -11,6 +11,9 @@ commands:
   fly:
     description: fly
     usage: /<command>
+  test:
+    description: test
+    usage: /<command>
   hat:
     description: hat
     usage: /<command>

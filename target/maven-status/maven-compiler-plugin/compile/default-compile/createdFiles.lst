@@ -1,11 +1,13 @@
 com\mc\basicore\chat_system\ChatCommand.class
 com\mc\basicore\events\onPlayerJoin.class
+com\mc\basicore\events\sleepEvent.class
 com\mc\basicore\mob_system\events\skeleton_sword.class
-com\mc\basicore\BasiCore$1.class
+com\mc\basicore\enchant_system\EnchantSystem.class
 com\mc\basicore\itemGroups.class
 com\mc\basicore\discord\onPlayerChatDiscord.class
 com\mc\basicore\discord\DiscordWebhook$JSONObject.class
 com\mc\basicore\commands\light.class
+com\mc\basicore\enchant_system\EnchantSystem$1.class
 com\mc\basicore\commands\fly.class
 com\mc\basicore\teleport_system\TeleportCommand.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Field.class
@@ -25,6 +27,7 @@ com\mc\basicore\teleport_system\GUI\PlayersPage.class
 com\mc\basicore\itemGroups$2.class
 com\mc\basicore\teleport_system\TeleportBook.class
 com\mc\basicore\chat_system\ChatSet.class
+com\mc\basicore\enchant_system\HeadCeaseWrapper.class
 com\mc\basicore\events\onCreeperExplode.class
 com\mc\basicore\BasiCore.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject.class
@@ -45,6 +48,7 @@ com\mc\basicore\Basics.class
 com\mc\basicore\teleport_system\GUI\IconsPage.class
 com\mc\basicore\teleport_system\TeleportTabComplete.class
 com\mc\basicore\teleport_system\events\onPlayerDeathOrReborn.class
+com\mc\basicore\commands\test.class
 com\mc\basicore\itemGroups$1.class
 com\mc\basicore\collector_system\TreeCutter.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Footer.class
