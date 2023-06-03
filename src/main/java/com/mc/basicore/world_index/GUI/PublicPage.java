@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.mc.basicore.world_index.WorldIndex.returnButton;
 import static org.bukkit.ChatColor.*;
-import static org.bukkit.Material.ARROW;
 
 public class PublicPage implements InventoryHolder {
     private final Inventory inventory;
@@ -29,21 +29,12 @@ public class PublicPage implements InventoryHolder {
         for (SpaceUnit unit : SpaceUnit.getPublicUnits()) {
             this.getInventory().addItem(publicUnit(unit));
         }
-        this.inventory.setItem(35,returnButton());
+        this.inventory.setItem(27, returnButton());
     }
 
     @Override @Nonnull
     public Inventory getInventory() {
         return inventory;
-    }
-    private ItemStack returnButton() {
-        ItemStack item = new ItemStack(ARROW);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.return");
-        meta.setDisplayName(ChatColor.RESET+"回到上一頁");
-        item.setItemMeta(meta);
-        return item;
     }
     private static ItemStack publicUnit(SpaceUnit unit) {
         ItemStack item = new ItemStack(Basics.getMaterialFromName(unit.icon));
@@ -71,27 +62,17 @@ public class PublicPage implements InventoryHolder {
     }
     @SuppressWarnings("ConstantConditions")
     public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
-        switch (ID) {
-            case "publicUnit":
-                if (press.isLeftClick()) {
-                    List<SpaceUnit> units = SpaceUnit.getPublicUnits();
-                    for (SpaceUnit u: units) {
-                        if (u.displayName.equals(event.getCurrentItem().getItemMeta().getDisplayName())) {
-                            u.teleportCountDown(player);
-                            break;
-                        }
+        if (ID.equals("publicUnit")) {
+            if (press.isLeftClick()) {
+                List<SpaceUnit> units = SpaceUnit.getPublicUnits();
+                for (SpaceUnit u : units) {
+                    if (u.displayName.equals(event.getCurrentItem().getItemMeta().getDisplayName())) {
+                        u.teleportCountDown(player);
+                        break;
                     }
-                    player.closeInventory();
                 }
-                break;
-            case "return":
-                if (press.isLeftClick()) {
-                    player.closeInventory();
-                    player.openInventory(new UnitsPage(player).getInventory());
-                }
-                break;
-            default:
-                break;
+                player.closeInventory();
+            }
         }
         event.setCancelled(true);
     }

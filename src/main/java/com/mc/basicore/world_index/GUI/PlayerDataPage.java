@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
+import static com.mc.basicore.world_index.WorldIndex.returnButton;
 import static org.bukkit.Material.*;
 
 public class PlayerDataPage implements InventoryHolder {
@@ -31,6 +32,7 @@ public class PlayerDataPage implements InventoryHolder {
         this.inventory.setItem(10, customNameSetButton());
         this.inventory.setItem(12, nameColorSetButton());
         this.inventory.setItem(14, contentColorSetButton());
+        this.inventory.setItem(27, returnButton());
     }
 
     @Override

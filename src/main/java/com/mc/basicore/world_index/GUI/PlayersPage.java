@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mc.basicore.world_index.WorldIndex.returnButton;
 import static org.bukkit.ChatColor.*;
-import static org.bukkit.Material.FEATHER;
 
 public class PlayersPage implements InventoryHolder {
     private final Inventory inventory;
@@ -28,21 +28,12 @@ public class PlayersPage implements InventoryHolder {
         for (Player p : players) {
             this.getInventory().addItem(playerButton(p));
         }
+        inventory.setItem(27,returnButton());
     }
 
     @Override @Nonnull
     public Inventory getInventory() {
         return inventory;
-    }
-
-    public static ItemStack playerPageButton() {
-        ItemStack item = new ItemStack(FEATHER);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.PlayerPage");
-        meta.setDisplayName(RESET+"玩家列表");
-        item.setItemMeta(meta);
-        return item;
     }
 
     public static ItemStack playerButton(Player player) {

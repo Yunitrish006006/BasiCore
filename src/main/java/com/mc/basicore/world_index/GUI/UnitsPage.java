@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.mc.basicore.world_index.WorldIndex.*;
 import static org.bukkit.Material.*;
 
 public class UnitsPage implements InventoryHolder {
@@ -47,36 +48,6 @@ public class UnitsPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.addUnit");
         meta.setDisplayName(ChatColor.RESET+"新增傳送點");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public static ItemStack playerPageButton() {
-        ItemStack item = new ItemStack(PLAYER_HEAD);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.playerPage");
-        meta.setDisplayName(ChatColor.RESET+"玩家列表");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public static ItemStack publicPageButton() {
-        ItemStack item = new ItemStack(WRITABLE_BOOK);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.publicPage");
-        meta.setDisplayName(ChatColor.RESET+"公用傳送點列表");
-        item.setItemMeta(meta);
-        return item;
-    }
-
-    public static ItemStack playerDataButton() {
-        ItemStack item = new ItemStack(WHITE_BANNER);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.playerData");
-        meta.setDisplayName(ChatColor.RESET+"玩家資料");
         item.setItemMeta(meta);
         return item;
     }
@@ -126,21 +97,6 @@ public class UnitsPage implements InventoryHolder {
                     SpaceUnit unit = SpaceUnit.create(x.toString(),player);
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
-                }
-                break;
-            case "playerPage":
-                if (press.isLeftClick()) {
-                    player.openInventory(new PlayersPage(player).getInventory());
-                }
-                break;
-            case "publicPage":
-                if (press.isLeftClick()) {
-                    player.openInventory(new PublicPage(player).getInventory());
-                }
-                break;
-            case "playerData":
-                if (press.isLeftClick()) {
-                    player.openInventory(new PlayerDataPage(player).getInventory());
                 }
                 break;
             default:

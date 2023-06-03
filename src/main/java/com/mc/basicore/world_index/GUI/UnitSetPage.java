@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.mc.basicore.world_index.WorldIndex.returnButton;
 import static org.bukkit.Material.*;
 
 public class UnitSetPage implements InventoryHolder {
@@ -58,15 +59,6 @@ public class UnitSetPage implements InventoryHolder {
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.RESET+"• "+ChatColor.GOLD+unit.purview);
         meta.setLore(lore);
-        item.setItemMeta(meta);
-        return item;
-    }
-    private ItemStack returnButton() {
-        ItemStack item = new ItemStack(ARROW);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.return");
-        meta.setDisplayName(ChatColor.RESET+"回到上一頁");
         item.setItemMeta(meta);
         return item;
     }
