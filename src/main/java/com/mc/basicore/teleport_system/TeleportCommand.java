@@ -1,5 +1,6 @@
 package com.mc.basicore.teleport_system;
 
+import com.mc.basicore.world_index.WorldIndex;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -23,8 +24,8 @@ public class TeleportCommand implements CommandExecutor {
             }
             case 1: {
                 if (strings[0].equals("GUI")) {
-                    if (!player.getInventory().contains(new TeleportBook())) {
-                        player.getInventory().addItem(new TeleportBook());
+                    if (!player.getInventory().contains(new WorldIndex())) {
+                        player.getInventory().addItem(new WorldIndex());
                     }
                     return true;
                 }

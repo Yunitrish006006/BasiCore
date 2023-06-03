@@ -1,5 +1,6 @@
 package com.mc.basicore.collector_system;
 
+import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
 import com.mc.basicore.itemGroups;
 import com.mc.basicore.itemGroups.TreeStructure;
@@ -39,7 +40,6 @@ public class TreeCutter implements Listener {
             block.getWorld().dropItem(block.getLocation(),item);
         }
     }
-
     private void cutTree(Block block, TreeStructure treeBlocks, Location original_space, List<ItemStack> drops, ItemStack tool) {
         drops.addAll(block.getDrops(tool));
         block.setType(Material.AIR);
@@ -66,5 +66,4 @@ public class TreeCutter implements Listener {
         adjacentBlocks.add(block.getRelative(BlockFace.WEST));
         return adjacentBlocks.toArray(new Block[adjacentBlocks.size()]);
     }
-
 }

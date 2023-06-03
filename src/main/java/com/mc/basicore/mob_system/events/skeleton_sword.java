@@ -24,4 +24,18 @@ public class skeleton_sword implements Listener {
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MAX_HEALTH)).setBaseValue(32);
         Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).setBaseValue(Objects.requireNonNull(mob.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)).getBaseValue()*1.1);
     }
+    @EventHandler
+    public void onBlazeSpawn(EntitySpawnEvent event) {
+        if (!event.getEntity().getType().equals(EntityType.BLAZE)) return;
+        Random random = new Random();
+        if (random.nextInt(10) > 8 ) return;
+        event.setCancelled(true);
+    }
+    @EventHandler
+    public void onPigSpawn(EntitySpawnEvent event) {
+        if (!event.getEntity().getType().equals(EntityType.ZOMBIFIED_PIGLIN)) return;
+        Random random = new Random();
+        if (random.nextInt(10) > 4 ) return;
+        event.setCancelled(true);
+    }
 }

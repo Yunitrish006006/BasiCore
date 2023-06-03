@@ -3,7 +3,7 @@ package com.mc.basicore.teleport_system.events;
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
 import com.mc.basicore.teleport_system.SpaceUnit;
-import com.mc.basicore.teleport_system.TeleportBook;
+import com.mc.basicore.world_index.WorldIndex;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -20,14 +20,14 @@ public class onPlayerDeathOrReborn implements Listener {
     public static void addDeathPoint(PlayerDeathEvent event) {
         SpaceUnit spaceUnit = SpaceUnit.create("["+LocalTime.now().getHour()+":"+LocalTime.now().getMinute()+":"+LocalTime.now().getSecond()+"] died",event.getEntity());
         spaceUnit.addUnit();
-        Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> Objects.requireNonNull(event.getEntity().getPlayer()).getInventory().addItem(new TeleportBook()), 20L);
+        Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> Objects.requireNonNull(event.getEntity().getPlayer()).getInventory().addItem(new WorldIndex()), 20L);
     }
 
     @EventHandler
     public void onItemSpawn(ItemSpawnEvent event) {
         Item item = event.getEntity();
         ItemStack itemStack = item.getItemStack();
-        if (Basics.getID(itemStack).equals(Basics.getID(new TeleportBook()))) {
+        if (Basics.getID(itemStack).equals(Basics.getID(new WorldIndex()))) {
             item.remove();
         }
     }

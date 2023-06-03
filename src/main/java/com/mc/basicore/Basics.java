@@ -92,13 +92,21 @@ public class Basics {
         double rz = Math.abs(p1.getBlockZ() - p2.getBlockZ());
         return Math.sqrt((rx*rx)+(rz*rz));
     }
+    public static double getCubeDistance(Location from, Location to) {
+        double rx = Math.abs(from.getBlockX() - to.getBlockX());
+        double ry = Math.abs(from.getBlockY() - to.getBlockY());
+        double rz = Math.abs(from.getBlockZ() - to.getBlockZ());
+        return Math.sqrt((rx*rx)+(ry*ry)+(rz*rz));
+    }
     public static void useItem(ItemStack itemStack,int times) {
         if (itemStack.getItemMeta() instanceof Damageable) {
             Damageable meta = (Damageable) itemStack.getItemMeta();
-            int decrease = (int) Math.pow(2,meta.getEnchantLevel(Enchantment.DURABILITY));
-            int cost = (int)(times/Math.pow(2,meta.getEnchantLevel(Enchantment.DURABILITY)));
-            if (cost<decrease) cost=times/meta.getEnchantLevel(Enchantment.DURABILITY);
+            int d_level = meta.getEnchantLevel(Enchantment.DURABILITY)+1;
+            int decrease = (int) Math.pow(2,d_level);
+            int cost = (int)(times/Math.pow(2,d_level));
+            if (cost<decrease) cost=times/d_level;
             meta.setDamage(meta.getDamage()+cost);
+            if (meta.getDamage() > itemStack.getType().getMaxDurability()) meta.setDamage(itemStack.getType().getMaxDurability()-1);
             itemStack.setItemMeta(meta);
         }
     }

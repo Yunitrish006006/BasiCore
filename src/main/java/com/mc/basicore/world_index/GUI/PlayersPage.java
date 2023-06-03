@@ -1,12 +1,11 @@
-package com.mc.basicore.teleport_system.GUI;
+package com.mc.basicore.world_index.GUI;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.chat_system.ChatSet;
-import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -61,5 +60,17 @@ public class PlayersPage implements InventoryHolder {
         meta.setDisplayName(RESET+name);
         item.setItemMeta(meta);
         return item;
+    }
+    @SuppressWarnings("ConstantConditions")
+    public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
+        if (ID.equals("playerButton")) {
+            if (press.isLeftClick()) {
+                PlayersPage ui = (PlayersPage) event.getInventory().getHolder();
+                Player target = Bukkit.getPlayer(event.getCurrentItem().getItemMeta().getLore().get(0));
+                player.teleport(target.getLocation());
+                player.closeInventory();
+            }
+        }
+        event.setCancelled(true);
     }
 }

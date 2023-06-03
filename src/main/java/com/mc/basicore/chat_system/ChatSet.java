@@ -21,9 +21,20 @@ public class ChatSet implements Serializable {
     public ChatColor ContentColor = ChatColor.WHITE;
     public String CustomName = "None";
     public UUID playerUUID;
+    public Player self;
+
+    public String getName() {
+        return NameColor+CustomName;
+    }
+    public void update() {
+        self.setDisplayName(getName());
+        self.setCustomName(getName());
+        self.setPlayerListName(getName());
+    }
 
     public ChatSet(Player player) {
         playerUUID = player.getUniqueId();
+        self = player;
         if (!config.getKeys(true).contains(player.getUniqueId().toString())){
             config.set(player.getUniqueId()+".type","player");
             CustomName = player.getName();

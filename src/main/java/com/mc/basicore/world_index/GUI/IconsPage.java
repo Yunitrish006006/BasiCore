@@ -1,10 +1,12 @@
-package com.mc.basicore.teleport_system.GUI;
+package com.mc.basicore.world_index.GUI;
 
 import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -68,5 +70,26 @@ public class IconsPage implements InventoryHolder {
         meta.setDisplayName(ChatColor.RESET+material.toString().toLowerCase());
         item.setItemMeta(meta);
         return item;
+    }
+    @SuppressWarnings("ConstantConditions")
+    public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
+        SpaceUnit unit = ((IconsPage)event.getInventory().getHolder()).spaceUnit;
+        switch (ID) {
+            case "return":
+                if (press.isLeftClick()) {
+                    player.closeInventory();
+                    player.openInventory(new UnitsPage(player).getInventory());
+                }
+                break;
+            case "iconOption":
+                if (press.isLeftClick()) {
+                    setIcon(event.getCurrentItem().getItemMeta().getDisplayName());
+                    player.openInventory(new UnitSetPage(unit).getInventory());
+                }
+                break;
+            default:
+                break;
+        }
+        event.setCancelled(true);
     }
 }

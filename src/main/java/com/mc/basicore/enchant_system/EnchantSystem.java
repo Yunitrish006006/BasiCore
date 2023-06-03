@@ -68,20 +68,20 @@ public class EnchantSystem implements Listener {
     }
     @EventHandler
     public void onPrepareEnchant(PrepareItemEnchantEvent event) {
-        Enchantment enchantment = HEAD_CEASE;
-
-//            e.setCancelled(false);
-        event.getOffers()[0] = new EnchantmentOffer(HEAD_CEASE, 1, 1);
-
-
-        System.out.println("Listing all registered enchantments");
-        for(int i = 0; i < Enchantment.values().length; i++) {
-            System.out.println(Enchantment.values()[i].getName());
-        }
-        System.out.println("Listing all offered enchantments");
-        for(int i = 0; i < 3; i++){
-            System.out.println("#"+i+": "+event.getOffers()[i].getEnchantment().getName());
-        }
+//        Enchantment enchantment = HEAD_CEASE;
+//
+////            e.setCancelled(false);
+//        event.getOffers()[0] = new EnchantmentOffer(HEAD_CEASE, 1, 1);
+//
+//
+//        System.out.println("Listing all registered enchantments");
+//        for(int i = 0; i < Enchantment.values().length; i++) {
+//            System.out.println(Enchantment.values()[i].getName());
+//        }
+//        System.out.println("Listing all offered enchantments");
+//        for(int i = 0; i < 3; i++){
+//            System.out.println("#"+i+": "+event.getOffers()[i].getEnchantment().getName());
+//        }
 //        if (!enchantment.canEnchantItem(event.getItem())) return;
 //        List<EnchantmentOffer> table = Arrays.asList(event.getOffers());
 //        table.add(new EnchantmentOffer(enchantment,1,2));

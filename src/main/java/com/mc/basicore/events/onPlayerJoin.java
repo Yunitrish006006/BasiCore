@@ -7,14 +7,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 public class onPlayerJoin implements Listener {
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasMetadata("teleport_name_input")) {
-            player.setMetadata("teleport_name_input", new FixedMetadataValue(BasiCore.getPlugin(), null));
+            player.removeMetadata("teleport_name_input",BasiCore.getPlugin());
+        }
+        if (player.hasMetadata("inputText")) {
+            player.removeMetadata("inputText",BasiCore.getPlugin());
         }
         Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> {
             player.playSound(player, Sound.BLOCK_DEEPSLATE_BRICKS_BREAK,1.0f,1.0f);

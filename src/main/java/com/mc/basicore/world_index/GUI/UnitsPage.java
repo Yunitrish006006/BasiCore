@@ -1,4 +1,4 @@
-package com.mc.basicore.teleport_system.GUI;
+package com.mc.basicore.world_index.GUI;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.chat_system.ChatSet;
@@ -6,6 +6,8 @@ import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -22,10 +24,11 @@ public class UnitsPage implements InventoryHolder {
     private final Inventory inventory;
 
     public UnitsPage(Player player) {
-        this.inventory = Bukkit.createInventory(this,9*4, ChatColor.BLUE + "Teleport Hub");
+        this.inventory = Bukkit.createInventory(this,9*4, ChatColor.BLUE + "個人節點列表");
         this.inventory.setItem(27,addSpaceButton());
         this.inventory.setItem(29,playerPageButton());
         this.inventory.setItem(31,publicPageButton());
+        this.inventory.setItem(33,playerDataButton());
         List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
             this.getInventory().addItem(unitButton(unitName,player));
@@ -68,6 +71,16 @@ public class UnitsPage implements InventoryHolder {
         return item;
     }
 
+    public static ItemStack playerDataButton() {
+        ItemStack item = new ItemStack(WHITE_BANNER);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.playerData");
+        meta.setDisplayName(ChatColor.RESET+"玩家資料");
+        item.setItemMeta(meta);
+        return item;
+    }
+
     public static ItemStack unitButton(String pointName, Player player) {
         SpaceUnit unit = SpaceUnit.query(pointName,player);
         ItemStack item = new ItemStack(Basics.getMaterialFromName(unit.icon.toUpperCase()));
@@ -86,5 +99,53 @@ public class UnitsPage implements InventoryHolder {
         meta.setDisplayName(ChatColor.RESET+unit.displayName);
         item.setItemMeta(meta);
         return item;
+    }
+    @SuppressWarnings("ConstantConditions")
+    public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
+        switch (ID) {
+            case "unit":
+                switch (press) {
+                    case LEFT:
+                        SpaceUnit target = SpaceUnit.query(event.getCurrentItem().getItemMeta().getDisplayName(),player);
+                        target.teleportCountDown(player);
+                        player.closeInventory();
+                        break;
+                    case RIGHT:
+                        player.openInventory(new UnitSetPage(SpaceUnit.query(event.getCurrentItem().getItemMeta().getDisplayName(),player)).getInventory());
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "addUnit":
+                if (press.isLeftClick()) {
+                    StringBuilder x = new StringBuilder();
+                    for(int i=0;i<4;i++) {
+                        x.append((char) ('a' + (Math.random() * 26)));
+                    }
+                    SpaceUnit unit = SpaceUnit.create(x.toString(),player);
+                    player.closeInventory();
+                    player.openInventory(new UnitsPage(player).getInventory());
+                }
+                break;
+            case "playerPage":
+                if (press.isLeftClick()) {
+                    player.openInventory(new PlayersPage(player).getInventory());
+                }
+                break;
+            case "publicPage":
+                if (press.isLeftClick()) {
+                    player.openInventory(new PublicPage(player).getInventory());
+                }
+                break;
+            case "playerData":
+                if (press.isLeftClick()) {
+                    player.openInventory(new PlayerDataPage(player).getInventory());
+                }
+                break;
+            default:
+                break;
+        }
+        event.setCancelled(true);
     }
 }

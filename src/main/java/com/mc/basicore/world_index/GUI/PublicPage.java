@@ -1,4 +1,4 @@
-package com.mc.basicore.teleport_system.GUI;
+package com.mc.basicore.world_index.GUI;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.chat_system.ChatSet;
@@ -6,6 +6,8 @@ import com.mc.basicore.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -66,5 +68,31 @@ public class PublicPage implements InventoryHolder {
         meta.setDisplayName(RESET+unit.displayName);
         item.setItemMeta(meta);
         return item;
+    }
+    @SuppressWarnings("ConstantConditions")
+    public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
+        switch (ID) {
+            case "publicUnit":
+                if (press.isLeftClick()) {
+                    List<SpaceUnit> units = SpaceUnit.getPublicUnits();
+                    for (SpaceUnit u: units) {
+                        if (u.displayName.equals(event.getCurrentItem().getItemMeta().getDisplayName())) {
+                            u.teleportCountDown(player);
+                            break;
+                        }
+                    }
+                    player.closeInventory();
+                }
+                break;
+            case "return":
+                if (press.isLeftClick()) {
+                    player.closeInventory();
+                    player.openInventory(new UnitsPage(player).getInventory());
+                }
+                break;
+            default:
+                break;
+        }
+        event.setCancelled(true);
     }
 }
