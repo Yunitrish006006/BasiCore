@@ -1,9 +1,6 @@
 package com.mc.basicore;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -63,6 +60,11 @@ public class Basics {
             names.add(p.getName());
         }
         return names;
+    }
+    public static void playSound(Location location, Sound sound) {
+        for (Player player:Bukkit.getOnlinePlayers()) {
+            player.playSound(location,sound,SoundCategory.BLOCKS,1.0f,1.0f);
+        }
     }
     public static boolean inBLockTypes(List<Material> blocks, Material target) {
         return blocks.contains(target);

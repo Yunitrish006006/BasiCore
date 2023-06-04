@@ -1,22 +1,22 @@
 package com.mc.basicore;
 
-import com.mc.basicore.chat_system.*;
-import com.mc.basicore.collector_system.ChainMiner;
-import com.mc.basicore.collector_system.TreeCutter;
-import com.mc.basicore.collector_system.VeinToggle;
+import com.mc.basicore.systems.chat_system.*;
+import com.mc.basicore.systems.collector_system.ChainMiner;
+import com.mc.basicore.systems.collector_system.TreeCutter;
+import com.mc.basicore.systems.collector_system.VeinToggle;
 import com.mc.basicore.commands.fly;
 import com.mc.basicore.commands.hat;
 import com.mc.basicore.commands.laugh;
 import com.mc.basicore.commands.test;
 import com.mc.basicore.discord.onPlayerChatDiscord;
-import com.mc.basicore.enchant_system.EnchantSystem;
+import com.mc.basicore.systems.collector_system.onShovelOnGravel;
+import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.events.*;
-import com.mc.basicore.mob_system.events.skeleton_sword;
+import com.mc.basicore.systems.mob_system.events.skeleton_sword;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
-import com.mc.basicore.teleport_system.*;
-import com.mc.basicore.teleport_system.events.onPlayerDeathOrReborn;
-import com.mc.basicore.world_index.WorldIndex;
-import org.bukkit.Bukkit;
+import com.mc.basicore.systems.teleport_system.*;
+import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
+import com.mc.basicore.systems.world_index.WorldIndex;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BasiCore extends JavaPlugin {
@@ -52,14 +52,15 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onPlayerRide(),this);
 
         /*============================vein collector system==============================*/
-        Bukkit.getServer().getPluginManager().registerEvents(new VeinToggle(),this);
-        Bukkit.getServer().getPluginManager().registerEvents(new TreeCutter(),this);
-        Bukkit.getServer().getPluginManager().registerEvents(new ChainMiner(),this);
+        getServer().getPluginManager().registerEvents(new VeinToggle(),this);
+        getServer().getPluginManager().registerEvents(new TreeCutter(),this);
+        getServer().getPluginManager().registerEvents(new ChainMiner(),this);
+        getServer().getPluginManager().registerEvents(new onDispenserShot(),this);
         /*============================other little system==============================*/
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
-        getServer().getPluginManager().registerEvents(new onDispenserShot(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
         getServer().getPluginManager().registerEvents(new onPlayerJoin(),this);
+        getServer().getPluginManager().registerEvents(new OnPlayerInteractBeeHive(),this);
         ExtraFoodsEvent.add_recipes();
         furnace_dirt_gravel.dirt_gravel();
 

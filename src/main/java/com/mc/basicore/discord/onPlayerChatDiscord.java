@@ -1,7 +1,7 @@
 package com.mc.basicore.discord;
 
 import com.mc.basicore.BasiCore;
-import com.mc.basicore.chat_system.ChatSet;
+import com.mc.basicore.systems.chat_system.ChatSet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

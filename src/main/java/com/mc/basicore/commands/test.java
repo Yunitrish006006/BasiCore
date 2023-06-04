@@ -1,6 +1,6 @@
 package com.mc.basicore.commands;
 
-import com.mc.basicore.enchant_system.EnchantSystem;
+import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
