@@ -19,8 +19,7 @@ public class onPlayerJoin implements Listener {
             player.removeMetadata("inputText",BasiCore.getPlugin());
         }
         Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(), () -> {
-            player.playSound(player, Sound.BLOCK_DEEPSLATE_BRICKS_BREAK,1.0f,1.0f);
-            player.playSound(player, "basicore.welcome_voice",1.0f,1.0f);
+            player.playSound(player, "basicore.entergame",1.0f,1.0f);
         },3*20L);
     }
 }

@@ -14,14 +14,25 @@ public class TribeCommand implements CommandExecutor {
         Player player = (Player) commandSender;
         switch (strings.length) {
             case 1:
-                if (strings[0].equals("create")) {
-                    Tribe tribe = new Tribe(player);
-                    tribe.save();
+                switch (strings[0]) {
+                    case "list":
+                        for (Tribe tribe:Tribe.List()){
+                            player.sendMessage("===================================================");
+                            tribe.tribeData(player);
+                        }
+                        break;
+                    case "create":
+                        Tribe tribe = new Tribe(player);
+                        tribe.save();
+                        break;
+                    default:
+                        break;
                 }
                 break;
             case 2:
                 switch (strings[0]) {
                     case "find":
+                        player.sendMessage("===================================================");
                         Tribe.Find(strings[1]).tribeData(player);
                         break;
                     case "apply":

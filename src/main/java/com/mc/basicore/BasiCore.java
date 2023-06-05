@@ -74,8 +74,8 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
-        getCommand("tribe").setExecutor(new TribeCommand());
-        getCommand("tribe").setTabCompleter(new TribeTabComplete());
+//        getCommand("tribe").setExecutor(new TribeCommand());
+//        getCommand("tribe").setTabCompleter(new TribeTabComplete());
     }
 
     @Override

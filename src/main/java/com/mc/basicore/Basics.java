@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static java.lang.Math.round;
 
@@ -22,6 +23,9 @@ public class Basics {
     public static File file;
     public static final String fileName = "PlayerData.yml";
     public static FileConfiguration config;
+    public static UUID errorID() {
+        return UUID.fromString("00000000-0000-0000-0000-000000000000");
+    }
     public static void setFile() {
         file = new File(BasiCore.getRootFolder(),fileName);
         if (!file.exists()) {
@@ -46,12 +50,12 @@ public class Basics {
             throw new RuntimeException(e);
         }
     }
-    private static void reloadFile() {
-        config = YamlConfiguration.loadConfiguration(file);
-    }
     public static void initFile() {
         setFile();
         saveFile();
+    }
+    public static List<String> UUIDS() {
+        return new ArrayList<>(config.getKeys(false));
     }
     public static List<String> getPlayerList() {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();

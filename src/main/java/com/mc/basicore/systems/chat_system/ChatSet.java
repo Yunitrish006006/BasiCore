@@ -14,23 +14,12 @@ import java.util.Locale;
 import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
 public class ChatSet implements Serializable {
-
-    FileConfiguration config = Basics.config;
-
+    public static FileConfiguration config = Basics.config;
     public ChatColor NameColor = ChatColor.WHITE;
     public ChatColor ContentColor = ChatColor.WHITE;
     public String CustomName = "None";
-    public UUID playerUUID;
-    public Player self;
-
-    public String getName() {
-        return NameColor+CustomName;
-    }
-    public void update() {
-        self.setDisplayName(getName());
-        self.setCustomName(getName());
-        self.setPlayerListName(getName());
-    }
+    public UUID playerUUID = Basics.errorID();
+    public Player self = null;
 
     public ChatSet(Player player) {
         playerUUID = player.getUniqueId();
@@ -46,6 +35,25 @@ public class ChatSet implements Serializable {
             NameColor = ChatColor.valueOf(section.getString(".ChatSets.NameColor"));
             ContentColor = ChatColor.valueOf(section.getString(".ChatSets.ContentColor"));
         }
+    }
+    public ChatSet() {}
+    public static ChatSet query(UUID uuid){
+        ChatSet chatSet = new ChatSet();
+        chatSet.CustomName = "Unknown Error!";
+        if (!Basics.UUIDS().contains(uuid.toString())) return chatSet;
+        ConfigurationSection section = config.getConfigurationSection(uuid.toString());
+        chatSet.CustomName = section.getString(".ChatSets.CustomName");
+        chatSet.NameColor = ChatColor.valueOf(section.getString(".ChatSets.NameColor"));
+        chatSet.ContentColor = ChatColor.valueOf(section.getString(".ChatSets.ContentColor"));
+        return chatSet;
+    }
+    public String getName() {
+        return NameColor+CustomName;
+    }
+    public void update() {
+        self.setDisplayName(getName());
+        self.setCustomName(getName());
+        self.setPlayerListName(getName());
     }
     public static void chatInit() {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());

@@ -41,17 +41,15 @@ public class Tribe {
         player.sendMessage(ChatColor.GOLD+"level: "+ChatColor.WHITE+level);
         player.sendMessage(ChatColor.GOLD+"members: ");
         for (Player p:members) {
-            player.sendMessage(new ChatSet(p).getName());
+            player.sendMessage(ChatSet.query(p.getUniqueId()).getName());
         }
 
     }
     public static Tribe Find(String tribeName) {
-        List<String> uuids = new ArrayList<>(config.getKeys(false));
         Tribe tribe = new Tribe();
         if (config.getKeys(false).isEmpty()) return tribe;
-        String targetUUID = errorID;
-        for(String t:uuids) {
-            if (!config.getKeys(false).contains(t)) continue;
+        String targetUUID = Basics.errorID().toString();
+        for(String t:Basics.UUIDS()) {
             ConfigurationSection section = config.getConfigurationSection(t);
             assert section != null;
             if (section.getKeys(false).contains("name")) {
@@ -74,9 +72,32 @@ public class Tribe {
         List<Player> players = new ArrayList<>();
         tribe.members = new ArrayList<>();
         for (String id:config.getStringList(targetUUID+".members")) {
-            tribe.members.add(Bukkit.getPlayer(UUID.fromString(id)));
+            Player player = Bukkit.getPlayer(UUID.fromString(id));
+            if (player==null) player = Bukkit.getPlayerExact(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(id)).getName()));
+            tribe.members.add(player);
+
         }
         return tribe;
+    }
+    public static List<Tribe> List() {
+        List<Tribe> tribes = new ArrayList<>();
+        for(String t:Basics.UUIDS()) {
+            ConfigurationSection section = config.getConfigurationSection(t);
+            assert section != null;
+            if (Objects.equals(section.getString(".type"), "tribe")) {
+                Tribe temp = new Tribe();
+                temp.owner = Bukkit.getPlayer(UUID.fromString(config.getString(t+".owner",errorID)));
+                temp.ID = UUID.fromString(t);
+                temp.name = config.getString(t+".name");
+                temp.level = config.getInt(t+".level");
+                temp.members = new ArrayList<>();
+                for (String id:config.getStringList(temp+".members")) {
+                    temp.members.add(Bukkit.getPlayer(UUID.fromString(id)));
+                }
+                tribes.add(temp);
+            }
+        }
+        return tribes;
     }
     public void apply(Player candidate) {
         String[] reason = {"apply",name};
@@ -89,6 +110,8 @@ public class Tribe {
     }
     public void save() {
         String prefix = ID.toString();
+        String type = "tribe";
+        config.set(prefix+".type", type);
         config.set(prefix+".name",name);
         config.set(prefix+".level",level);
         config.set(prefix+".owner",owner.getUniqueId().toString());
@@ -98,5 +121,8 @@ public class Tribe {
         }
         config.set(prefix+".members",member_IDs);
         Basics.saveFile();
+    }
+    public boolean isMember(Player player) {
+        return members.contains(player);
     }
 }

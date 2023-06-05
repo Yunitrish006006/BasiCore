@@ -85,7 +85,7 @@ public class WorldIndex extends ItemStack implements Listener {
         if (ID.length < 3) return;
         if (!ID[1].equals("GUI")) return;
         InventoryHolder holder = event.getInventory().getHolder();
-
+        ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
         if (Arrays.asList("playerPage","publicPage","playerData","return").contains(ID[2])) {
             ClickType press = event.getClick();
             Player player = (Player) event.getWhoClicked();
