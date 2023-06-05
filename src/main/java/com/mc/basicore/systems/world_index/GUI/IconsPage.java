@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.bukkit.Material.ARROW;
+import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
 
 public class IconsPage implements InventoryHolder {
     private final Inventory inventory;
@@ -48,16 +48,6 @@ public class IconsPage implements InventoryHolder {
     @Override @Nonnull
     public Inventory getInventory() {
         return inventory;
-    }
-
-    private ItemStack returnButton() {
-        ItemStack item = new ItemStack(ARROW);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.return");
-        meta.setDisplayName(ChatColor.RESET+"回到上一頁");
-        item.setItemMeta(meta);
-        return item;
     }
     public static ItemStack icon(Material material) {
         ItemStack item = new ItemStack(material);

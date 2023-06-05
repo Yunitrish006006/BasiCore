@@ -3,6 +3,7 @@ com\mc\basicore\events\sleepEvent.class
 com\mc\basicore\systems\world_index\GUI\UnitsPage$1.class
 com\mc\basicore\systems\world_index\GUI\UnitSetPage.class
 com\mc\basicore\systems\teleport_system\TeleportCommand.class
+com\mc\basicore\recipes\gunpowder.class
 com\mc\basicore\itemGroups.class
 com\mc\basicore\systems\collector_system\onShovelOnGravel.class
 com\mc\basicore\systems\mob_system\events\skeleton_sword.class
@@ -13,6 +14,7 @@ com\mc\basicore\itemGroups$MineData.class
 com\mc\basicore\commands\light.class
 com\mc\basicore\commands\fly.class
 com\mc\basicore\systems\teleport_system\TeleportTabComplete.class
+com\mc\basicore\systems\tribeSystem\TribeCommand.class
 com\mc\basicore\systems\Sleep\SleepFunction.class
 com\mc\basicore\itemGroups$16.class
 com\mc\basicore\itemGroups$8.class
@@ -32,6 +34,7 @@ com\mc\basicore\events\onPlayerFished$1.class
 com\mc\basicore\systems\world_index\WorldIndex.class
 com\mc\basicore\itemGroups$12.class
 com\mc\basicore\systems\collector_system\VeinToggle.class
+com\mc\basicore\systems\world_index\GUI\requestPage.class
 com\mc\basicore\systems\world_index\GUI\PublicPage.class
 com\mc\basicore\commands\hat.class
 com\mc\basicore\itemGroups$9.class
@@ -40,6 +43,7 @@ com\mc\basicore\events\OnPlayerInteractBeeHive.class
 com\mc\basicore\systems\collector_system\ChainMiner.class
 com\mc\basicore\systems\world_index\GUI\PlayerDataPage$1.class
 com\mc\basicore\itemGroups$2.class
+com\mc\basicore\systems\tribeSystem\Tribe.class
 com\mc\basicore\systems\teleport_system\events\onPlayerDeathOrReborn.class
 com\mc\basicore\systems\teleport_system\SpaceUnit.class
 com\mc\basicore\events\onCreeperExplode.class
@@ -69,6 +73,7 @@ com\mc\basicore\systems\enchant_system\EnchantSystem$1.class
 com\mc\basicore\itemGroups$1.class
 com\mc\basicore\discord\DiscordWebhook$EmbedObject$Footer.class
 com\mc\basicore\systems\chat_system\ChatSet.class
+com\mc\basicore\systems\tribeSystem\TribeTabComplete.class
 com\mc\basicore\recipes\furnace_dirt_gravel.class
 com\mc\basicore\itemGroups$7.class
 com\mc\basicore\itemGroups$4.class

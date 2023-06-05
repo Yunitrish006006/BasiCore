@@ -12,9 +12,9 @@ public class fly implements CommandExecutor {
     public boolean onCommand(@Nonnull CommandSender commandSender,@Nonnull Command command,@Nonnull String s,@Nonnull String[] strings) {
         if(commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if(player.isOp()) {
+//            if(player.isOp()) {
                 player.setAllowFlight(!player.getAllowFlight());
-            }
+//            }
             return true;
         }
         return false;

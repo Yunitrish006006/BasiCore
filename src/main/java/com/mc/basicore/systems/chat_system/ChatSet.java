@@ -54,6 +54,7 @@ public class ChatSet implements Serializable {
             player.setDisplayName(chatSet.NameColor+chatSet.CustomName);
             player.setCustomName(chatSet.NameColor+chatSet.CustomName);
             player.setPlayerListName(chatSet.NameColor+chatSet.CustomName);
+            player.setCustomNameVisible(true);
         }
     }
     public void saveChatSet() {

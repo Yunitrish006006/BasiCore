@@ -133,6 +133,9 @@ public class WorldIndex extends ItemStack implements Listener {
             else if (holder instanceof PlayerDataPage){
                 ((PlayerDataPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
+            else if (holder instanceof requestPage){
+                ((requestPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
+            }
         }
     }
     @EventHandler

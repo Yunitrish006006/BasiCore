@@ -109,7 +109,7 @@ public class PlayerDataPage implements InventoryHolder {
                 switch (press) {
                     case LEFT:
                         event.setCancelled(true);
-                        int index = (itemGroups.colors().indexOf(chatSet.NameColor)+1)%(itemGroups.colors().size()-1);
+                        int index = (itemGroups.colors().indexOf(chatSet.NameColor)+1)%itemGroups.colors().size();
                         chatSet.NameColor = itemGroups.colors().get(index);
                         chatSet.saveChatSet();
                         chatSet.update();
@@ -129,7 +129,7 @@ public class PlayerDataPage implements InventoryHolder {
                 switch (press) {
                     case LEFT:
                         event.setCancelled(true);
-                        int index = (itemGroups.colors().indexOf(chatSet.ContentColor)+1)%(itemGroups.colors().size()-1);
+                        int index = (itemGroups.colors().indexOf(chatSet.ContentColor)+1)%itemGroups.colors().size();
                         chatSet.ContentColor = itemGroups.colors().get(index);
                         chatSet.saveChatSet();
                         chatSet.update();

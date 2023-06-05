@@ -23,3 +23,6 @@ commands:
   space:
     description: teleport
     usage: /<command>
+  tribe:
+    description: tribe
+    usage: /<command>
