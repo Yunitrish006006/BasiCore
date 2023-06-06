@@ -1,0 +1,99 @@
+# §0   §1  §2   §3   §4  §5  §6  §7  §8  §9
+# 黑色 深藍 深綠 湖藍 深紅 紫色 金色 灰色 深灰 藍色
+# §a   §b  §c   §d   §e  §f  §g
+# 綠色 天藍 紅色 粉紅 黃色 白色 天金
+# §k   §l  §m   §n   §o  §r
+# 隨機 粗體 中線 下線 斜體 重設
+
+zh_tw:
+  quotes:
+    unknown_request: 未知的要求!
+    error: §4錯誤
+    to: 到
+    turn_into: 變更為
+    TestMessage: 測試訊息
+    open_index: §d開啟索引
+    best_tool_to_explore: §d探索世界的方便工具~
+  GUI:
+    world_index: §6§l世界索引
+    right_click: '§7[§f右鍵§7] '
+    left_click: '§7[§f左鍵§7] '
+    return: 返回
+    add: 新增
+    teleport: 傳送
+    unit: 節點
+    set: 設定
+    list: 列表
+    owner: '擁有者: '
+    time: '傳送時間: '
+    purview: '權限: '
+    dot: '• '
+    public: 公共
+    private: 私人
+    icon: 圖案
+    round: 輪替
+    enter: 進入
+    interface: 介面
+    remove: 移除
+    name: 名稱
+    menu: 選單
+    confirm: 確認
+    from: 來自
+    tribe: 部落
+    recruit: 邀約
+    apply: 申請
+    s: 的
+    n: ' '
+    player: 玩家
+    data: 資料
+    content: 內容
+    color: 顏色
+    type: 打字
+    input: 輸入
+    reset: 重設
+en_us:
+  quotes:
+    unknown_request: unknown request!
+    error: §4ERROR
+    to: to
+    turn_into: turn into
+    TestMessage: test message
+    open_index: §d open index
+    best_tool_to_explore: §d best tool of adventure!
+  GUI:
+    world_index: §6§l world index
+    right_click: §7[§f right click §7]
+    left_click: §7[§f left click §7]
+    return: return
+    add: add
+    teleport: teleport
+    unit: unit
+    set: set
+    list: list
+    owner: 'owner: '
+    time: 'time: '
+    purview: 'purview: '
+    dot: '• '
+    public: public
+    private: private
+    icon: icon
+    round: round
+    enter: enter
+    interface: interface
+    remove: remove
+    name: name
+    menu: menu
+    confirm: confirm
+    from: from
+    tribe: tribe
+    recruit: recruit
+    apply: apply
+    s: s
+    n: ' '
+    player: player
+    data: data
+    content: content
+    color: color
+    type: type
+    input: input
+    reset: reset
