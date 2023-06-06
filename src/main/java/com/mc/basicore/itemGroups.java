@@ -268,6 +268,9 @@ public class itemGroups {
         return chipped_emerald;
     }
     /*=================Tree blocks=====================*/
+    public static List<Material> lockable() {
+        return Arrays.asList(CHEST,BARREL,FURNACE,SMOKER,BLAST_FURNACE);
+    }
     public static abstract class TreeStructure {
         public List<Material> Stems = new ArrayList<>();
         public List<Material> Bushes = new ArrayList<>();

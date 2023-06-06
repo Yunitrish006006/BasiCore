@@ -2,6 +2,7 @@ package com.mc.basicore.systems.world_index;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
+import com.mc.basicore.itemGroups;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import com.mc.basicore.systems.world_index.GUI.*;
 import org.bukkit.*;
@@ -18,63 +19,71 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
+import static com.mc.basicore.systems.translate.Translator.*;
 import static org.bukkit.Material.*;
 import static org.bukkit.Material.WHITE_BANNER;
 
 @SuppressWarnings("ConstantConditions")
-public class WorldIndex extends ItemStack implements Listener {
-    public WorldIndex() {
-        super(Material.PAPER);
-        ItemMeta meta = getItemMeta();
+public class WorldIndex implements Listener {
+    public static ItemStack worldIndex(String language) {
+        ItemStack itemStack = new ItemStack(PAPER);
+        ItemMeta meta = itemStack.getItemMeta();
         meta.setLocalizedName("BasiCore.WorldIndex");
         meta.setCustomModelData(1);
-        Objects.requireNonNull(meta).setDisplayName(ChatColor.RESET+String.valueOf(ChatColor.GOLD)+ChatColor.BOLD+"世界索引");
-        meta.setLore(Arrays.asList("【右鍵】開啟索引","探索世界的方便工具~"));
-        this.setItemMeta(meta);
+        Objects.requireNonNull(meta).setDisplayName(translate(language,"GUI.world_index"));
+        meta.setLore(Arrays.asList(
+                translate(language, "GUI.right_click", "quotes.open_index"),
+                translate(language, "quotes.best_tool_to_explore")
+        ));
+        itemStack.setItemMeta(meta);
+        return itemStack;
     }
-    public static ItemStack returnButton() {
+    public static ItemStack returnButton(String language) {
         ItemStack item = new ItemStack(ARROW);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.return");
-        meta.setDisplayName(ChatColor.RESET+"返回");
+        meta.setDisplayName(translate(language,"GUI.return"));
         item.setItemMeta(meta);
         return item;
     }
-    public static ItemStack playerPageButton() {
+    public static ItemStack playerPageButton(String language) {
         ItemStack item = new ItemStack(PLAYER_HEAD);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.playerPage");
-        meta.setDisplayName(ChatColor.RESET+"玩家列表");
+        meta.setDisplayName(translate(language,"GUI.player","GUI.list"));
         item.setItemMeta(meta);
         return item;
     }
-    public static ItemStack publicPageButton() {
+    public static ItemStack publicPageButton(String language) {
         ItemStack item = new ItemStack(WRITABLE_BOOK);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.publicPage");
-        meta.setDisplayName(ChatColor.RESET+"公用傳送點列表");
+        meta.setDisplayName(translate(language,"GUI.public","GUI.unit","GUI.list"));
         item.setItemMeta(meta);
         return item;
     }
-    public static ItemStack playerDataButton() {
+    public static ItemStack playerDataButton(String language) {
         ItemStack item = new ItemStack(WHITE_BANNER);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.playerData");
-        meta.setDisplayName(ChatColor.RESET+"玩家資料");
+        meta.setDisplayName(translate(language,"GUI.player","GUI.data"));
         item.setItemMeta(meta);
         return item;
     }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (!(event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) return;
         if (!event.hasItem()) return;
         if (!Basics.getID(event.getItem()).equals("BasiCore.WorldIndex")) return;
-        player.openInventory(new UnitsPage(player).getInventory());
+        if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            player.openInventory(new UnitsPage(player).getInventory());
+        } else if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) && itemGroups.lockable().contains(event.getClickedBlock().getType())) {
+            Bukkit.broadcastMessage("u locked a block!");
+        }
     }
     @EventHandler
     public void GUIEvents(InventoryClickEvent event) {
@@ -154,7 +163,7 @@ public class WorldIndex extends ItemStack implements Listener {
                 old = playerDataPage.chatSet.getName();
                 playerDataPage.chatSet.CustomName = input;
                 playerDataPage.chatSet.saveChatSet();
-                output = old+ChatColor.RESET+" to "+playerDataPage.chatSet.getName();
+                output = old+ChatColor.RESET+translate(player,"quotes.turn_into")+playerDataPage.chatSet.getName();
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 playerDataPage.chatSet.update();
                 break;
@@ -163,7 +172,7 @@ public class WorldIndex extends ItemStack implements Listener {
                 old = playerDataPage.chatSet.getName();
                 playerDataPage.chatSet.NameColor = ChatColor.valueOf(input.toUpperCase());
                 playerDataPage.chatSet.saveChatSet();
-                output = old+ChatColor.RESET+" to "+playerDataPage.chatSet.getName();
+                output = old+ChatColor.RESET+ translate(player,"quotes.turn_into") +playerDataPage.chatSet.getName();
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 playerDataPage.chatSet.update();
                 break;
@@ -172,7 +181,7 @@ public class WorldIndex extends ItemStack implements Listener {
                 old = playerDataPage.chatSet.ContentColor.name();
                 playerDataPage.chatSet.ContentColor = ChatColor.valueOf(input.toUpperCase());
                 playerDataPage.chatSet.saveChatSet();
-                output = old+ChatColor.RESET+" to "+playerDataPage.chatSet.ContentColor.name();
+                output = old+ChatColor.RESET+translate(player,"quotes.turn_into")+playerDataPage.chatSet.ContentColor.name();
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 playerDataPage.chatSet.update();
                 break;
@@ -182,12 +191,12 @@ public class WorldIndex extends ItemStack implements Listener {
                 old = unitSetPage.unit.displayName;
                 unitSetPage.unit.displayName = input;
                 unitSetPage.unit.addUnit();
-                output = old+" to "+unitSetPage.unit.displayName;
+                output = old+translate(player,"quotes.turn_into")+unitSetPage.unit.displayName;
                 player.removeMetadata("data",BasiCore.getPlugin());
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 break;
             default:
-                output = "error";
+                output = translate(player,"quotes.turn_into");
                 player.sendMessage("wrong in GUI!!");
                 break;
         }

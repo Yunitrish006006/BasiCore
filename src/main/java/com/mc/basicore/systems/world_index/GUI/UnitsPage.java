@@ -14,25 +14,27 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.*;
 import static org.bukkit.Material.*;
 
 public class UnitsPage implements InventoryHolder {
     private final Inventory inventory;
-
-    public UnitsPage(Player player) {
-        this.inventory = Bukkit.createInventory(this,9*4, ChatColor.BLUE + "個人節點列表");
+    Player player;
+    public UnitsPage(Player from) {
+        this.player = from;
+        this.inventory = Bukkit.createInventory(this,9*4,translate(player,"GUI.unit","GUI.list"));
         this.inventory.setItem(27,addSpaceButton());
-        this.inventory.setItem(29,playerPageButton());
-        this.inventory.setItem(31,publicPageButton());
-        this.inventory.setItem(33,playerDataButton());
+        this.inventory.setItem(29,playerPageButton(player.getLocale()));
+        this.inventory.setItem(31,publicPageButton(player.getLocale()));
+        this.inventory.setItem(33,playerDataButton(player.getLocale()));
         List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
-            this.getInventory().addItem(unitButton(unitName,player));
+            this.getInventory().addItem(unitButton(unitName));
         }
     }
 
@@ -41,31 +43,29 @@ public class UnitsPage implements InventoryHolder {
     public Inventory getInventory() {
         return inventory;
     }
-
-    public static ItemStack addSpaceButton() {
+    public ItemStack addSpaceButton() {
         ItemStack item = new ItemStack(FEATHER);
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.addUnit");
-        meta.setDisplayName(ChatColor.RESET+"新增傳送點");
+        meta.setDisplayName(translate(player,"GUI.add","GUI.unit"));
         item.setItemMeta(meta);
         return item;
     }
-
-    public static ItemStack unitButton(String pointName, Player player) {
+    public ItemStack unitButton(String pointName) {
         SpaceUnit unit = SpaceUnit.query(pointName,player);
         ItemStack item = new ItemStack(Basics.getMaterialFromName(unit.icon.toUpperCase()));
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         ChatSet chatSet = new ChatSet(Objects.requireNonNull(Bukkit.getServer().getPlayer(unit.owner)));
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.RESET+"• "+ChatColor.LIGHT_PURPLE+"【左鍵】"+ChatColor.GOLD+"傳送");
-        lore.add(ChatColor.RESET+"• "+ChatColor.LIGHT_PURPLE+"【右鍵】"+ChatColor.GOLD+"設定");
-        lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"所有權人: "+ chatSet.NameColor + chatSet.CustomName);
-        lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"倒數時間: "+ChatColor.GOLD+unit.time);
-        lore.add(ChatColor.RESET+"• "+ChatColor.WHITE+"權限設定: "+ChatColor.GOLD+unit.purview);
-        lore.add(ChatColor.RESET+"• "+Basics.getStandardPosition(unit.location));
-        meta.setLore(lore);
+        meta.setLore(Arrays.asList(
+                translate(player,"GUI.dot","GUI.left_click","GUI.teleport"),
+                translate(player, "GUI.dot","GUI.right_click","GUI.set"),
+                translate(player,"GUI.dot","GUI.owner")+chatSet.getName(),
+                translate(player,"GUI.dot","GUI.time")+unit.time,
+                translate(player,"GUI.dot","GUI.purview","GUI."+unit.purview),
+                Basics.getStandardPosition(unit.location)
+                ));
         meta.setLocalizedName("BasiCore.GUI.unit");
         meta.setDisplayName(ChatColor.RESET+unit.displayName);
         item.setItemMeta(meta);
@@ -90,11 +90,7 @@ public class UnitsPage implements InventoryHolder {
                 break;
             case "addUnit":
                 if (press.isLeftClick()) {
-                    StringBuilder x = new StringBuilder();
-                    for(int i=0;i<4;i++) {
-                        x.append((char) ('a' + (Math.random() * 26)));
-                    }
-                    SpaceUnit unit = SpaceUnit.create(x.toString(),player);
+                    SpaceUnit unit = SpaceUnit.create(Basics.getRandomName(8),player);
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
                 }

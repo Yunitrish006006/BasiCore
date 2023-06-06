@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
 import static org.bukkit.ChatColor.*;
 
@@ -25,11 +26,11 @@ public class PublicPage implements InventoryHolder {
     private final Inventory inventory;
 
     public PublicPage(Player player) {
-        this.inventory = Bukkit.createInventory(this,9*4, BLUE + "公用傳送點列表");
+        this.inventory = Bukkit.createInventory(this,9*4, translate(player,"GUI.public","GUI.unit","GUI.list"));
         for (SpaceUnit unit : SpaceUnit.getPublicUnits()) {
             this.getInventory().addItem(publicUnit(unit));
         }
-        this.inventory.setItem(27, returnButton());
+        this.inventory.setItem(27, returnButton(player.getLocale()));
     }
 
     @Override @Nonnull

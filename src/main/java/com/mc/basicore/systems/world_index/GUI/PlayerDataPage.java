@@ -18,21 +18,23 @@ import javax.annotation.Nonnull;
 
 import java.util.Arrays;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
 import static org.bukkit.Material.*;
 
 public class PlayerDataPage implements InventoryHolder {
     public Inventory inventory;
-    
     public ChatSet chatSet;
-    
-    public PlayerDataPage(Player player) {
+    private final Player player;
+
+    public PlayerDataPage(Player from) {
+        player = from;
         chatSet = new ChatSet(player);
-        this.inventory = Bukkit.createInventory(this,9*4, ChatColor.GOLD + "玩家個人資料");
+        this.inventory = Bukkit.createInventory(this,9*4, translate(player,"GUI.player","GUI.data"));
         this.inventory.setItem(10, customNameSetButton());
         this.inventory.setItem(12, nameColorSetButton());
         this.inventory.setItem(14, contentColorSetButton());
-        this.inventory.setItem(27, returnButton());
+        this.inventory.setItem(27, returnButton(player.getLocale()));
     }
 
     @Override
@@ -47,11 +49,11 @@ public class PlayerDataPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.playerName");
-        meta.setDisplayName(ChatColor.RESET+"設定玩家名稱");
+        meta.setDisplayName(translate(player,"GUI.set","GUI.player","GUI.name"));
         meta.setLore(Arrays.asList(
-                ChatColor.RESET+"玩家名稱: " +chatSet.getName(),
-                ChatColor.RESET+"【左鍵】設定",
-                ChatColor.RESET+"【右鍵】重設"
+                translate(player,"GUI.player","GUI.name")+ChatColor.WHITE+": " +chatSet.getName(),
+                translate(player,"GUI.left_click","GUI.set"),
+                translate(player,"GUI.right_click","GUI.reset")
         ));
         item.setItemMeta(meta);
         return item;
@@ -61,11 +63,11 @@ public class PlayerDataPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.playerColor");
-        meta.setDisplayName(ChatColor.RESET+"設定玩家顏色");
+        meta.setDisplayName(translate(player,"GUI.set","GUI.player","GUI.color"));
         meta.setLore(Arrays.asList(
-                ChatColor.RESET+"玩家名稱: " +chatSet.getName(),
-                ChatColor.RESET+"【左鍵】輪轉設定",
-                ChatColor.RESET+"【右鍵】打字選定"
+                translate(player,"GUI.player","GUI.color")+ChatColor.WHITE+": "+chatSet.getName(),
+                translate(player,"GUI.left_click","GUI.round","GUI.set"),
+                translate(player,"GUI.right_click","GUI.type","GUI.set")
         ));
         item.setItemMeta(meta);
         return item;
@@ -75,11 +77,11 @@ public class PlayerDataPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.contentColor");
-        meta.setDisplayName(ChatColor.RESET+"設定內容顏色");
+        meta.setDisplayName(translate(player,"GUI.set","GUI.content","GUI.color"));
         meta.setLore(Arrays.asList(
-                chatSet.ContentColor+"內容顏色預覽",
-                ChatColor.RESET+"【左鍵】輪轉設定",
-                ChatColor.RESET+"【右鍵】打字選定"
+                chatSet.ContentColor+"■",
+                translate(player,"GUI.left_click","GUI.round","GUI.set"),
+                translate(player,"GUI.right_click","GUI.type","GUI.set")
         ));
         item.setItemMeta(meta);
         return item;
@@ -92,7 +94,7 @@ public class PlayerDataPage implements InventoryHolder {
                     case LEFT:
                         event.setCancelled(true);
                         player.closeInventory();
-                        player.sendMessage(ChatColor.YELLOW + "輸入玩家名稱:");
+                        player.sendMessage(translate(player,"GUI.input","GUI.player","GUI.name")+": ");
                         chatSet.CustomName = "";
                         player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "playerName"));
                         break;
@@ -118,7 +120,7 @@ public class PlayerDataPage implements InventoryHolder {
                     case RIGHT:
                         event.setCancelled(true);
                         player.closeInventory();
-                        player.sendMessage(ChatColor.YELLOW + "輸入玩家顏色:");
+                        player.sendMessage(translate(player,"GUI.input","GUI.player","GUI.color")+": ");
                         player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "playerColor"));
                         break;
                     default:
@@ -138,7 +140,7 @@ public class PlayerDataPage implements InventoryHolder {
                     case RIGHT:
                         event.setCancelled(true);
                         player.closeInventory();
-                        player.sendMessage(ChatColor.YELLOW + "輸入內容顏色:");
+                        player.sendMessage(translate(player,"GUI.input","GUI.content","GUI.color")+": ");
                         player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "contentColor"));
                         break;
                     default:

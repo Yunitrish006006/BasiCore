@@ -36,7 +36,7 @@ public class IconsPage implements InventoryHolder {
         for (Material m : materials) {
             this.getInventory().addItem(icon(m));
         }
-        this.getInventory().setItem(35,returnButton());
+        this.getInventory().setItem(35,returnButton(player.getLocale()));
     }
 
     public void setIcon(String material) {

@@ -17,29 +17,32 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import javax.annotation.Nonnull;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
 import static org.bukkit.Material.*;
 
 public class UnitSetPage implements InventoryHolder {
     private final Inventory inventory;
     public SpaceUnit unit;
-
+    private final Player owner;
     public static List<Material> recommendIcons() {
         return Arrays.asList(GRASS_BLOCK, STONE, RED_BED, IRON_ORE, WHEAT, SPAWNER);
     }
 
     public UnitSetPage(SpaceUnit u) {
-        this.inventory = Bukkit.createInventory(this,9*3, ChatColor.GOLD + "傳送點設定");
         unit = u;
+        owner = Bukkit.getPlayer(unit.playerUUID);
+        this.inventory = Bukkit.createInventory(this,9*3, translate(owner,"GUI.unit","GUI.set"));
         this.inventory.setItem(10,setNameButton());
         this.inventory.setItem(12,setIconButton());
         this.inventory.setItem(14,setPurviewButton());
         this.inventory.setItem(16,deleteButton());
-        this.inventory.setItem(26,returnButton());
+        assert owner != null;
+        this.inventory.setItem(26,returnButton(owner.getLocale()));
     }
     void setIcon(String material) {
         unit.deleteUnit();
@@ -55,10 +58,8 @@ public class UnitSetPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setPurview");
-        meta.setDisplayName(ChatColor.RESET+"設定可見範圍");
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.RESET+"• "+ChatColor.GOLD+unit.purview);
-        meta.setLore(lore);
+        meta.setDisplayName(translate(owner,"GUI.set","GUI.purview"));
+        meta.setLore(Collections.singletonList(translate(owner, "GUI.dot", "GUI." + unit.purview)));
         item.setItemMeta(meta);
         return item;
     }
@@ -67,11 +68,11 @@ public class UnitSetPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setIcon");
-        meta.setDisplayName(ChatColor.RESET+"設定圖案");
+        meta.setDisplayName(translate(owner,"GUI.set","GUI.icon"));
         meta.setLore(Arrays.asList(
-                ChatColor.RESET+"• "+ChatColor.GOLD+unit.icon,
-                ChatColor.RESET+"【左鍵】輪替圖案",
-                ChatColor.RESET+"【右鍵】進入圖案介面"
+                translate(owner,"GUI.dot")+ChatColor.GOLD+unit.icon,
+                translate(owner,"GUI.left_click","GUI.round","GUI.icon"),
+                translate(owner,"GUI.right_click","GUI.enter","GUI.icon","GUI.interface")
                 ));
         item.setItemMeta(meta);
         return item;
@@ -81,7 +82,7 @@ public class UnitSetPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.deleteUnit");
-        meta.setDisplayName(ChatColor.RESET+"移除傳送點");
+        meta.setDisplayName(ChatColor.GRAY+translate(owner,"GUI.remove","GUI.unit"));
         item.setItemMeta(meta);
         return item;
     }
@@ -90,31 +91,33 @@ public class UnitSetPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setName");
-        meta.setDisplayName(ChatColor.RESET+"設定名稱");
+        meta.setDisplayName(translate(owner,"GUI.set","GUI.name"));
         item.setItemMeta(meta);
         return item;
     }
     @SuppressWarnings("ConstantConditions")
     public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
         switch (ID) {
-            case "deleteUnit":
+            case "deleteUnit": {
                 if (press.isLeftClick()) {
-                    SpaceUnit.deleteUnit(player,unit.displayName);
+                    SpaceUnit.deleteUnit(player, unit.displayName);
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
                 }
                 break;
-            case "setName":
+            }
+            case "setName": {
                 if (press.isLeftClick()) {
                     event.setCancelled(true);
                     player.closeInventory();
-                    player.sendMessage(ChatColor.YELLOW + "輸入節點名稱:");
+                    player.sendMessage(translate(owner,"GUI.enter","GUI.unit","GUI.name"));
                     player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "unitName"));
                     player.setMetadata("data", new FixedMetadataValue(BasiCore.getPlugin(), unit));
                 }
                 player.closeInventory();
                 break;
-            case "setPurview":
+            }
+            case "setPurview": {
                 if (press.isLeftClick()) {
                     unit.deleteUnit();
                     if (unit.purview.equals("private")) unit.purview = "public";
@@ -123,24 +126,26 @@ public class UnitSetPage implements InventoryHolder {
                     inventory.setItem(14,setPurviewButton());
                 }
                 break;
-            case "setIcon":
+            }
+            case "setIcon": {
                 if (press.isLeftClick()) {
                     unit.deleteUnit();
-                    int next = (recommendIcons().indexOf(Basics.getMaterialFromName(unit.icon))+1)%6;
+                    int next = (recommendIcons().indexOf(Basics.getMaterialFromName(unit.icon)) + 1) % 6;
                     unit.icon = recommendIcons().get(next).toString();
                     unit.addUnit();
-                    inventory.setItem(12,setIconButton());
-                }
-                else if (press.isRightClick()) {
-                    player.openInventory(new IconsPage(player,SpaceUnit.query(unit.displayName,player)).getInventory());
+                    inventory.setItem(12, setIconButton());
+                } else if (press.isRightClick()) {
+                    player.openInventory(new IconsPage(player, SpaceUnit.query(unit.displayName, player)).getInventory());
                 }
                 break;
-            case "return":
+            }
+            case "return": {
                 if (press.isLeftClick()) {
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player).getInventory());
                 }
                 break;
+            }
             default:
                 break;
         }

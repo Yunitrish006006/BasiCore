@@ -24,8 +24,8 @@ public class TeleportCommand implements CommandExecutor {
             }
             case 1: {
                 if (strings[0].equals("GUI")) {
-                    if (!player.getInventory().contains(new WorldIndex())) {
-                        player.getInventory().addItem(new WorldIndex());
+                    if (!player.getInventory().contains(WorldIndex.worldIndex(player.getLocale()))) {
+                        player.getInventory().addItem(WorldIndex.worldIndex(player.getLocale()));
                     }
                     return true;
                 }

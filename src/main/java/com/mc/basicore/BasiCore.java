@@ -16,7 +16,7 @@ import com.mc.basicore.systems.mob_system.events.skeleton_sword;
 import com.mc.basicore.recipes.furnace_dirt_gravel;
 import com.mc.basicore.systems.teleport_system.*;
 import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
-import com.mc.basicore.systems.tribeSystem.*;
+import com.mc.basicore.systems.translate.Translator;
 import com.mc.basicore.systems.world_index.WorldIndex;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +38,7 @@ public final class BasiCore extends JavaPlugin {
         this.saveDefaultConfig();
         Basics.initFile();
         ChatSet.chatInit();
+        Translator.initFile();
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);

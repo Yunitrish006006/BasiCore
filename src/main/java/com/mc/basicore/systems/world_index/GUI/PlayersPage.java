@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
 import static org.bukkit.ChatColor.*;
 
@@ -22,13 +23,13 @@ public class PlayersPage implements InventoryHolder {
     private final Inventory inventory;
 
     public PlayersPage(Player player) {
-        this.inventory = Bukkit.createInventory(this,9*4, BLUE + "玩家列表");
+        this.inventory = Bukkit.createInventory(this,9*4,translate(player,"GUI.player","GUI.list"));
         List<Player> players = new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
         players.remove(player);
         for (Player p : players) {
             this.getInventory().addItem(playerButton(p));
         }
-        inventory.setItem(27,returnButton());
+        inventory.setItem(27,returnButton(player.getLocale()));
     }
 
     @Override @Nonnull

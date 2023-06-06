@@ -139,4 +139,11 @@ public class Basics {
         skull.setItemMeta(skullMeta);
         return skull;
     }
+    public static String getRandomName(int length) {
+        StringBuilder temp = new StringBuilder();
+        for(int i=0;i<length;i++) {
+            temp.append((char) ('a' + (Math.random() * 26)));
+        }
+        return temp.toString();
+    }
 }

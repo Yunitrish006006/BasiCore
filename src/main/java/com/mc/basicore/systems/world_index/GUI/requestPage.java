@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
+import static com.mc.basicore.systems.translate.Translator.translate;
 import static org.bukkit.Material.*;
 
 public class requestPage implements InventoryHolder {
@@ -23,7 +24,7 @@ public class requestPage implements InventoryHolder {
     Player from;
     Player target;
     public requestPage(Player from,Player target,String[] reason) {
-        this.inventory = Bukkit.createInventory(this,9, ChatColor.BLUE + "確認選單");
+        this.inventory = Bukkit.createInventory(this,9, translate(from,"GUI.confirm","GUI.menu"));
         this.from = from;
         this.target = target;
         this.Reason = reason;
@@ -60,9 +61,9 @@ public class requestPage implements InventoryHolder {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.question");
-        if (Reason[0].equals("recruit")) meta.setDisplayName(ChatColor.GOLD+"來自"+tribe.name+"的部落邀約");
-        else if (Reason[0].equals("apply")) meta.setDisplayName(ChatColor.GOLD+"來自"+tribe.name+"的部落申請");
-        else meta.setDisplayName(ChatColor.GOLD+"未知的要求!");
+        if (Reason[0].equals("recruit")) meta.setDisplayName(translate(from,"GUI.from")+tribe.name+translate(from,"GUI.s","GUI.tribe","GUI.recruit"));
+        else if (Reason[0].equals("apply")) meta.setDisplayName(translate(from,"GUI.from")+tribe.name+translate(from,"GUI.s","GUI.tribe","GUI.apply"));
+        else meta.setDisplayName(translate(from,"quotes.unknown_request"));
         item.setItemMeta(meta);
         return item;
     }

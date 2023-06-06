@@ -1,6 +1,7 @@
 package com.mc.basicore.commands;
 
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
+import com.mc.basicore.systems.translate.Translator;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
-import java.util.Objects;
 
 public class test implements CommandExecutor {
     @Override
@@ -21,19 +21,43 @@ public class test implements CommandExecutor {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
         if (!player.isOp()) return false;
-        if (Objects.equals(strings[0], "hat")) {
-            ItemStack itemStack = new ItemStack(Material.CHAINMAIL_HELMET);
-            itemStack.addEnchantment(EnchantSystem.HEAD_CEASE,1);
-            ItemMeta meta = itemStack.getItemMeta();
-            assert meta != null;
-            meta.setLore(Collections.singletonList(ChatColor.RESET + " " + ChatColor.GRAY + "腦袋有洞 I"));
-            itemStack.setItemMeta(meta);
-            player.getInventory().addItem(itemStack);
+        String error_message="";
+        switch (strings.length) {
+            case 1: {
+                switch (strings[0]) {
+                    case "hat": {
+                        ItemStack itemStack = new ItemStack(Material.CHAINMAIL_HELMET);
+                        itemStack.addEnchantment(EnchantSystem.HEAD_CEASE,1);
+                        ItemMeta meta = itemStack.getItemMeta();
+                        assert meta != null;
+                        meta.setLore(Collections.singletonList(ChatColor.RESET + " " + ChatColor.GRAY + "腦袋有洞 I"));
+                        itemStack.setItemMeta(meta);
+                        player.getInventory().addItem(itemStack);
+                        break;
+                    }
+                    case "body": {
+                        Player body = Bukkit.getPlayerExact(player.getName());
+                        player.getWorld().spawn(player.getLocation(), player.getClass());
+                        break;
+                    }
+                }
+                break;
+            }
+            case 2: {
+                switch (strings[0]) {
+                    case "translate":
+                    case "trans":
+                    case "ts": {
+                        player.sendMessage(player.getLocale()+"."+"Basicore."+strings[1]);
+                        player.sendMessage(Translator.translate(player,strings[1]));
+                        break;
+                    }
+                }
+                break;
+            }
+            default: player.sendMessage("command error");
         }
-        else if (Objects.equals(strings[0], "body")) {
-            Player body = Bukkit.getPlayerExact(player.getName());
-            player.getWorld().spawn(player.getLocation(), player.getClass());
-        }
-        return false;
+
+        return true;
     }
 }
