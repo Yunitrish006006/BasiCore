@@ -1,5 +1,6 @@
 package com.mc.basicore.systems.tribeSystem;
 
+import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
 import com.mc.basicore.systems.chat_system.ChatSet;
 import com.mc.basicore.systems.world_index.GUI.requestPage;
@@ -124,5 +125,9 @@ public class Tribe {
     }
     public boolean isMember(Player player) {
         return members.contains(player);
+    }
+    public static void init() {
+        Objects.requireNonNull(BasiCore.getPlugin().getCommand("tribe")).setExecutor(new TribeCommand());
+        Objects.requireNonNull(BasiCore.getPlugin().getCommand("tribe")).setTabCompleter(new TribeTabComplete());
     }
 }

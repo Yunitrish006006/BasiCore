@@ -146,4 +146,11 @@ public class Basics {
         }
         return temp.toString();
     }
+    public static int getRandomInt(int range) {
+        return (int) (Math.random() * range);
+    }
+    public static boolean getRandomBool() {
+        if (Math.random() < 0.5) return false;
+        else return true;
+    }
 }

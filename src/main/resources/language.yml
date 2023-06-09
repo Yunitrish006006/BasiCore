@@ -6,6 +6,15 @@
 # 隨機 粗體 中線 下線 斜體 重設
 
 zh_tw:
+  foods:
+    berry_juice:
+      name: 莓果汁
+      lore0: 不可思議的發光莓果果汁
+      lore1: 喝了不知道會怎麼樣
+    cocoa:
+      name: 可可
+      lore0: 常溫的可可
+      lore1: 沒加牛奶
   quotes:
     unknown_request: 未知的要求!
     error: §4錯誤
@@ -52,6 +61,8 @@ zh_tw:
     input: 輸入
     reset: 重設
 en_us:
+  foods:
+    berry_juice: Berry Juice
   quotes:
     unknown_request: unknown request!
     error: §4ERROR

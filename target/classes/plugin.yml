@@ -1,5 +1,5 @@
 name: BasiCore
-version: '1.0'
+version: '2.0'
 main: com.mc.basicore.BasiCore
 api-version: 1.19
 prefix: BasiCore

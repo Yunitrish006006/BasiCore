@@ -1,15 +1,11 @@
 package com.mc.basicore;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
@@ -184,19 +180,6 @@ public class itemGroups {
         apple_pie.setItemMeta(apple_pie_meta);
         return apple_pie;
     }
-    public static ItemStack cocoa() {
-        ItemStack cocoa = new ItemStack(POTION);
-        PotionMeta cocoa_meta = (PotionMeta) cocoa.getItemMeta();
-        PotionEffect cocoa_effect_1 = new PotionEffect(PotionEffectType.REGENERATION,(int)(Math.random()*480),0,true,true,false);
-        PotionEffect cocoa_effect_2 = new PotionEffect(PotionEffectType.SATURATION,(int)(Math.random()*480),0,true,true,false);
-        Objects.requireNonNull(cocoa_meta).addCustomEffect(cocoa_effect_1,true);
-        Objects.requireNonNull(cocoa_meta).addCustomEffect(cocoa_effect_2,true);
-        cocoa_meta.setLocalizedName("item.minecraft.cocoa");
-        cocoa_meta.setColor(Color.MAROON);
-        cocoa_meta.setDisplayName(RESET + "熱可可");
-        cocoa.setItemMeta(cocoa_meta);
-        return cocoa;
-    }
     public static ItemStack wooden_hammer() {
         ItemStack wooden_hammer = new ItemStack(WOODEN_PICKAXE);
         ItemMeta wooden_hammer_meta = wooden_hammer.getItemMeta();
@@ -299,15 +282,42 @@ public class itemGroups {
         return stems;
     }
     public static List<TreeStructure> Trees() {
-        ArrayList<TreeStructure> trees = new ArrayList<>();
-        trees.add(Oaks());
-        trees.add(Spruces());
-        trees.add(Birches());
-        trees.add(Jungles());
-        trees.add(Acacias());
-        trees.add(DarkOaks());
-        trees.add(ManGroves());
-        return trees;
+        return Arrays.asList(
+                Oaks(),Spruces(),Birches(),Jungles(),Acacias(),DarkOaks(),ManGroves(),Cherries(),Crimsons(),Warps()
+        );
+    }
+    public static TreeStructure Cherries() {
+        return new TreeStructure(
+                Arrays.asList(CHERRY_LOG, CHERRY_WOOD),
+                Collections.singletonList(CHERRY_LEAVES),
+                2.3f, 2.3f, 2.83f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
+    }
+    public static TreeStructure Warps() {
+        return new TreeStructure(
+                Collections.singletonList(WARPED_STEM),
+                Arrays.asList(WARPED_WART_BLOCK,SHROOMLIGHT,TWISTING_VINES),
+                2.3f, 2.3f, 2.83f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
+    }
+    public static TreeStructure Crimsons() {
+        return new TreeStructure(
+                Collections.singletonList(CRIMSON_STEM),
+                Arrays.asList(NETHER_WART_BLOCK,WEEPING_VINES,SHROOMLIGHT),
+                2.3f, 2.3f, 2.83f) {
+            @Override
+            public Block[] getTree() {
+                return new Block[0];
+            }
+        };
     }
     public static TreeStructure Oaks() {
         return new TreeStructure(

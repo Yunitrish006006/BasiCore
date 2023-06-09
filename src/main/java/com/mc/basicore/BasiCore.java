@@ -1,29 +1,30 @@
 package com.mc.basicore;
 
+import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
+import com.mc.basicore.systems.SystemTable;
+import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
-import com.mc.basicore.systems.collector_system.ChainMiner;
-import com.mc.basicore.systems.collector_system.TreeCutter;
-import com.mc.basicore.systems.collector_system.VeinToggle;
-import com.mc.basicore.commands.fly;
-import com.mc.basicore.commands.hat;
-import com.mc.basicore.commands.laugh;
-import com.mc.basicore.commands.test;
-import com.mc.basicore.discord.onPlayerChatDiscord;
-import com.mc.basicore.systems.collector_system.onShovelOnGravel;
+import com.mc.basicore.systems.collector_system.*;
+import com.mc.basicore.systems.others.commands.fly;
+import com.mc.basicore.systems.others.commands.hat;
+import com.mc.basicore.systems.others.commands.laugh;
+import com.mc.basicore.systems.others.commands.test;
+import com.mc.basicore.systems.others.discord.onPlayerChatDiscord;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
-import com.mc.basicore.events.*;
-import com.mc.basicore.systems.mob_system.events.skeleton_sword;
-import com.mc.basicore.recipes.furnace_dirt_gravel;
+import com.mc.basicore.systems.others.events.*;
+import com.mc.basicore.systems.others.recipes.furnace_dirt_gravel;
 import com.mc.basicore.systems.teleport_system.*;
 import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
 import com.mc.basicore.systems.translate.Translator;
+import com.mc.basicore.systems.tribeSystem.Tribe;
 import com.mc.basicore.systems.world_index.WorldIndex;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static com.mc.basicore.recipes.gunpowder.burned_gunPowder;
+import static com.mc.basicore.systems.others.recipes.gunpowder.burned_gunPowder;
 
 public final class BasiCore extends JavaPlugin {
     private static BasiCore plugin;
+    public static String language = "zh_tw";
     public static BasiCore getPlugin() {
         return plugin;
     }
@@ -35,10 +36,12 @@ public final class BasiCore extends JavaPlugin {
     public void onEnable() {
         /*=====================initialize===================*/
         BasiCore.plugin = this;
+        worldManager.registerWorld();
         this.saveDefaultConfig();
         Basics.initFile();
         ChatSet.chatInit();
         Translator.initFile();
+        SystemTable.initialize();
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
@@ -48,16 +51,7 @@ public final class BasiCore extends JavaPlugin {
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());
         getCommand("laugh").setExecutor(new laugh());
-        getServer().getPluginManager().registerEvents(new sleepEvent(),this);
-        getServer().getPluginManager().registerEvents(new skeleton_sword(),this);
-        getServer().getPluginManager().registerEvents(new onPlayerFished(),this);
-        getServer().getPluginManager().registerEvents(new onShovelOnGravel(),this);
-        getServer().getPluginManager().registerEvents(new onPlayerRide(),this);
-        /*============================vein collector system==============================*/
-        getServer().getPluginManager().registerEvents(new VeinToggle(),this);
-        getServer().getPluginManager().registerEvents(new TreeCutter(),this);
-        getServer().getPluginManager().registerEvents(new ChainMiner(),this);
-        getServer().getPluginManager().registerEvents(new onDispenserShot(),this);
+        collector.init();
         /*============================other little system==============================*/
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
@@ -75,8 +69,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
-//        getCommand("tribe").setExecutor(new TribeCommand());
-//        getCommand("tribe").setTabCompleter(new TribeTabComplete());
+        Tribe.init();
     }
 
     @Override
