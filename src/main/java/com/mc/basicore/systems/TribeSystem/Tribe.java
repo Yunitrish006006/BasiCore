@@ -120,6 +120,12 @@ public class Tribe {
         String[] reason = {"recruit",name};
         target.openInventory(new requestPage(from,target,reason).getInventory());
     }
+    public void quit(Player player) {
+        if (owner.equals(player)) return;
+        if (!isMember(player)) return;
+        members.remove(player);
+        save();
+    }
     public void save() {
         String prefix = ID.toString();
         String type = "tribe";

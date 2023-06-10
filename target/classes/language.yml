@@ -51,6 +51,7 @@ zh_tw:
     tribe: 部落
     recruit: 邀約
     apply: 申請
+    quit: 退出
     s: 的
     n: ' '
     player: 玩家
@@ -99,6 +100,7 @@ en_us:
     tribe: tribe
     recruit: recruit
     apply: apply
+    quit: quit
     s: s
     n: ' '
     player: player

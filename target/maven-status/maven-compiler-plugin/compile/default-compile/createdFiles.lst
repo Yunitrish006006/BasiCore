@@ -45,6 +45,7 @@ com\mc\basicore\systems\others\discord\onPlayerChatDiscord.class
 com\mc\basicore\systems\world_index\GUI\UnitsPage$1.class
 com\mc\basicore\systems\teleport_system\TeleportCommand.class
 com\mc\basicore\systems\collector_system\onShovelOnGravel.class
+com\mc\basicore\systems\world_index\GUI\TribesListPage$1.class
 com\mc\basicore\systems\mob_system\events\skeleton_sword.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Footer.class
 com\mc\basicore\itemGroups$MineData.class

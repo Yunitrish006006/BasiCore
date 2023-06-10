@@ -160,6 +160,9 @@ public class WorldIndex implements Listener {
             else if (holder instanceof requestPage){
                 ((requestPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
+            else if (holder instanceof TribesListPage){
+                ((TribesListPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
+            }
         }
     }
     @EventHandler

@@ -100,6 +100,7 @@ public class requestPage implements InventoryHolder {
             default:
                 break;
         }
+        player.closeInventory();
         event.setCancelled(true);
     }
 
