@@ -32,6 +32,7 @@ public class UnitsPage implements InventoryHolder {
         this.inventory.setItem(29,playerPageButton(player.getLocale()));
         this.inventory.setItem(31,publicPageButton(player.getLocale()));
         this.inventory.setItem(33,playerDataButton(player.getLocale()));
+        this.inventory.setItem(35,tribeListButton(player.getLocale()));
         List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
             this.getInventory().addItem(unitButton(unitName));

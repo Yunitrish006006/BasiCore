@@ -17,7 +17,9 @@ com\mc\basicore\systems\others\events\onCreeperExplode.class
 com\mc\basicore\systems\collector_system\collector.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Thumbnail.class
 com\mc\basicore\systems\others\events\onPlayerFished.class
+com\mc\basicore\systems\TribeSystem\TribeEvents.class
 com\mc\basicore\systems\world_index\GUI\PlayerDataPage.class
+com\mc\basicore\systems\world_index\GUI\TribesListPage.class
 com\mc\basicore\systems\others\events\onPlayerFished$1.class
 com\mc\basicore\systems\others\events\skill_system.class
 com\mc\basicore\systems\world_index\WorldIndex.class
@@ -25,7 +27,6 @@ com\mc\basicore\systems\world_index\GUI\PublicPage.class
 com\mc\basicore\systems\collector_system\ChainMiner.class
 com\mc\basicore\systems\world_index\GUI\PlayerDataPage$1.class
 com\mc\basicore\itemGroups$2.class
-com\mc\basicore\systems\tribeSystem\Tribe.class
 com\mc\basicore\systems\others\events\OnPlayerInteractBeeHive.class
 com\mc\basicore\systems\others\events\onPlayerJoin.class
 com\mc\basicore\systems\teleport_system\events\onPlayerDeathOrReborn.class
@@ -49,11 +50,9 @@ com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Footer.class
 com\mc\basicore\itemGroups$MineData.class
 com\mc\basicore\systems\others\events\sleepEvent.class
 com\mc\basicore\systems\others\events\AllEvents.class
-com\mc\basicore\systems\tribeSystem\TribeCommand.class
 com\mc\basicore\systems\Sleep\SleepFunction.class
 com\mc\basicore\itemGroups$15.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject.class
-com\mc\basicore\systems\SystemTable.class
 com\mc\basicore\systems\chat_system\onPlayerChat.class
 com\mc\basicore\systems\chat_system\ChatTabComplete.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Author.class
@@ -65,8 +64,10 @@ com\mc\basicore\systems\enchant_system\EnchantSystem.class
 com\mc\basicore\systems\Diet\Foods\ApplePie.class
 com\mc\basicore\systems\others\commands\laugh.class
 com\mc\basicore\systems\translate\Translator.class
+com\mc\basicore\systems\TribeSystem\TribeTabComplete.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$JSONObject.class
 com\mc\basicore\systems\teleport_system\SpaceUnit.class
+com\mc\basicore\systems\TribeSystem\TribeCommand.class
 com\mc\basicore\systems\collector_system\TreeCutter.class
 com\mc\basicore\systems\Diet\ExtraFoodsEvent.class
 com\mc\basicore\itemGroups$18.class
@@ -88,7 +89,7 @@ com\mc\basicore\itemGroups$17.class
 com\mc\basicore\systems\others\commands\light.class
 com\mc\basicore\systems\chat_system\ChatCommand.class
 com\mc\basicore\systems\enchant_system\EnchantSystem$1.class
+com\mc\basicore\systems\TribeSystem\Tribe.class
 com\mc\basicore\systems\chat_system\ChatSet.class
-com\mc\basicore\systems\tribeSystem\TribeTabComplete.class
 com\mc\basicore\systems\Diet\Foods\Cocoa.class
 com\mc\basicore\itemGroups$4.class

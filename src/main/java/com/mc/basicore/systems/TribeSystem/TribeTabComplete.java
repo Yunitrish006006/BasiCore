@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.tribeSystem;
+package com.mc.basicore.systems.TribeSystem;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,8 @@
 package com.mc.basicore;
 
+import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
-import com.mc.basicore.systems.SystemTable;
+import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
 import com.mc.basicore.systems.collector_system.*;
@@ -16,7 +17,6 @@ import com.mc.basicore.systems.others.recipes.furnace_dirt_gravel;
 import com.mc.basicore.systems.teleport_system.*;
 import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
 import com.mc.basicore.systems.translate.Translator;
-import com.mc.basicore.systems.tribeSystem.Tribe;
 import com.mc.basicore.systems.world_index.WorldIndex;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,7 +41,7 @@ public final class BasiCore extends JavaPlugin {
         Basics.initFile();
         ChatSet.chatInit();
         Translator.initFile();
-        SystemTable.initialize();
+        Tribe.init();
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
@@ -69,7 +69,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
-        Tribe.init();
+        DietSystem.initializeDiet();
     }
 
     @Override

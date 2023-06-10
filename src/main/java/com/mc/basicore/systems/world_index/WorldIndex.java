@@ -25,6 +25,7 @@ import static org.bukkit.Material.WHITE_BANNER;
 
 @SuppressWarnings("ConstantConditions")
 public class WorldIndex implements Listener {
+    public Player player;
     public static ItemStack worldIndex(String language) {
         ItemStack itemStack = new ItemStack(PAPER);
         ItemMeta meta = itemStack.getItemMeta();
@@ -74,9 +75,18 @@ public class WorldIndex implements Listener {
         item.setItemMeta(meta);
         return item;
     }
+    public static ItemStack tribeListButton(String language) {
+        ItemStack item = new ItemStack(BLACK_BANNER);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.tribeList");
+        meta.setDisplayName(translate(language,"GUI.tribe","GUI.list"));
+        item.setItemMeta(meta);
+        return item;
+    }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        Player player = event.getPlayer();
+        player = event.getPlayer();
         if (!event.hasItem()) return;
         if (!Basics.getID(event.getItem()).equals("BasiCore.WorldIndex")) return;
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -95,7 +105,7 @@ public class WorldIndex implements Listener {
         if (!ID[1].equals("GUI")) return;
         InventoryHolder holder = event.getInventory().getHolder();
         ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
-        if (Arrays.asList("playerPage","publicPage","playerData","return").contains(ID[2])) {
+        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","return").contains(ID[2])) {
             ClickType press = event.getClick();
             Player player = (Player) event.getWhoClicked();
             switch (ID[2]) {
@@ -112,6 +122,11 @@ public class WorldIndex implements Listener {
                 case "playerData":
                     if (press.isLeftClick()) {
                         player.openInventory(new PlayerDataPage(player).getInventory());
+                    }
+                    break;
+                case "tribeList":
+                    if (press.isLeftClick()) {
+                        player.openInventory(new TribesListPage(player).getInventory());
                     }
                     break;
                 case "return":

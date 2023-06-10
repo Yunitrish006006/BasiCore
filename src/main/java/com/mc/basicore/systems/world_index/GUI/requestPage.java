@@ -1,6 +1,6 @@
 package com.mc.basicore.systems.world_index.GUI;
 
-import com.mc.basicore.systems.tribeSystem.Tribe;
+import com.mc.basicore.systems.TribeSystem.Tribe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,8 +29,8 @@ public class requestPage implements InventoryHolder {
         this.target = target;
         this.Reason = reason;
         if (reason.length < 2) return;
-        if (Reason[0].equals("recruit")) tribe = Tribe.Find(Reason[1]);
-        else if (Reason[0].equals("apply")) tribe = Tribe.Find(Reason[1]);
+        if (Reason[0].equals("recruit")) tribe = Tribe.Query(Reason[1]);
+        else if (Reason[0].equals("apply")) tribe = Tribe.Query(Reason[1]);
         this.getInventory().setItem(2,acceptButton());
         this.getInventory().setItem(4,questionButton());
         this.getInventory().setItem(6,denyButton());
