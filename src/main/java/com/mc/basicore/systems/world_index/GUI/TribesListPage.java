@@ -2,7 +2,6 @@ package com.mc.basicore.systems.world_index.GUI;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.systems.TribeSystem.Tribe;
-import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -15,11 +14,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.mc.basicore.systems.translate.Translator.translate;
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
+import static org.bukkit.Material.RED_BANNER;
 
 public class TribesListPage implements InventoryHolder {
     private final Inventory inventory;
@@ -27,12 +26,12 @@ public class TribesListPage implements InventoryHolder {
     public TribesListPage (Player call) {
         player = call;
         inventory = Bukkit.createInventory(this,9*4,translate(player));
+        inventory.setItem(28,addTribeButton());
         inventory.setItem(27,returnButton(player.getLocale()));
         for (Tribe t:Tribe.List()) {
             inventory.addItem(TribeButton(t));
         }
     }
-
     public ItemStack TribeButton(Tribe tribe) {
         ItemStack item = new ItemStack(Basics.getMaterialFromName(tribe.icon.toUpperCase()));
         ItemMeta meta = item.getItemMeta();
@@ -47,7 +46,15 @@ public class TribesListPage implements InventoryHolder {
         item.setItemMeta(meta);
         return item;
     }
-
+    public ItemStack addTribeButton() {
+        ItemStack item = new ItemStack(RED_BANNER);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.addTribe");
+        meta.setDisplayName(translate(player,"GUI.add","GUI.tribe"));
+        item.setItemMeta(meta);
+        return item;
+    }
     @NotNull @Override
     public Inventory getInventory() {
         return inventory;
@@ -55,7 +62,7 @@ public class TribesListPage implements InventoryHolder {
     @SuppressWarnings("ConstantConditions")
     public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
         switch (ID) {
-            case "tribe":
+            case "tribe": {
                 switch (press) {
                     case LEFT:
                         Tribe.Query(event.getCurrentItem().getItemMeta().getLocalizedName().split("\\.")[3]).apply(player);
@@ -67,6 +74,24 @@ public class TribesListPage implements InventoryHolder {
                         break;
                 }
                 break;
+            }
+            case "addTribe": {
+                switch (press) {
+                    case LEFT:
+                        List<Tribe> tribes = Tribe.List();
+                        int count = 0;
+                        for (Tribe tribe:tribes) {
+                            if (tribe.owner.equals(player)) {
+                                count+=1;
+                            }
+                        }
+                        if (count == 0) event.getInventory().addItem(TribeButton(Tribe.create(player)));
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            }
             default:
                 break;
         }

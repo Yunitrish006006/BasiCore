@@ -6,6 +6,7 @@ import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
 import com.mc.basicore.systems.collector_system.*;
+import com.mc.basicore.systems.mob_system.events.onCreeperExplode;
 import com.mc.basicore.systems.others.commands.fly;
 import com.mc.basicore.systems.others.commands.hat;
 import com.mc.basicore.systems.others.commands.laugh;
@@ -42,6 +43,7 @@ public final class BasiCore extends JavaPlugin {
         ChatSet.chatInit();
         Translator.initFile();
         Tribe.init();
+        AllEvents.init();
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);

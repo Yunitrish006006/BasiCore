@@ -2,7 +2,6 @@ package com.mc.basicore.systems.world_index;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
-import com.mc.basicore.itemGroups;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import com.mc.basicore.systems.world_index.GUI.*;
 import org.bukkit.*;
@@ -91,8 +90,6 @@ public class WorldIndex implements Listener {
         if (!Basics.getID(event.getItem()).equals("BasiCore.WorldIndex")) return;
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             player.openInventory(new UnitsPage(player).getInventory());
-        } else if (event.getAction().equals(Action.LEFT_CLICK_BLOCK) && itemGroups.lockable().contains(event.getClickedBlock().getType())) {
-            Bukkit.broadcastMessage("u locked a block!");
         }
     }
     @EventHandler

@@ -61,7 +61,7 @@ public class Tribe {
                 ChatColor.GOLD+"members: "
         ));
         for (Player p:members) {
-            data.add("- "+ChatSet.query(p.getUniqueId()).getName());
+            if (p!=null) data.add("- "+ChatSet.query(p.getUniqueId()).getName());
         }
         return data;
     }
@@ -135,8 +135,8 @@ public class Tribe {
         config.set(prefix+".level",level);
         config.set(prefix+".owner",owner.getUniqueId().toString());
         List<String> member_IDs = new ArrayList<>();
-        for (Player player:members) {
-            member_IDs.add(player.getUniqueId().toString());
+        for (Player p:members) {
+            if (p != null) member_IDs.add(p.getUniqueId().toString());
         }
         config.set(prefix+".members",member_IDs);
         Basics.saveFile();
