@@ -1,3 +1,4 @@
+com\mc\basicore\systems\world_index\GUI\CollectorSetPage.class
 com\mc\basicore\systems\world_index\GUI\UnitSetPage.class
 com\mc\basicore\itemGroups.class
 com\mc\basicore\systems\WorldManager\worldManager.class
@@ -13,7 +14,6 @@ com\mc\basicore\systems\others\events\onDispenserShot.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Image.class
 com\mc\basicore\systems\others\events\onPlayerRide.class
 com\mc\basicore\itemGroups$TreeStructure.class
-com\mc\basicore\systems\others\events\onCreeperExplode.class
 com\mc\basicore\systems\collector_system\collector.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$EmbedObject$Thumbnail.class
 com\mc\basicore\systems\others\events\onPlayerFished.class
@@ -24,7 +24,7 @@ com\mc\basicore\systems\others\events\onPlayerFished$1.class
 com\mc\basicore\systems\others\events\skill_system.class
 com\mc\basicore\systems\world_index\WorldIndex.class
 com\mc\basicore\systems\world_index\GUI\PublicPage.class
-com\mc\basicore\systems\collector_system\ChainMiner.class
+com\mc\basicore\systems\collector_system\Pickaxe.class
 com\mc\basicore\systems\world_index\GUI\PlayerDataPage$1.class
 com\mc\basicore\itemGroups$2.class
 com\mc\basicore\systems\others\events\OnPlayerInteractBeeHive.class
@@ -40,10 +40,12 @@ com\mc\basicore\itemGroups$1.class
 com\mc\basicore\itemGroups$7.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$1.class
 com\mc\basicore\systems\enchant_system\HeadCeaseWrapper.class
+com\mc\basicore\systems\mob_system\events\onCreeperExplode.class
 com\mc\basicore\systems\others\recipes\gunpowder.class
 com\mc\basicore\systems\others\discord\onPlayerChatDiscord.class
 com\mc\basicore\systems\world_index\GUI\UnitsPage$1.class
 com\mc\basicore\systems\teleport_system\TeleportCommand.class
+com\mc\basicore\systems\collector_system\Axe.class
 com\mc\basicore\systems\collector_system\onShovelOnGravel.class
 com\mc\basicore\systems\world_index\GUI\TribesListPage$1.class
 com\mc\basicore\systems\mob_system\events\skeleton_sword.class
@@ -69,7 +71,6 @@ com\mc\basicore\systems\TribeSystem\TribeTabComplete.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$JSONObject.class
 com\mc\basicore\systems\teleport_system\SpaceUnit.class
 com\mc\basicore\systems\TribeSystem\TribeCommand.class
-com\mc\basicore\systems\collector_system\TreeCutter.class
 com\mc\basicore\systems\Diet\ExtraFoodsEvent.class
 com\mc\basicore\itemGroups$18.class
 com\mc\basicore\systems\others\recipes\furnace_dirt_gravel.class
@@ -94,3 +95,4 @@ com\mc\basicore\systems\TribeSystem\Tribe.class
 com\mc\basicore\systems\chat_system\ChatSet.class
 com\mc\basicore\systems\Diet\Foods\Cocoa.class
 com\mc\basicore\itemGroups$4.class
+com\mc\basicore\systems\collector_system\CollectorSet.class

@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -18,22 +19,25 @@ import java.util.List;
 import static com.mc.basicore.Basics.*;
 import static com.mc.basicore.itemGroups.*;
 
-public class TreeCutter implements Listener {
+public class Axe implements Listener {
     @EventHandler
     public void handleBlockBreak(BlockBreakEvent event) {
-        if (!axes().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) return;
+        Player player = event.getPlayer();
+        CollectorSet set = CollectorSet.query(player);
         Block block = event.getBlock();
-        Material blockType = block.getType();
-        if(!inBLockTypes(itemGroups.Stems(),blockType)) return;
+        ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
+        if (!(axes().contains(tool.getType()) && set.axe)) return;
+        if(!inBLockTypes(itemGroups.Stems(),block.getType())) return;
+
         List<ItemStack> drops = new ArrayList<>();
         TreeStructure type = Trees().get(0);
         for (TreeStructure tree: Trees()) {
-            if(inBLockTypes(tree.Stems,blockType)) {
+            if(inBLockTypes(tree.Stems,block.getType())) {
                 type = tree;
             }
         }
-        cutTree(block,type,block.getLocation(),drops,event.getPlayer().getInventory().getItemInMainHand());
-        Basics.useItem(event.getPlayer().getInventory().getItemInMainHand(),type.getDurabilityCost());
+        cutTree(block,type,block.getLocation(),drops,tool);
+        Basics.useItem(tool,type.getDurabilityCost());
         for (ItemStack item:drops) {
             block.getWorld().dropItem(block.getLocation(),item);
         }

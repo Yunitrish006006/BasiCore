@@ -83,6 +83,15 @@ public class WorldIndex implements Listener {
         item.setItemMeta(meta);
         return item;
     }
+    public static ItemStack collectorSetButton(String language) {
+        ItemStack item = new ItemStack(IRON_PICKAXE);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.collectorSet");
+        meta.setDisplayName(translate(language,"GUI.collectorSystem"));
+        item.setItemMeta(meta);
+        return item;
+    }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         player = event.getPlayer();
@@ -102,10 +111,15 @@ public class WorldIndex implements Listener {
         if (!ID[1].equals("GUI")) return;
         InventoryHolder holder = event.getInventory().getHolder();
         ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
-        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","return").contains(ID[2])) {
+        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","collectorSet","return").contains(ID[2])) {
             ClickType press = event.getClick();
             Player player = (Player) event.getWhoClicked();
             switch (ID[2]) {
+                case "return":
+                    if (press.isLeftClick()) {
+                        player.openInventory(new UnitsPage(player).getInventory());
+                    }
+                    break;
                 case "playerPage":
                     if (press.isLeftClick()) {
                         player.openInventory(new PlayersPage(player).getInventory());
@@ -126,9 +140,9 @@ public class WorldIndex implements Listener {
                         player.openInventory(new TribesListPage(player).getInventory());
                     }
                     break;
-                case "return":
+                case "collectorSet":
                     if (press.isLeftClick()) {
-                        player.openInventory(new UnitsPage(player).getInventory());
+                        player.openInventory(new CollectorSetPage(player).getInventory());
                     }
                     break;
                 default:
@@ -159,6 +173,9 @@ public class WorldIndex implements Listener {
             }
             else if (holder instanceof TribesListPage){
                 ((TribesListPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
+            }
+            else if (holder instanceof CollectorSetPage){
+                ((CollectorSetPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
         }
     }

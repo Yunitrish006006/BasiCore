@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -20,26 +21,28 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChainMiner implements Listener {
+public class Pickaxe implements Listener {
     @EventHandler
     public void Minor(BlockBreakEvent event) {
-        if (!event.getPlayer().hasMetadata("VeinToggle")) return;
-        if (event.getPlayer().getMetadata("VeinToggle").size()<1) return;
-        if (!event.getPlayer().getMetadata("VeinToggle").get(0).asBoolean()) return;
-        if (!pickaxes().contains(event.getPlayer().getInventory().getItemInMainHand().getType())) return;
-        ItemStack itemStack = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(itemStack.getItemMeta() instanceof Damageable)) return;
-        if (((Damageable) itemStack.getItemMeta()).getDamage() > itemStack.getType().getMaxDurability()-2)  {
+        Player player = event.getPlayer();
+        CollectorSet set = CollectorSet.query(player);
+        Block block = event.getBlock();
+        ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
+        if (!(pickaxes().contains(tool.getType()) && set.pickaxe)) return;
+        if(!inBLockTypes(itemGroups.MineTargets(),block.getType())) return;
+
+        if (!(tool.getItemMeta() instanceof Damageable)) return;
+        if (((Damageable) tool.getItemMeta()).getDamage() > tool.getType().getMaxDurability()-2)  {
             event.setCancelled(true);
             return;
         }
-        Block block = event.getBlock();
-        Material blockType = block.getType();
-        if(!inBLockTypes(itemGroups.MineTargets(),blockType)) return;
+
+
+        if(!inBLockTypes(itemGroups.MineTargets(),block.getType())) return;
         List<ItemStack> drops = new ArrayList<>();
         MineData type = Mines().get(0);
         for (MineData mine: Mines()) {
-            if(inBLockTypes(mine.blocks,blockType)) {
+            if(inBLockTypes(mine.blocks,block.getType())) {
                 type = mine;
             }
         }

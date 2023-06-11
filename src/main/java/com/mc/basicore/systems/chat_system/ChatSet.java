@@ -7,13 +7,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
-public class ChatSet implements Serializable {
+public class ChatSet {
     public static FileConfiguration config = Basics.config;
     public ChatColor NameColor = ChatColor.WHITE;
     public ChatColor ContentColor = ChatColor.WHITE;
@@ -76,6 +75,7 @@ public class ChatSet implements Serializable {
         CustomName = Bukkit.getPlayer(playerUUID).getName();
         ContentColor = ChatColor.WHITE;
         NameColor = ChatColor.WHITE;
+        saveChatSet();
     }
     public void setContentColor(ChatColor color) {
         this.ContentColor = color;
