@@ -11,6 +11,7 @@ public class onPlayerChat implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         ChatSet chatSet = new ChatSet(player);
+
         player.setDisplayName(chatSet.NameColor + chatSet.CustomName);
         event.setFormat("%s"+ChatColor.WHITE+" | "+chatSet.ContentColor+"%s");
     }

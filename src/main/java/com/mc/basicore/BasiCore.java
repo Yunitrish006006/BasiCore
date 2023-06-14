@@ -2,6 +2,8 @@ package com.mc.basicore;
 
 import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
+import com.mc.basicore.systems.LockorSystem.Lockor;
+import com.mc.basicore.systems.LockorSystem.LockorEvents;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
@@ -72,6 +74,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
         DietSystem.initializeDiet();
+        getServer().getPluginManager().registerEvents(new LockorEvents(),this);
     }
 
     @Override

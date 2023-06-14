@@ -61,7 +61,7 @@ public class ChatSet {
             player.setDisplayName(chatSet.NameColor+chatSet.CustomName);
             player.setCustomName(chatSet.NameColor+chatSet.CustomName);
             player.setPlayerListName(chatSet.NameColor+chatSet.CustomName);
-            player.setCustomNameVisible(true);
+            player.setCustomNameVisible(false);
         }
     }
     public void saveChatSet() {

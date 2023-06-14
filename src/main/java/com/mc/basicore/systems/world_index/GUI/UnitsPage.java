@@ -27,13 +27,13 @@ public class UnitsPage implements InventoryHolder {
     Player player;
     public UnitsPage(Player from) {
         this.player = from;
-        this.inventory = Bukkit.createInventory(this,9*4,translate(player,"GUI.unit","GUI.list"));
-        this.inventory.setItem(27,addSpaceButton());
-        this.inventory.setItem(29,playerPageButton(player.getLocale()));
-        this.inventory.setItem(31,publicPageButton(player.getLocale()));
-        this.inventory.setItem(33,playerDataButton(player.getLocale()));
-        this.inventory.setItem(34,collectorSetButton(player.getLocale()));
-        this.inventory.setItem(35,tribeListButton(player.getLocale()));
+        this.inventory = Bukkit.createInventory(this,getPlace(7,1),translate(player,"GUI.unit","GUI.list"));
+        this.inventory.setItem(getPlace(1,9),playerPageButton(player.getLocale()));
+        this.inventory.setItem(getPlace(2,9),publicPageButton(player.getLocale()));
+        this.inventory.setItem(getPlace(3,9),tribeListButton(player.getLocale()));
+        this.inventory.setItem(getPlace(4,9),playerDataButton(player.getLocale()));
+        this.inventory.setItem(getPlace(5,9),collectorSetButton(player.getLocale()));
+        this.inventory.setItem(getPlace(6,9),addSpaceButton());
         List<String> unitNames = SpaceUnit.getUnitList(player);
         for (String unitName : unitNames) {
             this.getInventory().addItem(unitButton(unitName));

@@ -1,14 +1,18 @@
 package com.mc.basicore;
 
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Marker;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.io.File;
 import java.io.IOException;
@@ -152,5 +156,24 @@ public class Basics {
     public static boolean getRandomBool() {
         if (Math.random() < 0.5) return false;
         else return true;
+    }
+    public static void floatString(Location location, String value) {
+        World world = location.getWorld();
+        Marker marker = (Marker) world.spawnEntity(location, EntityType.MARKER);
+        marker.setCustomNameVisible(true);
+        marker.setCustomName(value);
+        marker.setVisibleByDefault(true);
+        later(2,()->{
+            marker.remove();
+        });
+    }
+    public static void later(long time, Runnable function) {
+        Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(),function,time);
+    }
+    public static void setBlockValue(Block target, String key, String value) {
+        target.setMetadata(key,new FixedMetadataValue(BasiCore.getPlugin(),value));
+    }
+    public static String getBlockValue(Block target, String key) {
+        return target.getMetadata(key).get(0).asString();
     }
 }

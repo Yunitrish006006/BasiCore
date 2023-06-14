@@ -14,9 +14,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.mc.basicore.systems.world_index.WorldIndex.returnButton;
+import static org.bukkit.Material.*;
 
 public class IconsPage implements InventoryHolder {
     private final Inventory inventory;
@@ -25,18 +27,15 @@ public class IconsPage implements InventoryHolder {
 
     public IconsPage(Player player,SpaceUnit unit) {
         spaceUnit = unit;
-        this.inventory = Bukkit.createInventory(this,9*4, ChatColor.GOLD + "圖像設定");
-        List<Material> materials = new ArrayList<>();
-        materials.add(Material.GRASS_BLOCK);
-        materials.add(Material.STONE);
-        materials.add(Material.RED_BED);
-        materials.add(Material.IRON_ORE);
-        materials.add(Material.WHEAT);
-        materials.add(Material.SPAWNER);
+        inventory = Bukkit.createInventory(this,9*4, ChatColor.GOLD + "圖像設定");
+        inventory.setItem(35,returnButton(player.getLocale()));
+        List<Material> materials = Arrays.asList(
+                GRASS_BLOCK, STONE, RED_BED, IRON_ORE, WHEAT, SPAWNER,
+                ACACIA_SAPLING, BAMBOO_SAPLING, BIRCH_SAPLING, CHERRY_SAPLING, DARK_OAK_SAPLING, JUNGLE_SAPLING, OAK_SAPLING
+        );
         for (Material m : materials) {
             this.getInventory().addItem(icon(m));
         }
-        this.getInventory().setItem(35,returnButton(player.getLocale()));
     }
 
     public void setIcon(String material) {

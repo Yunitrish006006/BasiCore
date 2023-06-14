@@ -92,6 +92,9 @@ public class WorldIndex implements Listener {
         item.setItemMeta(meta);
         return item;
     }
+    public static int getPlace(int row, int col) {
+        return 9*(row-1)+(col-1);
+    }
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         player = event.getPlayer();

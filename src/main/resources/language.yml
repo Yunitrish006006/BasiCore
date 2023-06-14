@@ -6,6 +6,18 @@
 # 隨機 粗體 中線 下線 斜體 重設
 
 zh_tw:
+  generic:
+    space: '                             '
+  Lockor:
+    private: 私人
+    public: 公用
+    tribe: 部落
+  WorldType:
+    space: '                             '
+    world: 舊世界
+    newWorld: 新世界
+    world_the_end: 終界
+    world_nether: 地獄
   foods:
     berry_juice:
       name: 莓果汁
@@ -61,6 +73,13 @@ zh_tw:
     type: 打字
     input: 輸入
     reset: 重設
+    pickaxe: 鎬子
+    axe: 斧頭
+    shovel: 鏟子
+    hoe: 鋤頭
+    'false': 關閉
+    'true': 開啟
+    collectorSystem: 資源收集系統
 en_us:
   foods:
     berry_juice: Berry Juice

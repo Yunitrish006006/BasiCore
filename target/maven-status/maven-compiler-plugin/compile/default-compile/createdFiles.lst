@@ -36,6 +36,7 @@ com\mc\basicore\itemGroups$6.class
 com\mc\basicore\systems\world_index\GUI\UnitsPage.class
 com\mc\basicore\systems\Diet\Food.class
 com\mc\basicore\systems\world_index\GUI\IconsPage.class
+com\mc\basicore\systems\LockorSystem\LockorEvents.class
 com\mc\basicore\itemGroups$1.class
 com\mc\basicore\itemGroups$7.class
 com\mc\basicore\systems\others\discord\DiscordWebhook$1.class
@@ -93,6 +94,7 @@ com\mc\basicore\systems\chat_system\ChatCommand.class
 com\mc\basicore\systems\enchant_system\EnchantSystem$1.class
 com\mc\basicore\systems\TribeSystem\Tribe.class
 com\mc\basicore\systems\chat_system\ChatSet.class
+com\mc\basicore\systems\LockorSystem\Lockor.class
 com\mc\basicore\systems\Diet\Foods\Cocoa.class
 com\mc\basicore\itemGroups$4.class
 com\mc\basicore\systems\collector_system\CollectorSet.class
