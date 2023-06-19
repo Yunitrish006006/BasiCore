@@ -4,32 +4,33 @@ import com.mc.basicore.itemGroups;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.inventory.ItemStack;
 
 import static com.mc.basicore.systems.translate.Translator.translate;
 
 public class VeinToggle implements Listener {
     @EventHandler
-    public void onToggle(PlayerInteractEvent event) {
-        if (!(event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && event.getPlayer().isSneaking())) return;
-        assert event.getItem() != null;
+    public void onToggle(PlayerSwapHandItemsEvent event) {
+        if (!event.getPlayer().isSneaking()) return;
+        if (event.getMainHandItem() == null) return;
+        ItemStack tool = event.getMainHandItem();
         Player player = event.getPlayer();
         CollectorSet set = CollectorSet.query(player);
-        if (itemGroups.pickaxes().contains(event.getItem().getType())) {
-            set.pickaxe = !set.pickaxe;
+        if (itemGroups.pickaxes().contains(tool.getType())) {
+            set.toggle(CollectorSet.PICKAXE);
             set.save();
-            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.pickaxe","GUI."+set.pickaxe),1,60,1);
+            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.pickaxe","GUI."+set.data.get("pickaxe")),1,60,1);
         }
-        else if (itemGroups.shovels().contains(event.getItem().getType())) {
-            set.shovel = !set.shovel;
+        else if (itemGroups.shovels().contains(tool.getType())) {
+            set.toggle(CollectorSet.SHOVEL);
             set.save();
-            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.shovel","GUI."+set.shovel),1,60,1);
+            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.shovel","GUI."+set.data.get("shovel")),1,60,1);
         }
-        else if (itemGroups.axes().contains(event.getItem().getType())) {
-            set.axe = !set.axe;
+        else if (itemGroups.axes().contains(tool.getType())) {
+            set.toggle(CollectorSet.AXE);
             set.save();
-            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.axe","GUI."+set.axe),1,60,1);
+            player.sendTitle("",translate(player,"WorldType.space","GUI.collectorSystem","GUI.axe","GUI."+set.data.get("axe")),1,60,1);
         }
     }
 }

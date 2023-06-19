@@ -1,8 +1,9 @@
-package com.mc.basicore.systems.collector_system;
+package com.mc.basicore.systems.collector_system.tools;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.itemGroups;
 import com.mc.basicore.itemGroups.TreeStructure;
+import com.mc.basicore.systems.collector_system.CollectorSet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,7 +27,7 @@ public class Axe implements Listener {
         CollectorSet set = CollectorSet.query(player);
         Block block = event.getBlock();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(axes().contains(tool.getType()) && set.axe)) return;
+        if (!(axes().contains(tool.getType()) && set.data.get("axe"))) return;
         if(!inBLockTypes(itemGroups.Stems(),block.getType())) return;
 
         List<ItemStack> drops = new ArrayList<>();

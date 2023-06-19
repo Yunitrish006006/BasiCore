@@ -1,5 +1,5 @@
 name: BasiCore
-version: '2.0'
+version: '2.3'
 main: com.mc.basicore.BasiCore
 api-version: 1.19
 prefix: BasiCore
@@ -25,4 +25,7 @@ commands:
     usage: /<command>
   tribe:
     description: tribe
+    usage: /<command>
+  reset:
+    description: reset
     usage: /<command>

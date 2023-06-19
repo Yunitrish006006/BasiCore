@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.collector_system;
+package com.mc.basicore.systems.collector_system.tools;
 import static com.mc.basicore.Basics.*;
 import static com.mc.basicore.itemGroups.*;
 import static java.lang.Math.abs;
@@ -6,6 +6,7 @@ import static org.bukkit.block.BlockFace.*;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.itemGroups;
+import com.mc.basicore.systems.collector_system.CollectorSet;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,7 +29,7 @@ public class Pickaxe implements Listener {
         CollectorSet set = CollectorSet.query(player);
         Block block = event.getBlock();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(pickaxes().contains(tool.getType()) && set.pickaxe)) return;
+        if (!(pickaxes().contains(tool.getType()) && set.data.get("pickaxe"))) return;
         if(!inBLockTypes(itemGroups.MineTargets(),block.getType())) return;
 
         if (!(tool.getItemMeta() instanceof Damageable)) return;

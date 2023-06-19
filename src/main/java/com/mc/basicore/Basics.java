@@ -170,6 +170,14 @@ public class Basics {
     public static void later(long time, Runnable function) {
         Bukkit.getScheduler().runTaskLater(BasiCore.getPlugin(),function,time);
     }
+    public static boolean willBreak(ItemStack tool) {
+        if (!(tool.getItemMeta() instanceof Damageable)) return false;
+        if (((Damageable) tool.getItemMeta()).getDamage() > tool.getType().getMaxDurability()-2) return true;
+        return false;
+    }
+    public static void resetBlockValue(Block target, String key) {
+        target.removeMetadata(key,BasiCore.getPlugin());
+    }
     public static void setBlockValue(Block target, String key, String value) {
         target.setMetadata(key,new FixedMetadataValue(BasiCore.getPlugin(),value));
     }

@@ -26,3 +26,6 @@ commands:
   tribe:
     description: tribe
     usage: /<command>
+  reset:
+    description: reset
+    usage: /<command>

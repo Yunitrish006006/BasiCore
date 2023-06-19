@@ -81,6 +81,7 @@ public class TribesListPage implements InventoryHolder {
                         List<Tribe> tribes = Tribe.List();
                         int count = 0;
                         for (Tribe tribe:tribes) {
+                            if (tribe.owner == null) continue;
                             if (tribe.owner.equals(player)) {
                                 count+=1;
                             }

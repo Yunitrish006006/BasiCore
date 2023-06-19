@@ -53,12 +53,12 @@ public class Tribe {
         }
     }
     public List<String> tribeData() {
-        List<String> data = new ArrayList<>();
-        data.addAll(Arrays.asList(
-                ChatColor.GOLD+"ID: "+ChatColor.WHITE+ID,
-                ChatColor.GOLD+"owner: "+ChatColor.WHITE+new ChatSet(owner).getName(),
-                ChatColor.GOLD+"level: "+ChatColor.WHITE+level,
-                ChatColor.GOLD+"members: "
+        if (owner == null) return Arrays.asList("無法預覽",ChatColor.RED + "部落主目前不在線!");
+        List<String> data = new ArrayList<>(Arrays.asList(
+                ChatColor.GOLD + "ID: " + ChatColor.WHITE + ID,
+                ChatColor.GOLD + "owner: " + ChatColor.WHITE + ChatSet.query(owner.getUniqueId()),
+                ChatColor.GOLD + "level: " + ChatColor.WHITE + level,
+                ChatColor.GOLD + "members: "
         ));
         for (Player p:members) {
             if (p!=null) data.add("- "+ChatSet.query(p.getUniqueId()).getName());

@@ -2,17 +2,13 @@ package com.mc.basicore;
 
 import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
-import com.mc.basicore.systems.LockorSystem.Lockor;
 import com.mc.basicore.systems.LockorSystem.LockorEvents;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
 import com.mc.basicore.systems.collector_system.*;
 import com.mc.basicore.systems.mob_system.events.onCreeperExplode;
-import com.mc.basicore.systems.others.commands.fly;
-import com.mc.basicore.systems.others.commands.hat;
-import com.mc.basicore.systems.others.commands.laugh;
-import com.mc.basicore.systems.others.commands.test;
+import com.mc.basicore.systems.others.commands.*;
 import com.mc.basicore.systems.others.discord.onPlayerChatDiscord;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.systems.others.events.*;
@@ -21,6 +17,7 @@ import com.mc.basicore.systems.teleport_system.*;
 import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
 import com.mc.basicore.systems.translate.Translator;
 import com.mc.basicore.systems.world_index.WorldIndex;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static com.mc.basicore.systems.others.recipes.gunpowder.burned_gunPowder;
@@ -39,6 +36,7 @@ public final class BasiCore extends JavaPlugin {
     public void onEnable() {
         /*=====================initialize===================*/
         BasiCore.plugin = this;
+        Bukkit.getScheduler().cancelTasks(plugin);
         worldManager.registerWorld();
         this.saveDefaultConfig();
         Basics.initFile();
@@ -51,6 +49,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
         /*==================register====================*/
         getServer().getPluginManager().registerEvents(new skill_system(),this);
+        getCommand("reset").setExecutor(new reset());
         getCommand("test").setExecutor(new test());
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());

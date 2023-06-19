@@ -1,6 +1,5 @@
-package com.mc.basicore.systems.others.events;
+package com.mc.basicore.systems.Sleep;
 
-import com.mc.basicore.systems.Sleep.SleepFunction;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;

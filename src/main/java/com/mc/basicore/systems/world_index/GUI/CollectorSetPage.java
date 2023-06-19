@@ -42,7 +42,7 @@ public class CollectorSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setPickaxe");
         meta.setDisplayName(translate(player,"GUI.set","GUI.pickaxe"));
-        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.pickaxe)));
+        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.data.get("pickaxe"))));
         item.setItemMeta(meta);
         return item;
     }
@@ -52,7 +52,7 @@ public class CollectorSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setAxe");
         meta.setDisplayName(translate(player,"GUI.set","GUI.axe"));
-        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.axe)));
+        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.data.get("axe"))));
         item.setItemMeta(meta);
         return item;
     }
@@ -62,7 +62,7 @@ public class CollectorSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setHoe");
         meta.setDisplayName(translate(player, "GUI.set", "GUI.hoe"));
-        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.hoe)));
+        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.data.get("hoe"))));
         item.setItemMeta(meta);
         return item;
     }
@@ -72,7 +72,7 @@ public class CollectorSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setShovel");
         meta.setDisplayName(translate(player, "GUI.set", "GUI.shovel"));
-        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.shovel)));
+        meta.setLore(Collections.singletonList(translate(player, "GUI.dot", "GUI." + set.data.get("shovel"))));
         item.setItemMeta(meta);
         return item;
     }
@@ -81,7 +81,7 @@ public class CollectorSetPage implements InventoryHolder {
         switch (ID) {
             case "setPickaxe": {
                 if (press.isLeftClick()) {
-                    set.pickaxe = !set.pickaxe;
+                    set.toggle(CollectorSet.PICKAXE);
                     set.save();
                     inventory.setItem(10,setPickaxeButton());
                 }
@@ -89,7 +89,7 @@ public class CollectorSetPage implements InventoryHolder {
             }
             case "setAxe": {
                 if (press.isLeftClick()) {
-                    set.axe = !set.axe;
+                    set.toggle(CollectorSet.AXE);
                     set.save();
                     inventory.setItem(12,setAxeButton());
                 }
@@ -97,7 +97,7 @@ public class CollectorSetPage implements InventoryHolder {
             }
             case "setShovel": {
                 if (press.isLeftClick()) {
-                    set.shovel = !set.shovel;
+                    set.toggle(CollectorSet.SHOVEL);
                     set.save();
                     inventory.setItem(14,setShovelButton());
                 }
@@ -105,7 +105,7 @@ public class CollectorSetPage implements InventoryHolder {
             }
             case "setHoe": {
                 if (press.isLeftClick()) {
-                    set.hoe = !set.hoe;
+                    set.toggle(CollectorSet.HOE);
                     set.save();
                     inventory.setItem(16,setHoeButton());
                 }

@@ -1,7 +1,6 @@
 package com.mc.basicore.systems.LockorSystem;
 
 import com.mc.basicore.BasiCore;
-import com.mc.basicore.Basics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +17,7 @@ import static com.mc.basicore.Basics.*;
 import static org.bukkit.Material.*;
 
 public class Lockor {
+    public static List<String> purviews = Arrays.asList("private","public","tribe");
     Player owner = null;
     String purview = "private";
     Block container;
@@ -45,6 +45,10 @@ public class Lockor {
         setBlockValue(container,"owner",owner.getUniqueId().toString());
         setBlockValue(container,"purview",purview);
     }
+    public void reset() {
+        resetBlockValue(container,"owner");
+        resetBlockValue(container,"purview");
+    }
 
     public static List<Material> containers() {
         return Arrays.asList(
@@ -55,9 +59,12 @@ public class Lockor {
                 ORANGE_SHULKER_BOX,PINK_SHULKER_BOX,PURPLE_SHULKER_BOX,RED_SHULKER_BOX,WHITE_SHULKER_BOX,YELLOW_SHULKER_BOX
         );
     }
-    public static List<String> purviews = Arrays.asList("private","public","tribe");
-    public static boolean canLock(Block block) {
-        return containers().contains(block.getType());
+    public static boolean canNotLock(Block block) {
+        boolean value = true;
+        if (block != null) {
+            value = !containers().contains(block.getType());
+        }
+        return value;
     }
     public static boolean isUsingTool(ItemStack tool) {
         return getID(tool).equals("BasiCore.WorldIndex");
