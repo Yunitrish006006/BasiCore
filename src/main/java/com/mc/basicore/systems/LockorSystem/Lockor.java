@@ -1,6 +1,7 @@
 package com.mc.basicore.systems.LockorSystem;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,31 +19,39 @@ import static org.bukkit.Material.*;
 
 public class Lockor {
     public static List<String> purviews = Arrays.asList("private","public","tribe");
-    Player owner = null;
+    UUID owner = Basics.errorID();
     String purview = "private";
     Block container;
     public Lockor(Location location, Player player) {
         container = location.getBlock();
         if (!containers().contains(container.getType())) return;
         if (hasLockData(container)) {
-            owner = Bukkit.getPlayer(UUID.fromString(getBlockValue(container,"owner")));
+            owner = UUID.fromString(getBlockValue(container,"owner"));
             purview = getBlockValue(container,"purview");
         }
         else {
-            owner = player;
-            purview = "private";
+            owner = player.getUniqueId();
+            purview = "public";
             save();
         }
     }
+    public Lockor(Location location) {
+        container = location.getBlock();
+        if (!containers().contains(container.getType())) return;
+        if (hasLockData(container)) {
+            owner = UUID.fromString(getBlockValue(container,"owner"));
+            purview = getBlockValue(container,"purview");
+        }
+    }
     public boolean isOwner(Player player) {
-        return player.equals(owner);
+        return player.getUniqueId().equals(owner);
     }
     public void round() {
         purview = purviews.get((purviews.indexOf(purview)+1)%purviews.size());
         save();
     }
     public void save() {
-        setBlockValue(container,"owner",owner.getUniqueId().toString());
+        setBlockValue(container,"owner",owner.toString());
         setBlockValue(container,"purview",purview);
     }
     public void reset() {
@@ -79,6 +88,7 @@ public class Lockor {
         target.setMetadata("owner",new FixedMetadataValue(BasiCore.getPlugin(), player.getUniqueId().toString()));
     }
     public static String getLockPurview(Block target) {
+        if (!target.hasMetadata("purview")) return "none";
         return target.getMetadata("purview").get(0).asString();
     }
     public static void setLockPurview(Block target, String value) {

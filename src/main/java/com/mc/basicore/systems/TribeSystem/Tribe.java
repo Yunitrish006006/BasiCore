@@ -16,14 +16,14 @@ public class Tribe {
     public UUID ID = UUID.fromString(errorID);
     public String name = "Error Unknown";
     public int level = 1;
-    public List<Player> members = new ArrayList<>();
-    public Player owner;
+    public List<UUID> members = new ArrayList<>();
+    public UUID owner;
     public String icon = "GREEN_BANNER";
     public static Tribe create(Player creator) {
         Tribe tribe = new Tribe();
         tribe.ID = UUID.randomUUID();
         tribe.name = ChatSet.query(creator.getUniqueId()).CustomName+"的部落";
-        tribe.owner = creator;
+        tribe.owner = creator.getUniqueId();
         tribe.level = 1;
         tribe.icon = "GREEN_BANNER";
         tribe.members.add(tribe.owner);
@@ -32,36 +32,39 @@ public class Tribe {
     }
     public Tribe() {}
     @SuppressWarnings("ConstantConditions")
+    public Player getOwner() {
+        return Bukkit.getPlayer(owner);
+    }
     public void sendTribeData(Player player) {
         player.sendMessage(ChatColor.GOLD+"TribeName: "+ChatColor.WHITE+name);
         player.sendMessage(ChatColor.GOLD+"ID: "+ChatColor.WHITE+ID);
-        player.sendMessage(ChatColor.GOLD+"owner: "+ChatColor.WHITE+new ChatSet(owner).getName());
+        player.sendMessage(ChatColor.GOLD+"owner: "+ChatColor.WHITE+ChatSet.query(owner));
         player.sendMessage(ChatColor.GOLD+"level: "+ChatColor.WHITE+level);
         player.sendMessage(ChatColor.GOLD+"members: ");
-        for (Player p:members) {
-            player.sendMessage("- "+ChatSet.query(p.getUniqueId()).getName());
+        for (UUID p:members) {
+            player.sendMessage("- "+ChatSet.query(p).getName());
         }
     }
     public void sendTribeData() {
         Bukkit.broadcastMessage(ChatColor.GOLD+"TribeName: "+ChatColor.WHITE+name);
         Bukkit.broadcastMessage(ChatColor.GOLD+"ID: "+ChatColor.WHITE+ID);
-        Bukkit.broadcastMessage(ChatColor.GOLD+"owner: "+ChatColor.WHITE+new ChatSet(owner).getName());
+        Bukkit.broadcastMessage(ChatColor.GOLD+"owner: "+ChatColor.WHITE+ChatSet.query(owner).getName());
         Bukkit.broadcastMessage(ChatColor.GOLD+"level: "+ChatColor.WHITE+level);
         Bukkit.broadcastMessage(ChatColor.GOLD+"members: ");
-        for (Player p:members) {
-            Bukkit.broadcastMessage("- "+ChatSet.query(p.getUniqueId()).getName());
+        for (UUID p:members) {
+            Bukkit.broadcastMessage("- "+ChatSet.query(p).getName());
         }
     }
     public List<String> tribeData() {
         if (owner == null) return Arrays.asList("無法預覽",ChatColor.RED + "部落主目前不在線!");
         List<String> data = new ArrayList<>(Arrays.asList(
                 ChatColor.GOLD + "ID: " + ChatColor.WHITE + ID,
-                ChatColor.GOLD + "owner: " + ChatColor.WHITE + ChatSet.query(owner.getUniqueId()),
+                ChatColor.GOLD + "owner: " + ChatColor.WHITE + ChatSet.query(owner).getName(),
                 ChatColor.GOLD + "level: " + ChatColor.WHITE + level,
                 ChatColor.GOLD + "members: "
         ));
-        for (Player p:members) {
-            if (p!=null) data.add("- "+ChatSet.query(p.getUniqueId()).getName());
+        for (UUID p:members) {
+            data.add("- "+ChatSet.query(p).getName());
         }
         return data;
     }
@@ -82,17 +85,11 @@ public class Tribe {
         tribe.name = config.getString(tribe.ID+".name");
         tribe.level = config.getInt(tribe.ID+".level");
         tribe.icon = config.getString(tribe.ID+".icon");
-        if (Bukkit.getPlayer(UUID.fromString(config.getString(tribe.ID+".owner",errorID))) == null) {
-            tribe.name = "owner not found!";
-            return tribe;
-        }
-        tribe.owner = Bukkit.getPlayer(UUID.fromString(config.getString(tribe.ID+".owner",errorID)));
+        tribe.owner = UUID.fromString(config.getString(tribe.ID+".owner",errorID));
         List<Player> players = new ArrayList<>();
         tribe.members = new ArrayList<>();
         for (String id:config.getStringList(tribe.ID+".members")) {
-            Player player = Bukkit.getPlayer(UUID.fromString(id));
-            if (player==null) player = Bukkit.getPlayerExact(Objects.requireNonNull(Bukkit.getOfflinePlayer(UUID.fromString(id)).getName()));
-            tribe.members.add(player);
+            tribe.members.add(UUID.fromString(id));
 
         }
         return tribe;
@@ -109,21 +106,28 @@ public class Tribe {
     }
     public void apply(Player candidate) {
         String[] reason = {"apply",name};
-        owner.openInventory(new requestPage(candidate,owner,reason).getInventory());
+        Player ownerEntity = Bukkit.getPlayer(owner);
+        if (ownerEntity == null) {
+            candidate.closeInventory();
+            candidate.sendTitle("","族長未上線，請等族長上線後再次申請",4,10,4);
+            return;
+        }
+        ownerEntity.openInventory(new requestPage(candidate,ownerEntity,reason).getInventory());
     }
     public void recruit(Player from, Player target) {
         if (owner == null) {
             from.sendMessage("Wrong tribe name");
             return;
         }
-        if (!owner.equals(from)) return;
+        if (!owner.equals(from.getUniqueId())) return;
         String[] reason = {"recruit",name};
         target.openInventory(new requestPage(from,target,reason).getInventory());
     }
     public void quit(Player player) {
-        if (owner.equals(player)) return;
-        if (!isMember(player)) return;
-        members.remove(player);
+        UUID id = player.getUniqueId();
+        if (owner.equals(id)) return;
+        if (!isMember(id)) return;
+        members.remove(id);
         save();
     }
     public void save() {
@@ -133,16 +137,19 @@ public class Tribe {
         config.set(prefix+".name",name);
         config.set(prefix+".icon",icon);
         config.set(prefix+".level",level);
-        config.set(prefix+".owner",owner.getUniqueId().toString());
+        config.set(prefix+".owner",owner.toString());
         List<String> member_IDs = new ArrayList<>();
-        for (Player p:members) {
-            if (p != null) member_IDs.add(p.getUniqueId().toString());
+        for (UUID p:members) {
+            member_IDs.add(p.toString());
         }
         config.set(prefix+".members",member_IDs);
         Basics.saveFile();
     }
     public boolean isMember(Player player) {
-        return members.contains(player);
+        return members.contains(player.getUniqueId());
+    }
+    public boolean isMember(UUID id) {
+        return members.contains(id);
     }
     public static void init() {
         Objects.requireNonNull(BasiCore.getPlugin().getCommand("tribe")).setExecutor(new TribeCommand());

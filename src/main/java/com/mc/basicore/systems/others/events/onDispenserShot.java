@@ -20,9 +20,9 @@ public class onDispenserShot implements Listener {
     }
     private void DTechMinor(BlockDispenseEvent event) {
         if (!(event.getBlock().getState() instanceof Dispenser)) return;
-        event.setCancelled(true);
         Dispenser dispenser = (Dispenser) event.getBlock().getState();
         if (!itemGroups.tools().contains(event.getItem().getType())) return;
+        event.setCancelled(true);
         ItemStack tool = event.getItem();
         BlockFace facing = ((Directional) dispenser.getLocation().getBlock().getBlockData()).getFacing();
         Location target = dispenser.getLocation().add(facing.getDirection());

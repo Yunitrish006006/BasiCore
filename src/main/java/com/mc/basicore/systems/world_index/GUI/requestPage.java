@@ -73,18 +73,18 @@ public class requestPage implements InventoryHolder {
             case "accept":
                 if (!press.isLeftClick()) break;
                 if (Reason[0].equals("recruit") && !tribe.ID.toString().equals(Tribe.errorID)) {
-                    if (!tribe.members.contains(player)) {
+                    if (!tribe.isMember(player)) {
                         player.sendMessage(ChatColor.GREEN+"你接受了來自"+tribe.name+ChatColor.GREEN+"的部落邀請!");
-                        tribe.members.add(player);
+                        tribe.members.add(player.getUniqueId());
                         tribe.save();
                     }
                     else {
                         player.sendMessage("你已經在該部落中!");
                     }
                 } else if (Reason[0].equals("apply") && !tribe.ID.toString().equals(Tribe.errorID)) {
-                    if (!tribe.members.contains(from)) {
-                        tribe.owner.sendMessage(ChatColor.GREEN+"你批准了來自"+tribe.name+ChatColor.GREEN+"的部落加入申請!");
-                        tribe.members.add(from);
+                    if (!tribe.isMember(from)) {
+                        tribe.getOwner().sendMessage(ChatColor.GREEN+"你批准了來自"+tribe.name+ChatColor.GREEN+"的部落加入申請!");
+                        tribe.members.add(from.getUniqueId());
                         tribe.save();
                     }
                     else {

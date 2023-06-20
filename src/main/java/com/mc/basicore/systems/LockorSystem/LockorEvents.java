@@ -11,6 +11,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.mc.basicore.systems.translate.Translator.translate;
 
 public class LockorEvents implements Listener {
@@ -41,35 +44,50 @@ public class LockorEvents implements Listener {
     }
     @EventHandler
     public void LockTriggered(PlayerInteractEvent event) {
+        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         Block block = event.getClickedBlock();
         Player player = event.getPlayer();
         assert block != null;
+        if (Lockor.getLockPurview(block).equals("none")) return;
         if (Lockor.canNotLock(block)) return;
-        Lockor lockor = new Lockor(block.getLocation(),event.getPlayer());
+        Lockor lockor = new Lockor(block.getLocation());
         if (lockor.owner == null) {
             player.sendMessage("玩家未上線!");
             event.setCancelled(true);
             return;
         }
-        if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         switch (lockor.purview){
             case "private":
                 if (!lockor.isOwner(player)){
-                    player.sendTitle("","此箱子屬於"+ ChatSet.query(lockor.owner.getUniqueId()).getName()+"私人所有",4,6,4);
+                    player.sendTitle("","此箱子屬於"+ ChatSet.query(lockor.owner).getName()+"私人所有",4,6,4);
                     event.setCancelled(true);
                 }
                 return;
             case "tribe":
-                boolean open = true;
+                boolean blockAway = true;
+                List<Tribe> tribes = new ArrayList<>();
                 for (Tribe t:Tribe.List()) {
-                    if (t.members.contains(player) && t.members.contains(lockor.owner)) {
-                        open = false;
-                        break;
+                    if (t.isMember(lockor.owner)) {
+                        tribes.add(t);
                     }
                 }
-                event.setCancelled(open);
+                List<String> names = new ArrayList<>();
+                for (Tribe q:tribes) {
+                    if (q.isMember(player)) {
+                        blockAway = false;
+                    }
+                    names.add(q.name);
+                }
+                if (blockAway) {
+                    player.sendMessage("此箱子屬於部落:");
+                    for (String n:names) {
+                        player.sendMessage(" - "+n);
+                    }
+                }
+                event.setCancelled(blockAway);
                 return;
             case "public":
+                player.sendTitle("","你打開了"+ ChatSet.query(lockor.owner).getName()+"的箱子",4,6,4);
                 return;
             default:
                 Bukkit.broadcastMessage("error for value: "+lockor.purview);
