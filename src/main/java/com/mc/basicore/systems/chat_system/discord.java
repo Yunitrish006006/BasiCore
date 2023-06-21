@@ -16,16 +16,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class discord extends ListenerAdapter {
-    public static String discordToken = "MTEyMDcyNTUyODU2ODEzOTg4OA.G5zYN4.3oVj4UuyH7NTe_TYvBvgSd0wRfGWZ8kTfQycx0";
+    public static String discordToken = Basics.serverSet.getString("discord.token");
 
     public Map<String,ChatSet> playerChatSets = new HashMap<>();
 
     public static List<TextChannel> textChannels = new ArrayList<>();
-//    public static List<String> ids = Arrays.asList(
-//            "1109843035841372253",
-//            "1115265656158421094",
-//            "1120734250761723996"
-//    );
 
     public static void sendToDiscord(String value) {
         for (TextChannel channel:textChannels) {
