@@ -29,3 +29,6 @@ commands:
   reset:
     description: reset
     usage: /<command>
+  head:
+    description: head
+    usage: /<command>

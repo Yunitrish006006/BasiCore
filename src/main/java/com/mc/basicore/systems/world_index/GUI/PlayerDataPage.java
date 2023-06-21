@@ -32,8 +32,9 @@ public class PlayerDataPage implements InventoryHolder {
         chatSet = new ChatSet(player);
         this.inventory = Bukkit.createInventory(this,9*4, translate(player,"GUI.player","GUI.data"));
         this.inventory.setItem(10, customNameSetButton());
-        this.inventory.setItem(12, nameColorSetButton());
-        this.inventory.setItem(14, contentColorSetButton());
+        this.inventory.setItem(12, setDiscordIDButton());
+        this.inventory.setItem(14, nameColorSetButton());
+        this.inventory.setItem(16, contentColorSetButton());
         this.inventory.setItem(27, returnButton(player.getLocale()));
     }
 
@@ -52,6 +53,20 @@ public class PlayerDataPage implements InventoryHolder {
         meta.setDisplayName(translate(player,"GUI.set","GUI.player","GUI.name"));
         meta.setLore(Arrays.asList(
                 translate(player,"GUI.player","GUI.name")+ChatColor.WHITE+": " +chatSet.getName(),
+                translate(player,"GUI.left_click","GUI.set"),
+                translate(player,"GUI.right_click","GUI.reset")
+        ));
+        item.setItemMeta(meta);
+        return item;
+    }
+    public ItemStack setDiscordIDButton() {
+        ItemStack item = new ItemStack(NAME_TAG);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.playerDiscordID");
+        meta.setDisplayName(translate(player,"GUI.set","GUI.player","GUI.discordID"));
+        meta.setLore(Arrays.asList(
+                translate(player,"GUI.player","GUI.discordID")+ChatColor.WHITE+": " +chatSet.discordName,
                 translate(player,"GUI.left_click","GUI.set"),
                 translate(player,"GUI.right_click","GUI.reset")
         ));
@@ -95,13 +110,31 @@ public class PlayerDataPage implements InventoryHolder {
                         event.setCancelled(true);
                         player.closeInventory();
                         player.sendMessage(translate(player,"GUI.input","GUI.player","GUI.name")+": ");
-                        chatSet.CustomName = "";
+                        chatSet.CustomName = "Editing";
                         player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "playerName"));
                         break;
                     case RIGHT:
                         chatSet.resetChat();
                         chatSet.saveChatSet();
                         inventory.setItem(10, customNameSetButton());
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "playerDiscordID":
+                switch (press) {
+                    case LEFT:
+                        event.setCancelled(true);
+                        player.closeInventory();
+                        player.sendMessage(translate(player,"GUI.input","GUI.player","GUI.discordID")+": ");
+                        chatSet.CustomName = "Editing";
+                        player.setMetadata("inputText", new FixedMetadataValue(BasiCore.getPlugin(), "discordID"));
+                        break;
+                    case RIGHT:
+                        chatSet.resetChat();
+                        chatSet.saveChatSet();
+                        inventory.setItem(12, setDiscordIDButton());
                         break;
                     default:
                         break;
@@ -115,7 +148,7 @@ public class PlayerDataPage implements InventoryHolder {
                         chatSet.NameColor = itemGroups.colors().get(index);
                         chatSet.saveChatSet();
                         chatSet.update();
-                        inventory.setItem(12,nameColorSetButton());
+                        inventory.setItem(14,nameColorSetButton());
                         break;
                     case RIGHT:
                         event.setCancelled(true);
@@ -135,7 +168,7 @@ public class PlayerDataPage implements InventoryHolder {
                         chatSet.ContentColor = itemGroups.colors().get(index);
                         chatSet.saveChatSet();
                         chatSet.update();
-                        inventory.setItem(14,contentColorSetButton());
+                        inventory.setItem(16,contentColorSetButton());
                         break;
                     case RIGHT:
                         event.setCancelled(true);

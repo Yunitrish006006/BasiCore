@@ -202,6 +202,15 @@ public class WorldIndex implements Listener {
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 playerDataPage.chatSet.update();
                 break;
+            case "discordID":
+                playerDataPage = new PlayerDataPage(player);
+                old = playerDataPage.chatSet.discordName;
+                playerDataPage.chatSet.discordName = input;
+                playerDataPage.chatSet.saveChatSet();
+                output = old+ChatColor.RESET+translate(player,"quotes.turn_into")+playerDataPage.chatSet.discordName;
+                player.removeMetadata("inputText", BasiCore.getPlugin());
+                playerDataPage.chatSet.update();
+                break;
             case "playerColor":
                 playerDataPage = new PlayerDataPage(player);
                 old = playerDataPage.chatSet.getName();

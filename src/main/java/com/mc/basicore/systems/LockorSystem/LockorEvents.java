@@ -64,6 +64,9 @@ public class LockorEvents implements Listener {
                 }
                 return;
             case "tribe":
+                if (lockor.isOwner(player)) {
+                    return;
+                }
                 boolean blockAway = true;
                 List<Tribe> tribes = new ArrayList<>();
                 for (Tribe t:Tribe.List()) {

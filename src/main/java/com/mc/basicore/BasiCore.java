@@ -9,7 +9,6 @@ import com.mc.basicore.systems.chat_system.*;
 import com.mc.basicore.systems.collector_system.*;
 import com.mc.basicore.systems.mob_system.events.onCreeperExplode;
 import com.mc.basicore.systems.others.commands.*;
-import com.mc.basicore.systems.others.discord.onPlayerChatDiscord;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.systems.others.events.*;
 import com.mc.basicore.systems.others.recipes.furnace_dirt_gravel;
@@ -17,14 +16,18 @@ import com.mc.basicore.systems.teleport_system.*;
 import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
 import com.mc.basicore.systems.translate.Translator;
 import com.mc.basicore.systems.world_index.WorldIndex;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import static com.mc.basicore.systems.others.recipes.gunpowder.burned_gunPowder;
 
 public final class BasiCore extends JavaPlugin {
     private static BasiCore plugin;
     public static String language = "zh_tw";
+    public static JDA jda;
     public static BasiCore getPlugin() {
         return plugin;
     }
@@ -37,13 +40,30 @@ public final class BasiCore extends JavaPlugin {
         /*=====================initialize===================*/
         BasiCore.plugin = this;
         Bukkit.getScheduler().cancelTasks(plugin);
-        worldManager.registerWorld();
+        worldManager.registerNewWorld();
         this.saveDefaultConfig();
         Basics.initFile();
         ChatSet.chatInit();
         Translator.initFile();
         Tribe.init();
         AllEvents.init();
+        /*======================discord bot============================*/
+        try {
+            jda = JDABuilder.createDefault(discord.discordToken,
+                GatewayIntent.GUILD_MESSAGES,
+                GatewayIntent.GUILD_MEMBERS,
+                GatewayIntent.MESSAGE_CONTENT,
+                GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+                GatewayIntent.SCHEDULED_EVENTS
+            )
+            .addEventListeners(new discord())
+            .disableCache(CacheFlag.VOICE_STATE)
+            .build();
+            BasiCore.getPlugin().getLogger().info("Discord bot started successfully!");
+        } catch (Exception e) {
+            BasiCore.getPlugin().getLogger().severe("Failed to start Discord bot!");
+            e.printStackTrace();
+        }
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
@@ -54,6 +74,8 @@ public final class BasiCore extends JavaPlugin {
         getCommand("fly").setExecutor(new fly());
         getCommand("hat").setExecutor(new hat());
         getCommand("laugh").setExecutor(new laugh());
+        getCommand("head").setExecutor(new head());
+        getCommand("head").setTabCompleter(new head());
         collector.init();
         /*============================other little system==============================*/
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
@@ -66,7 +88,6 @@ public final class BasiCore extends JavaPlugin {
         getCommand("chat").setExecutor(new ChatCommand());
         getCommand("chat").setTabCompleter(new ChatTabComplete());
         getServer().getPluginManager().registerEvents(new onPlayerChat(),this);
-        getServer().getPluginManager().registerEvents(new onPlayerChatDiscord(),this);
         getCommand("space").setExecutor(new TeleportCommand());
         getCommand("space").setTabCompleter(new TeleportTabComplete());
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
@@ -78,5 +99,9 @@ public final class BasiCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (jda != null) {
+            jda.shutdown();
+            BasiCore.getPlugin().getLogger().info("Discord bot stopped!");
+        }
     }
 }

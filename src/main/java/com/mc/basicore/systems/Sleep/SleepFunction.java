@@ -1,6 +1,7 @@
 package com.mc.basicore.systems.Sleep;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Statistic;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -33,6 +34,7 @@ public class SleepFunction extends BukkitRunnable {
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getWorld() == world && player.isSleeping()) {
+                player.setStatistic(Statistic.TIME_SINCE_REST,0);
                 sleepingPlayers++;
             }
         }
@@ -44,7 +46,6 @@ public class SleepFunction extends BukkitRunnable {
                 world.setTime(23458);
                 refreshVillagerTrades();
                 Bukkit.broadcastMessage("早安!");
-                Bukkit.broadcastMessage("所有的村民商店已經刷新!");
             }
         } else {
             Bukkit.broadcastMessage("Not enough players sleeping to skip the night.");

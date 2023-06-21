@@ -1,6 +1,6 @@
 package com.mc.basicore.systems.others.commands;
 
-import com.mc.basicore.systems.Diet.Food;
+import com.mc.basicore.Basics;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.systems.translate.Translator;
 import org.bukkit.Bukkit;
@@ -9,9 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -19,7 +17,6 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 
 import static com.mc.basicore.systems.Diet.DietSystem.diet_foods;
-import static com.mc.basicore.systems.Diet.DietSystem.foods;
 
 public class test implements CommandExecutor {
     @Override
@@ -48,7 +45,7 @@ public class test implements CommandExecutor {
                     }
                     case "foods": {
                         for (ItemStack i: diet_foods()) {
-                            player.sendMessage("give "+i.getItemMeta().getLocalizedName()+" to you!");
+                            player.sendMessage("give "+ Basics.getID(i) +" to you!");
                             player.getInventory().addItem(i);
                         }
                     }
