@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.*;
 @SuppressWarnings("ConstantConditions")
 public class SpaceUnit {
-    public static FileConfiguration config = Basics.config;
+    public static FileConfiguration config = Basics.database;
     public Location location = new Location(Bukkit.getWorld("world"),0,100,0);
     public String owner  = "none";
     public UUID playerUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
@@ -77,7 +77,7 @@ public class SpaceUnit {
         if (!section.getKeys(false).contains("Units")) {
             unit.displayName = "[E] Unit section not found";
             config.set(player.getUniqueId()+".Units",null);
-            Basics.saveFile();
+            Basics.saveDatabase();
             return unit;
         }
         section = config.getConfigurationSection(player.getUniqueId()+".Units.");
@@ -112,7 +112,7 @@ public class SpaceUnit {
         if (!section.getKeys(false).contains("Units")) {
             unit.displayName = "[E] Unit section not found";
             config.set(uuid+".Units",null);
-            Basics.saveFile();
+            Basics.saveDatabase();
             return unit;
         }
         section = config.getConfigurationSection(uuid+".Units.");
@@ -152,7 +152,7 @@ public class SpaceUnit {
         config.set(prefix+"Yaw",String.valueOf(location.getYaw()));
         config.set(prefix+"Pitch",String.valueOf(location.getPitch()));
 
-        Basics.saveFile();
+        Basics.saveDatabase();
     }
     public static void deleteUnit(Player player,String name) {
         List<String> uuidList = new ArrayList<>(config.getKeys(false));
@@ -160,14 +160,14 @@ public class SpaceUnit {
             if (config.getConfigurationSection(s + ".Units." + name) != null) {
                 if (player.isOp() || s.equals(player.getUniqueId().toString())) {
                     config.set(s + ".Units." + name, null);
-                    Basics.saveFile();
+                    Basics.saveDatabase();
                 }
             }
         }
     }
     public void deleteUnit() {
         config.set(playerUUID+".Units."+displayName,null);
-        Basics.saveFile();
+        Basics.saveDatabase();
     }
     public static List<String> getUnitList(Player player) {
         String prefix = player.getUniqueId()+".Units";

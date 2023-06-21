@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class Tribe {
-    public static FileConfiguration config = Basics.config;
+    public static FileConfiguration config = Basics.database;
     public static final String errorID = "00000000-0000-0000-0000-000000000000";
     public UUID ID = UUID.fromString(errorID);
     public String name = "Error Unknown";
@@ -143,7 +143,7 @@ public class Tribe {
             member_IDs.add(p.toString());
         }
         config.set(prefix+".members",member_IDs);
-        Basics.saveFile();
+        Basics.saveDatabase();
     }
     public boolean isMember(Player player) {
         return members.contains(player.getUniqueId());

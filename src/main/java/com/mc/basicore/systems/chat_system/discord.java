@@ -1,6 +1,7 @@
 package com.mc.basicore.systems.chat_system;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -15,16 +16,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class discord extends ListenerAdapter {
-    public static String discordToken = "";
+    public static String discordToken = "MTEyMDcyNTUyODU2ODEzOTg4OA.G5zYN4.3oVj4UuyH7NTe_TYvBvgSd0wRfGWZ8kTfQycx0";
 
     public Map<String,ChatSet> playerChatSets = new HashMap<>();
 
     public static List<TextChannel> textChannels = new ArrayList<>();
-    public static List<String> ids = Arrays.asList(
-            "1109843035841372253",
-            "1115265656158421094",
-            "1120734250761723996"
-    );
+//    public static List<String> ids = Arrays.asList(
+//            "1109843035841372253",
+//            "1115265656158421094",
+//            "1120734250761723996"
+//    );
 
     public static void sendToDiscord(String value) {
         for (TextChannel channel:textChannels) {
@@ -42,7 +43,7 @@ public class discord extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        for(String id:ids) {
+        for(String id: Basics.serverSet.getStringList("discord.channels")) {
             TextChannel channel = BasiCore.jda.getTextChannelById(id);
             if (channel != null) textChannels.add(channel);
         }

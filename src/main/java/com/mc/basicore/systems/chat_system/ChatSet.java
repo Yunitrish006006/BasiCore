@@ -13,7 +13,7 @@ import java.util.Locale;
 import java.util.UUID;
 @SuppressWarnings("ConstantConditions")
 public class ChatSet {
-    public static FileConfiguration config = Basics.config;
+    public static FileConfiguration config = Basics.database;
     public ChatColor NameColor = ChatColor.WHITE;
     public ChatColor ContentColor = ChatColor.WHITE;
     public String CustomName = "None";
@@ -79,7 +79,7 @@ public class ChatSet {
         config.set(prefix+"ContentColor",ContentColor.name());
         config.set(prefix+"NameColor",NameColor.name());
         config.set(prefix+"DiscordName",discordName);
-        Basics.saveFile();
+        Basics.saveDatabase();
     }
     public void resetChat() {
         CustomName = Bukkit.getPlayer(playerUUID).getName();

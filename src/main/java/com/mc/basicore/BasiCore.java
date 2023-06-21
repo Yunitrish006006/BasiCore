@@ -42,7 +42,7 @@ public final class BasiCore extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(plugin);
         worldManager.registerNewWorld();
         this.saveDefaultConfig();
-        Basics.initFile();
+        Basics.init();
         ChatSet.chatInit();
         Translator.initFile();
         Tribe.init();

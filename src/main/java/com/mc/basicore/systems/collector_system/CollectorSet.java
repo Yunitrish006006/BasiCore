@@ -14,7 +14,7 @@ public class CollectorSet{
     public static String AXE = "axe";
     public static String HOE = "hoe";
 
-    public static FileConfiguration config = Basics.config;
+    public static FileConfiguration config = Basics.database;
     public Map<String,Boolean> data = new HashMap<String, Boolean>() {{
         put(PICKAXE, false);
         put(SHOVEL, false);
@@ -54,7 +54,7 @@ public class CollectorSet{
         config.set(prefix+SHOVEL,data.get(SHOVEL));
         config.set(prefix+AXE,data.get(AXE));
         config.set(prefix+HOE,data.get(HOE));
-        Basics.saveFile();
+        Basics.saveDatabase();
     }
     public void reset() {
         data = new HashMap<String, Boolean>() {{
