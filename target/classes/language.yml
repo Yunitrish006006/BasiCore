@@ -36,6 +36,7 @@ zh_tw:
     open_index: §d開啟索引
     best_tool_to_explore: §d探索世界的方便工具~
   GUI:
+    discordID: discord ID
     world_index: §6§l世界索引
     right_click: '§7[§f右鍵§7] '
     left_click: '§7[§f左鍵§7] '
