@@ -123,11 +123,11 @@ public class Basics {
                 return meta.getLocalizedName();
             }
             else {
-                return "minecraft."+itemStack.getType();
+                return "minecraft."+itemStack.getType().toString().toLowerCase();
             }
         }
         else {
-            return "minecraft."+itemStack.getType();
+            return "minecraft."+itemStack.getType().toString().toLowerCase();
         }
     }
     public static double getDistance(Location p1,Location p2) {

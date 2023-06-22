@@ -32,3 +32,6 @@ commands:
   head:
     description: head
     usage: /<command>
+  puppet:
+    description: puppet
+    usage: /<command>

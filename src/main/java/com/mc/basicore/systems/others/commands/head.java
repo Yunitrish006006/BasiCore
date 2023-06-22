@@ -36,6 +36,15 @@ public class head implements CommandExecutor, TabCompleter {
         return false;
     }
 
+    public static ItemStack playerHead(Player player) {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        assert headMeta != null;
+        headMeta.setOwningPlayer(player);
+        head.setItemMeta(headMeta);
+        return head;
+    }
+
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {

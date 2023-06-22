@@ -1,5 +1,6 @@
 com\mc\basicore\systems\collector_system\tools\Shovel$1.class
 com\mc\basicore\systems\world_index\GUI\CollectorSetPage.class
+com\mc\basicore\systems\SkillSystem\fireBall.class
 com\mc\basicore\systems\world_index\GUI\UnitSetPage.class
 com\mc\basicore\systems\collector_system\tools\Pickaxe.class
 com\mc\basicore\itemGroups.class
@@ -98,6 +99,7 @@ com\mc\basicore\systems\collector_system\CollectorSet$1.class
 com\mc\basicore\systems\collector_system\tools\Shovel$2.class
 com\mc\basicore\systems\enchant_system\EnchantSystem$1.class
 com\mc\basicore\systems\TribeSystem\Tribe.class
+com\mc\basicore\systems\AutoPuppetSystem\PlacerPuppet.class
 com\mc\basicore\systems\chat_system\ChatSet.class
 com\mc\basicore\systems\LockorSystem\Lockor.class
 com\mc\basicore\systems\Diet\Foods\Cocoa.class

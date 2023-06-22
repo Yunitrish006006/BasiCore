@@ -1,8 +1,10 @@
 package com.mc.basicore;
 
+import com.mc.basicore.systems.AutoPuppetSystem.PlacerPuppet;
 import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
 import com.mc.basicore.systems.LockorSystem.LockorEvents;
+import com.mc.basicore.systems.SkillSystem.fireBall;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.chat_system.*;
@@ -69,6 +71,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
         /*==================register====================*/
         getServer().getPluginManager().registerEvents(new skill_system(),this);
+        getCommand("puppet").setExecutor(new PlacerPuppet());
         getCommand("reset").setExecutor(new reset());
         getCommand("test").setExecutor(new test());
         getCommand("fly").setExecutor(new fly());
@@ -78,6 +81,7 @@ public final class BasiCore extends JavaPlugin {
         getCommand("head").setTabCompleter(new head());
         collector.init();
         /*============================other little system==============================*/
+        getServer().getPluginManager().registerEvents(new fireBall(),this);
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
         getServer().getPluginManager().registerEvents(new onPlayerJoin(),this);
