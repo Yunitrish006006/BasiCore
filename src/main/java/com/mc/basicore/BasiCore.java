@@ -91,7 +91,7 @@ public final class BasiCore extends JavaPlugin {
         burned_gunPowder();
         getCommand("chat").setExecutor(new ChatCommand());
         getCommand("chat").setTabCompleter(new ChatTabComplete());
-        getServer().getPluginManager().registerEvents(new onPlayerChat(),this);
+        getServer().getPluginManager().registerEvents(new ChatEvents(),this);
         getCommand("space").setExecutor(new TeleportCommand());
         getCommand("space").setTabCompleter(new TeleportTabComplete());
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);

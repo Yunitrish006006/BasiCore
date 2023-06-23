@@ -60,7 +60,7 @@ com\mc\basicore\itemGroups$MineData.class
 com\mc\basicore\systems\others\events\AllEvents.class
 com\mc\basicore\systems\Sleep\SleepFunction.class
 com\mc\basicore\itemGroups$15.class
-com\mc\basicore\systems\chat_system\onPlayerChat.class
+com\mc\basicore\systems\chat_system\ChatEvents.class
 com\mc\basicore\systems\collector_system\CollectorSet$2.class
 com\mc\basicore\systems\chat_system\ChatTabComplete.class
 com\mc\basicore\systems\WorldManager\IsleLand\ChunkGenerator.class
@@ -84,6 +84,7 @@ com\mc\basicore\systems\collector_system\tools\Shovel$3.class
 com\mc\basicore\systems\Diet\Foods\BerryJuice.class
 com\mc\basicore\itemGroups$5.class
 com\mc\basicore\systems\Diet\DietSystem.class
+com\mc\basicore\systems\FileSystem\FileSet.class
 com\mc\basicore\systems\WorldManager\onWorldChange.class
 com\mc\basicore\itemGroups$11.class
 com\mc\basicore\itemGroups$21.class

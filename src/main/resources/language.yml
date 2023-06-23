@@ -8,6 +8,8 @@
 zh_tw:
   generic:
     space: '                             '
+  DeathMessage:
+    'was blown up by Creeper': 被苦力怕炸死了
   Lockor:
     private: 私人
     public: 公用
