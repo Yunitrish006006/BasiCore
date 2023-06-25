@@ -22,7 +22,7 @@ public class CollectorSet{
         put(HOE, false);
     }};
     public Player self = null;
-    public UUID ID = Basics.errorID();
+    public UUID ID = Basics.errorID;
     public CollectorSet(){}
     public CollectorSet(Player player) {
         self = player;

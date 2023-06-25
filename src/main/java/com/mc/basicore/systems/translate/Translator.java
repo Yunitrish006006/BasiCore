@@ -11,8 +11,9 @@ public class Translator {
     public static void initFile() {set = new FileSet("language.yml");}
     public static String transPure(String locale, String id) {
         String lc = locale.toLowerCase(Locale.ROOT);
-        String temp = set.data.getString(lc + "." + id);
-        return temp == null ? set.data.getString("en_us." + id)+" ":temp;
+        String localized = set.data.getString(lc + "." + id);
+        String eng = set.data.getString("en_us." + id);
+        return localized == null ? (eng == null ? id : eng+" "):localized;
     }
     public static String translate(Player player, String id) {
         return ChatColor.RESET+String.valueOf(ChatColor.WHITE)+transPure(player.getLocale(),id) +ChatColor.RESET;

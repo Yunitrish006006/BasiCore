@@ -7,7 +7,7 @@ import com.mc.basicore.systems.LockorSystem.LockorEvents;
 import com.mc.basicore.systems.SkillSystem.fireBall;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
-import com.mc.basicore.systems.chat_system.*;
+import com.mc.basicore.systems.ChatSystem.*;
 import com.mc.basicore.systems.collector_system.*;
 import com.mc.basicore.systems.mob_system.events.onCreeperExplode;
 import com.mc.basicore.systems.others.commands.*;
@@ -50,22 +50,7 @@ public final class BasiCore extends JavaPlugin {
         Tribe.init();
         AllEvents.init();
         /*======================discord bot============================*/
-        try {
-            jda = JDABuilder.createDefault(discord.discordToken,
-                GatewayIntent.GUILD_MESSAGES,
-                GatewayIntent.GUILD_MEMBERS,
-                GatewayIntent.MESSAGE_CONTENT,
-                GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
-                GatewayIntent.SCHEDULED_EVENTS
-            )
-            .addEventListeners(new discord())
-            .disableCache(CacheFlag.VOICE_STATE)
-            .build();
-            BasiCore.getPlugin().getLogger().info("Discord bot started successfully!");
-        } catch (Exception e) {
-            BasiCore.getPlugin().getLogger().severe("Failed to start Discord bot!");
-            e.printStackTrace();
-        }
+        discord.launchBot();
         /*==================enchant system register====================*/
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
@@ -103,9 +88,6 @@ public final class BasiCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (jda != null) {
-            jda.shutdown();
-            BasiCore.getPlugin().getLogger().info("Discord bot stopped!");
-        }
+        discord.shutDownBot();
     }
 }

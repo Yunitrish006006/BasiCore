@@ -19,7 +19,7 @@ import static org.bukkit.Material.*;
 
 public class Lockor {
     public static List<String> purviews = Arrays.asList("private","public","tribe");
-    UUID owner = Basics.errorID();
+    UUID owner = Basics.errorID;
     String purview = "private";
     Block container;
     public Lockor(Location location, Player player) {

@@ -1,7 +1,7 @@
 package com.mc.basicore.systems.others.events;
 
 import com.mc.basicore.BasiCore;
-import com.mc.basicore.systems.chat_system.ChatSet;
+import com.mc.basicore.systems.ChatSystem.ChatSet;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -35,7 +35,7 @@ public class FileSet {
 
                     Bukkit.getServer().getConsoleSender().sendMessage("Creating file: " + file.getAbsolutePath());
                 } else {
-                    Bukkit.getServer().getConsoleSender().sendMessage("Failed to find the default language.yml in the jar.");
+                    Bukkit.getServer().getConsoleSender().sendMessage("Failed to find the default file in jar");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

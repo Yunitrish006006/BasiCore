@@ -47,11 +47,6 @@ public class TeleportCommand implements CommandExecutor {
                         unit.toUnit(player);
                         return true;
                     }
-                    case "query": {
-                        SpaceUnit unit = SpaceUnit.query(strings[1],player);
-                        unit.sendUnitData();
-                        return true;
-                    }
                     case "allSpaces": {
                         SpaceUnit unit = new SpaceUnit(strings[1]);
                         unit.toUnit(player);

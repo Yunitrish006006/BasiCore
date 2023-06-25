@@ -8,8 +8,12 @@
 zh_tw:
   generic:
     space: '                             '
+  AwardSystem:
+    getDailyReward: 取得每日獎勵
+  JoinMessage: 進入了伺服器
+  QuitMessage: 離開了伺服器
   DeathMessage:
-    'was blown up by Creeper': 被苦力怕炸死了
+    was blown up by Creeper: 被苦力怕炸死了
   Lockor:
     private: 私人
     public: 公用

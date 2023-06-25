@@ -1,7 +1,7 @@
 package com.mc.basicore.systems.LockorSystem;
 
 import com.mc.basicore.systems.TribeSystem.Tribe;
-import com.mc.basicore.systems.chat_system.ChatSet;
+import com.mc.basicore.systems.ChatSystem.ChatSet;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

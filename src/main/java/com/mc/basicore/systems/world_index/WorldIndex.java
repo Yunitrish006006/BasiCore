@@ -2,6 +2,11 @@ package com.mc.basicore.systems.world_index;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
+import com.mc.basicore.systems.AwardSystem.AwardPage;
+import com.mc.basicore.systems.ChatSystem.Pages.PlayerDataPage;
+import com.mc.basicore.systems.TribeSystem.Pages.TribesListPage;
+import com.mc.basicore.systems.collector_system.CollectorSetPage;
+import com.mc.basicore.systems.teleport_system.Pages.*;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import com.mc.basicore.systems.world_index.GUI.*;
 import org.bukkit.*;
@@ -92,6 +97,15 @@ public class WorldIndex implements Listener {
         item.setItemMeta(meta);
         return item;
     }
+    public static ItemStack AwardPageButton(String language) {
+        ItemStack item = new ItemStack(BELL);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        meta.setLocalizedName("BasiCore.GUI.AwardPage");
+        meta.setDisplayName(translate(language,"GUI.AwardPage"));
+        item.setItemMeta(meta);
+        return item;
+    }
     public static int getPlace(int row, int col) {
         return 9*(row-1)+(col-1);
     }
@@ -101,7 +115,7 @@ public class WorldIndex implements Listener {
         if (!event.hasItem()) return;
         if (!Basics.getID(event.getItem()).equals("BasiCore.WorldIndex")) return;
         if (event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-            player.openInventory(new UnitsPage(player).getInventory());
+            player.openInventory(new UnitsPage(player,"private").getInventory());
         }
     }
     @EventHandler
@@ -114,13 +128,13 @@ public class WorldIndex implements Listener {
         if (!ID[1].equals("GUI")) return;
         InventoryHolder holder = event.getInventory().getHolder();
         ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
-        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","collectorSet","return").contains(ID[2])) {
+        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","collectorSet","AwardPage","return").contains(ID[2])) {
             ClickType press = event.getClick();
             Player player = (Player) event.getWhoClicked();
             switch (ID[2]) {
                 case "return":
                     if (press.isLeftClick()) {
-                        player.openInventory(new UnitsPage(player).getInventory());
+                        player.openInventory(new UnitsPage(player,"private").getInventory());
                     }
                     break;
                 case "playerPage":
@@ -146,6 +160,11 @@ public class WorldIndex implements Listener {
                 case "collectorSet":
                     if (press.isLeftClick()) {
                         player.openInventory(new CollectorSetPage(player).getInventory());
+                    }
+                    break;
+                case "AwardPage":
+                    if (press.isLeftClick()) {
+                        player.openInventory(new AwardPage(player).getInventory());
                     }
                     break;
                 default:
@@ -179,6 +198,9 @@ public class WorldIndex implements Listener {
             }
             else if (holder instanceof CollectorSetPage){
                 ((CollectorSetPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
+            }
+            else if (holder instanceof AwardPage) {
+                ((AwardPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
         }
     }

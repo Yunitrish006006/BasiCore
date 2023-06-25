@@ -26,7 +26,6 @@ import static java.lang.Math.round;
 public class Basics {
     public static void init() {
         initDatabase();
-        initServerSet();
     }
     /*==================================================================*/
     public static File databaseFile;
@@ -61,42 +60,7 @@ public class Basics {
         saveDatabase();
     }
     /*==================================================================*/
-    public static File serverSetFile;
-    public static final String SERVER_SET_YML = "config.yml";
-    public static FileConfiguration serverSet;
-    public static void setUpServerSet() {
-        serverSetFile = new File(BasiCore.getRootFolder(), SERVER_SET_YML);
-        if (!serverSetFile.exists()) {
-            try {
-                if (serverSetFile.createNewFile()) {
-                    Bukkit.getServer().getConsoleSender().sendMessage("creating files: ");
-                    Bukkit.getServer().getConsoleSender().sendMessage(BasiCore.getRootFolder(), SERVER_SET_YML);
-                }
-                else {
-                    Bukkit.getServer().getConsoleSender().sendMessage("initializing files");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        serverSet = YamlConfiguration.loadConfiguration(serverSetFile);
-    }
-    public static void saveServerSet() {
-        try {
-            serverSet.save(serverSetFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void initServerSet() {
-        setUpServerSet();
-        saveServerSet();
-    }
-    /*==================================================================*/
-
-    public static UUID errorID() {
-        return UUID.fromString("00000000-0000-0000-0000-000000000000");
-    }
+    public static UUID errorID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     public static List<String> UUIDS() {
         return new ArrayList<>(database.getKeys(false));
     }

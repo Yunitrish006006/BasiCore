@@ -2,7 +2,8 @@ package com.mc.basicore.systems.TribeSystem;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
-import com.mc.basicore.systems.chat_system.ChatSet;
+import com.mc.basicore.systems.ChatSystem.ChatSet;
+import com.mc.basicore.systems.FileSystem.FileSet;
 import com.mc.basicore.systems.world_index.GUI.requestPage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,7 +12,8 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class Tribe {
-    public static FileConfiguration config = Basics.database;
+    public static FileSet fileSet = new FileSet("tribes.yml");
+    public static FileConfiguration config = fileSet.data;
     public static final String errorID = "00000000-0000-0000-0000-000000000000";
     public UUID ID = UUID.fromString(errorID);
     public String name = "Error Unknown";
@@ -70,15 +72,15 @@ public class Tribe {
     }
     public static Tribe Query(String tribeName) {
         Tribe tribe = new Tribe();
-        tribe.ID = Basics.errorID();
+        tribe.ID = Basics.errorID;
         if (config.getKeys(false).isEmpty()) return tribe;
-        for(String t:Basics.UUIDS()) {
+        for(String t:config.getKeys(false)) {
             if (Objects.equals(config.getString(t + ".type"), "tribe") && tribeName.equalsIgnoreCase(config.getString(t + ".name"))) {
                 tribe.ID = UUID.fromString(t);
                 break;
             }
         }
-        if (tribe.ID == Basics.errorID()) {
+        if (tribe.ID == Basics.errorID) {
             tribe.name = "tribe not found!";
             return tribe;
         }
@@ -97,8 +99,7 @@ public class Tribe {
     public static List<Tribe> List() {
         List<Tribe> tribes = new ArrayList<>();
         int c = 0;
-        for(String t:Basics.UUIDS()) {
-            if (!Objects.equals(config.getString(t + ".type"), "tribe")) continue;
+        for(String t:config.getKeys(false)) {
             Tribe temp = Tribe.Query(config.getString(t+".name"));
             tribes.add(temp);
         }
@@ -143,7 +144,7 @@ public class Tribe {
             member_IDs.add(p.toString());
         }
         config.set(prefix+".members",member_IDs);
-        Basics.saveDatabase();
+        fileSet.save();
     }
     public boolean isMember(Player player) {
         return members.contains(player.getUniqueId());
