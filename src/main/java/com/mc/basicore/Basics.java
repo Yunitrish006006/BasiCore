@@ -75,6 +75,11 @@ public class Basics {
             player.playSound(location,sound,SoundCategory.BLOCKS,1.0f,1.0f);
         }
     }
+    public static void SpawnParticle(Player from,Particle particle,int count,double dx,double dy, double dz, double speed) {
+        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+            player.spawnParticle(Particle.CHERRY_LEAVES, from.getLocation(), count, dx, dy, dz, speed);
+        }
+    }
     public static boolean inBLockTypes(List<Material> blocks, Material target) {
         return blocks.contains(target);
     }

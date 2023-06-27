@@ -38,7 +38,9 @@ public class OnlineStorePage implements InventoryHolder {
         this.player = player;
         this.inventory = Bukkit.createInventory(this,9*6, translate(player,"GUI.online","GUI.store"));
         Basics.getVillagers(player.getWorld()).forEach(
-                villager -> inventory.addItem(VillagerButton(villager))
+                villager -> {
+                    if (villager.hasMetadata("Owner")) inventory.addItem(VillagerButton(villager));
+                }
         );
     }
 

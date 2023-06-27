@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DietSystem{
-    public static Food[] foods = {new BerryJuice(),new Cocoa()};
+    public static Food[] foods = {new BerryJuice(),new Cocoa(),new CherryJuice()};
     public static ItemStack[] diet_foods() {
         List<ItemStack> temp = new ArrayList<>();
         for (Food i:foods) {
