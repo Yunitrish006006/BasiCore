@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.mc.basicore.systems.translate.Translator.translate;
@@ -34,11 +35,10 @@ public class UnitsPage implements InventoryHolder {
     }
     public void setInventory(String filter) {
         this.inventory.setItem(getPlace(1,9),playerPageButton(player.getLocale()));
-        this.inventory.setItem(getPlace(2,9),publicPageButton(player.getLocale()));
+        this.inventory.setItem(getPlace(2,9), AwardPageButton(player.getLocale()));
         this.inventory.setItem(getPlace(3,9),tribeListButton(player.getLocale()));
         this.inventory.setItem(getPlace(4,9),playerDataButton(player.getLocale()));
         this.inventory.setItem(getPlace(5,9),collectorSetButton(player.getLocale()));
-        this.inventory.setItem(getPlace(6,8), AwardPageButton(player.getLocale()));
         this.inventory.setItem(getPlace(6,7), filterChangeButton());
         this.inventory.setItem(getPlace(6,9),addSpaceButton());
         switch (filter) {
@@ -83,8 +83,8 @@ public class UnitsPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.switchUnitFilter");
         meta.setDisplayName(translate(player,"GUI.change","GUI.filter"));
-        meta.setLore(Arrays.asList(
-                "current filter: "+filter
+        meta.setLore(Collections.singletonList(
+                "current filter: " + filter
         ));
         item.setItemMeta(meta);
         return item;

@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import javax.annotation.Nonnull;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -118,10 +117,10 @@ public class UnitSetPage implements InventoryHolder {
                 break;
             }
             case "setPurview": {
+                List<String> purviews = Arrays.asList("private","tribe","public");
                 if (press.isLeftClick()) {
                     unit.deleteUnit();
-                    if (unit.purview.equals("private")) unit.purview = "public";
-                    else unit.purview = "private";
+                    unit.purview = purviews.get((purviews.indexOf(unit.purview)+1)%purviews.size());
                     unit.addUnit();
                     inventory.setItem(14,setPurviewButton());
                 }

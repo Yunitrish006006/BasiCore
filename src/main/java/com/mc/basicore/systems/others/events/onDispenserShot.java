@@ -35,4 +35,34 @@ public class onDispenserShot implements Listener {
             Basics.playSound(target, Sound.BLOCK_STONE_BREAK);
         }
     }
+//    @EventHandler
+//    public void onInventoryClick(InventoryClickEvent event) {
+//        int clickedSlot = event.getRawSlot();
+//        Player player = (Player) event.getWhoClicked();
+//        if (clickedSlot <= player.getInventory().getSize()) {
+//            sortInventory(player.getInventory());
+//        }
+//    }
+//
+//    private void sortInventory(Inventory inventory) {
+//        ItemStack[] contents = inventory.getContents();
+//        Arrays.sort(contents, new ItemStackComparator());
+//        inventory.setContents(contents);
+//    }
+//
+//    private static class ItemStackComparator implements Comparator<ItemStack> {
+//        @Override
+//        public int compare(ItemStack item1, ItemStack item2) {
+//            if (item1 == null && item2 == null) {
+//                return 9;
+//            }
+//            if (item1 == null) {
+//                return 1;
+//            }
+//            if (item2 == null) {
+//                return -1;
+//            }
+//            return item1.getType().compareTo(item2.getType());
+//        }
+//    }
 }

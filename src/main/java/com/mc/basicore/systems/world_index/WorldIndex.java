@@ -61,15 +61,6 @@ public class WorldIndex implements Listener {
         item.setItemMeta(meta);
         return item;
     }
-    public static ItemStack publicPageButton(String language) {
-        ItemStack item = new ItemStack(WRITABLE_BOOK);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.publicPage");
-        meta.setDisplayName(translate(language,"GUI.public","GUI.unit","GUI.list"));
-        item.setItemMeta(meta);
-        return item;
-    }
     public static ItemStack playerDataButton(String language) {
         ItemStack item = new ItemStack(WHITE_BANNER);
         ItemMeta meta = item.getItemMeta();
@@ -142,11 +133,6 @@ public class WorldIndex implements Listener {
                         player.openInventory(new PlayersPage(player).getInventory());
                     }
                     break;
-                case "publicPage":
-                    if (press.isLeftClick()) {
-                        player.openInventory(new PublicPage(player).getInventory());
-                    }
-                    break;
                 case "playerData":
                     if (press.isLeftClick()) {
                         player.openInventory(new PlayerDataPage(player).getInventory());
@@ -174,9 +160,6 @@ public class WorldIndex implements Listener {
         else {
             if (holder instanceof UnitsPage) {
                 ((UnitsPage)holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
-            }
-            else if (holder instanceof PublicPage) {
-                ((PublicPage)holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
             else if (holder instanceof UnitSetPage) {
                 ((UnitSetPage)holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());

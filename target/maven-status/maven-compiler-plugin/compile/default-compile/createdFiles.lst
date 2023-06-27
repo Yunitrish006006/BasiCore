@@ -40,7 +40,6 @@ com\mc\basicore\itemGroups$14.class
 com\mc\basicore\systems\others\commands\test.class
 com\mc\basicore\itemGroups$6.class
 com\mc\basicore\systems\Diet\Food.class
-com\mc\basicore\systems\teleport_system\Pages\PublicPage.class
 com\mc\basicore\systems\AwardSystem\AwardPage.class
 com\mc\basicore\systems\ChatSystem\Pages\PlayerDataPage.class
 com\mc\basicore\systems\collector_system\tools\Shovel$SoilData.class
