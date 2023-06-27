@@ -2,12 +2,14 @@ com\mc\basicore\systems\collector_system\tools\Shovel$1.class
 com\mc\basicore\systems\teleport_system\Pages\UnitSetPage.class
 com\mc\basicore\systems\SkillSystem\fireBall.class
 com\mc\basicore\systems\collector_system\tools\Pickaxe.class
+com\mc\basicore\systems\EconomySystem\VillagerEvents.class
 com\mc\basicore\itemGroups.class
 com\mc\basicore\systems\WorldManager\worldManager.class
 com\mc\basicore\systems\others\commands\fly.class
 com\mc\basicore\systems\WorldManager\IsleLand\TreePopulator.class
 com\mc\basicore\itemGroups$13.class
 com\mc\basicore\itemGroups$19.class
+com\mc\basicore\systems\SkillSystem\coolDownSystem.class
 com\mc\basicore\systems\ChatSystem\ChatSet.class
 com\mc\basicore\systems\teleport_system\TeleportTabComplete.class
 com\mc\basicore\itemGroups$16.class
@@ -40,7 +42,6 @@ com\mc\basicore\itemGroups$14.class
 com\mc\basicore\systems\others\commands\test.class
 com\mc\basicore\itemGroups$6.class
 com\mc\basicore\systems\Diet\Food.class
-com\mc\basicore\systems\AwardSystem\AwardPage.class
 com\mc\basicore\systems\ChatSystem\Pages\PlayerDataPage.class
 com\mc\basicore\systems\collector_system\tools\Shovel$SoilData.class
 com\mc\basicore\systems\LockorSystem\LockorEvents.class
@@ -52,7 +53,9 @@ com\mc\basicore\systems\mob_system\events\onCreeperExplode.class
 com\mc\basicore\systems\mob_system\entities\sword_skeleton.class
 com\mc\basicore\systems\Sleep\sleepEvent.class
 com\mc\basicore\systems\others\recipes\gunpowder.class
+com\mc\basicore\systems\world_index\requestPage.class
 com\mc\basicore\systems\teleport_system\TeleportCommand.class
+com\mc\basicore\systems\EconomySystem\AwardPage.class
 com\mc\basicore\systems\collector_system\onShovelOnGravel.class
 com\mc\basicore\systems\mob_system\events\skeleton_sword.class
 com\mc\basicore\itemGroups$MineData.class
@@ -66,12 +69,11 @@ com\mc\basicore\systems\ChatSystem\ChatTabComplete.class
 com\mc\basicore\systems\collector_system\CollectorSet$2.class
 com\mc\basicore\systems\WorldManager\IsleLand\ChunkGenerator.class
 com\mc\basicore\itemGroups$12.class
-com\mc\basicore\systems\AwardSystem\AwardPage$1.class
 com\mc\basicore\systems\collector_system\VeinToggle.class
-com\mc\basicore\systems\world_index\GUI\requestPage.class
 com\mc\basicore\itemGroups$9.class
 com\mc\basicore\systems\enchant_system\EnchantSystem.class
 com\mc\basicore\systems\Diet\Foods\ApplePie.class
+com\mc\basicore\systems\EconomySystem\OnlineStorePage.class
 com\mc\basicore\systems\others\commands\laugh.class
 com\mc\basicore\systems\translate\Translator.class
 com\mc\basicore\systems\TribeSystem\TribeTabComplete.class

@@ -3,6 +3,7 @@ package com.mc.basicore;
 import com.mc.basicore.systems.AutoPuppetSystem.PlacerPuppet;
 import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
+import com.mc.basicore.systems.EconomySystem.VillagerEvents;
 import com.mc.basicore.systems.LockorSystem.LockorEvents;
 import com.mc.basicore.systems.SkillSystem.fireBall;
 import com.mc.basicore.systems.TribeSystem.Tribe;
@@ -19,9 +20,6 @@ import com.mc.basicore.systems.teleport_system.events.onPlayerDeathOrReborn;
 import com.mc.basicore.systems.translate.Translator;
 import com.mc.basicore.systems.world_index.WorldIndex;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import static com.mc.basicore.systems.others.recipes.gunpowder.burned_gunPowder;
@@ -66,6 +64,7 @@ public final class BasiCore extends JavaPlugin {
         getCommand("head").setTabCompleter(new head());
         collector.init();
         /*============================other little system==============================*/
+        getServer().getPluginManager().registerEvents(new VillagerEvents(),this);
         getServer().getPluginManager().registerEvents(new fireBall(),this);
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);

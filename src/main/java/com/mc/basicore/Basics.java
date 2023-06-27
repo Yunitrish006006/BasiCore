@@ -5,9 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Marker;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -145,6 +143,16 @@ public class Basics {
         skullMeta.setOwningPlayer(Bukkit.getPlayer(playerName));
         skull.setItemMeta(skullMeta);
         return skull;
+    }
+    public static List<Villager> getVillagers(World world) {
+        List<Villager> villagers = new ArrayList<>();
+        for (Entity entity : world.getEntities()) {
+            if (entity.getType() == EntityType.VILLAGER) {
+                Villager villager = (Villager) entity;
+                villagers.add(villager);
+            }
+        }
+        return villagers;
     }
     public static String getRandomName(int length) {
         StringBuilder temp = new StringBuilder();

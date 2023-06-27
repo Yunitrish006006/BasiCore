@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.world_index.GUI;
+package com.mc.basicore.systems.world_index;
 
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import org.bukkit.Bukkit;

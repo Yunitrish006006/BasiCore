@@ -161,6 +161,5 @@ public class UnitsPage implements InventoryHolder {
             default:
                 break;
         }
-        event.setCancelled(true);
     }
 }

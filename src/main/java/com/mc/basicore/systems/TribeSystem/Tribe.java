@@ -4,7 +4,7 @@ import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
 import com.mc.basicore.systems.ChatSystem.ChatSet;
 import com.mc.basicore.systems.FileSystem.FileSet;
-import com.mc.basicore.systems.world_index.GUI.requestPage;
+import com.mc.basicore.systems.world_index.requestPage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;

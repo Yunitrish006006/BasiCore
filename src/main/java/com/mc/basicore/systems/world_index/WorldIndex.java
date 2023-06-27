@@ -2,13 +2,13 @@ package com.mc.basicore.systems.world_index;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
-import com.mc.basicore.systems.AwardSystem.AwardPage;
+import com.mc.basicore.systems.EconomySystem.AwardPage;
 import com.mc.basicore.systems.ChatSystem.Pages.PlayerDataPage;
+import com.mc.basicore.systems.EconomySystem.OnlineStorePage;
 import com.mc.basicore.systems.TribeSystem.Pages.TribesListPage;
 import com.mc.basicore.systems.collector_system.CollectorSetPage;
 import com.mc.basicore.systems.teleport_system.Pages.*;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
-import com.mc.basicore.systems.world_index.GUI.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -117,6 +117,7 @@ public class WorldIndex implements Listener {
         String[] ID = event.getCurrentItem().getItemMeta().getLocalizedName().split("\\.");
         if (ID.length < 3) return;
         if (!ID[1].equals("GUI")) return;
+        event.setCancelled(true);
         InventoryHolder holder = event.getInventory().getHolder();
         ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
         if (Arrays.asList("playerPage","publicPage","playerData","tribeList","collectorSet","AwardPage","return").contains(ID[2])) {
@@ -184,8 +185,11 @@ public class WorldIndex implements Listener {
             }
             else if (holder instanceof AwardPage) {
                 ((AwardPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
+            } else if (holder instanceof OnlineStorePage) {
+                ((OnlineStorePage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
         }
+        event.setCancelled(true);
     }
     @EventHandler
     public void textInput(AsyncPlayerChatEvent event) {
