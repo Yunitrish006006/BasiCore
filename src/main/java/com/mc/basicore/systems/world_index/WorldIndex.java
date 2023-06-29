@@ -185,11 +185,11 @@ public class WorldIndex implements Listener {
             }
             else if (holder instanceof AwardPage) {
                 ((AwardPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
-            } else if (holder instanceof OnlineStorePage) {
+            }
+            else if (holder instanceof OnlineStorePage) {
                 ((OnlineStorePage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
         }
-        event.setCancelled(true);
     }
     @EventHandler
     public void textInput(AsyncPlayerChatEvent event) {
@@ -241,10 +241,10 @@ public class WorldIndex implements Listener {
             case "unitName":
                 unitSetPage = new UnitSetPage((SpaceUnit) player.getMetadata("data").get(0).value());
                 unitSetPage.unit.deleteUnit();
-                old = unitSetPage.unit.displayName;
-                unitSetPage.unit.displayName = input;
-                unitSetPage.unit.addUnit();
-                output = old+translate(player,"quotes.turn_into")+unitSetPage.unit.displayName;
+                old = unitSetPage.unit.unitName;
+                unitSetPage.unit.unitName = input;
+                unitSetPage.unit.saveUnit();
+                output = old+translate(player,"quotes.turn_into")+unitSetPage.unit.unitName;
                 player.removeMetadata("data",BasiCore.getPlugin());
                 player.removeMetadata("inputText", BasiCore.getPlugin());
                 break;

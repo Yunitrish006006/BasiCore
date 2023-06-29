@@ -1,6 +1,7 @@
 package com.mc.basicore.systems.teleport_system;
 
 import com.mc.basicore.BasiCore;
+import com.mc.basicore.Basics;
 import com.mc.basicore.systems.ChatSystem.ChatSet;
 import com.mc.basicore.systems.FileSystem.FileSet;
 import org.bukkit.*;
@@ -9,63 +10,52 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 @SuppressWarnings("ConstantConditions")
 public class SpaceUnit {
-    public static FileSet fileSet = new FileSet("Units.yml");
+    public static FileSet fileSet = new FileSet("Unit.yml");
     public Location location = new Location(Bukkit.getWorld("world"),0,100,0);
-    public UUID playerUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
-    public String displayName = "Error Unknown";
-    public boolean gravity = true;
+    public UUID ownerUUID = Basics.errorID;
+    public UUID unitUUID = Basics.errorID;
+    public String unitName = "Unknown Error";
+    public boolean gravity = false;
     public String purview = "private";
     public int time = 3;
-    public String icon = "stone";
+    public String unitIcon = "barrier";
 
-    public SpaceUnit(String name) {
-        List<String> uuidList = SpaceUnit.getUnitList();
-        if(getUnitList().contains(name)) {
-            for (String s : uuidList) {
-                if (fileSet.data.getConfigurationSection(s + "." + name) != null) {
-                    ConfigurationSection data = fileSet.data.getConfigurationSection(s + "." + name);
-                    location = new Location(
-                            Bukkit.getWorld(data.getString(".World")),
-                            data.getDouble(".X"),
-                            data.getDouble(".Y"),
-                            data.getDouble(".Z"),
-                            Float.parseFloat(data.getString(".Yaw")),
-                            Float.parseFloat(data.getString(".Pitch"))
-                    );
-                    displayName = name;
-                    gravity = data.getBoolean(".gravity");
-                    purview = data.getString(".purview");
-                    time = data.getInt(".time");
-                    icon = data.getString(".icon");
-                }
-            }
-        }
-        else {
-            StringBuilder x = new StringBuilder();
-            for(int i=0;i<4;i++) {
-                x.append((char) ('a' + (Math.random() * 26)));
-            }
-            displayName = "not found#" + x;
-        }
-    }
-    public SpaceUnit() {}
     public static SpaceUnit create(String name, Player player) {
-        ConfigurationSection section = fileSet.data.getConfigurationSection(name);
         SpaceUnit unit = new SpaceUnit();
-        unit.displayName = name;
+        unit.unitUUID = UUID.randomUUID();
+        unit.unitName = name;
         unit.location = player.getLocation();
-        unit.playerUUID = player.getUniqueId();
-        unit.icon = "grass_block";
-        unit.time = 3;
-        unit.addUnit();
+        unit.ownerUUID = player.getUniqueId();
+        unit.unitIcon = "grass_block";
+        unit.purview = "private";
+        unit.saveUnit();
         return unit;
     }
-    public static SpaceUnit query(String name, Player player) {
+    public static SpaceUnit queryFromName(String name, Player player) {
+        List<SpaceUnit> units = getPrivateUnits(player);
+        units.removeIf(u -> !u.unitName.equals(name));
+        if (units.isEmpty()) return new SpaceUnit();
+        else return units.get(0);
+    }
+    public static SpaceUnit queryIDAsPlayer(String id, Player player) {
         SpaceUnit unit = new SpaceUnit();
-        if (!fileSet.data.contains(name)) return unit;
-        ConfigurationSection section = fileSet.data.getConfigurationSection(name);
+        if (!fileSet.data.getKeys(false).contains(id)) {
+            unit.unitName = "unit ID not found!";
+            return unit;
+        }
+        ConfigurationSection section = fileSet.data.getConfigurationSection(id);
+        if (!UUID.fromString(section.getString(".ownerUUID")).equals(player.getUniqueId())) return unit;
+        unit.unitUUID = UUID.fromString(id);
+        unit.unitName = section.getString(".unitName");
+        unit.purview = section.getString(".purview");
+        unit.ownerUUID = UUID.fromString(section.getString(".ownerUUID"));
+        unit.unitIcon = section.getString(".unitIcon");
+        unit.time = Integer.parseInt(section.getString(".time"));
+        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
         unit.location = new Location(
                 Bukkit.getWorld(section.getString(".World")),
                 Double.parseDouble(section.getString(".X")),
@@ -74,23 +64,17 @@ public class SpaceUnit {
                 Float.parseFloat(section.getString(".Yaw")),
                 Float.parseFloat(section.getString(".Pitch"))
         );
-        unit.displayName = name;
-        unit.playerUUID = UUID.fromString(section.getString(".UUID"));
-        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
-        unit.purview = section.getString(".purview");
-        unit.time = Integer.parseInt(section.getString(".time"));
-        unit.icon = section.getString(".icon");
         return unit;
     }
-    public static SpaceUnit query(String name, String uuid) {
+    public static SpaceUnit queryAsUUID(String name, String uuid) {
         SpaceUnit unit = new SpaceUnit();
         if (!fileSet.data.getKeys(false).contains(uuid)) {
-            unit.displayName = "[E] uuid not found";
+            unit.unitName = "[E] uuid not found";
             return unit;
         }
         ConfigurationSection section = fileSet.data.getConfigurationSection(uuid);
         if (!section.getKeys(false).contains(name)) {
-            unit.displayName = "[E] space name not found";
+            unit.unitName = "[E] space name not found";
             return unit;
         }
         section = fileSet.data.getConfigurationSection(uuid+"."+name);
@@ -102,17 +86,24 @@ public class SpaceUnit {
                 Float.parseFloat(section.getString(".Yaw")),
                 Float.parseFloat(section.getString(".Pitch"))
         );
-        unit.displayName = name;
+        unit.unitName = name;
         unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
         unit.purview = section.getString(".purview");
         unit.time = Integer.parseInt(section.getString(".time"));
-        unit.icon = section.getString(".icon");
+        unit.unitIcon = section.getString(".icon");
         return unit;
     }
-    public static SpaceUnit query(String name) {
+    public static SpaceUnit queryIDAsSystem(String id) {
         SpaceUnit unit = new SpaceUnit();
-        if (!fileSet.data.contains(name)) return unit;
-        ConfigurationSection section = fileSet.data.getConfigurationSection(name);
+        if (!fileSet.data.contains(id)) return unit;
+        ConfigurationSection section = fileSet.data.getConfigurationSection(id);
+        unit.unitUUID = UUID.fromString(id);
+        unit.unitName = section.getString(".unitName");
+        unit.purview = section.getString(".purview");
+        unit.ownerUUID = UUID.fromString(section.getString(".ownerUUID"));
+        unit.unitIcon = section.getString(".unitIcon");
+        unit.time = Integer.parseInt(section.getString(".time"));
+        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
         unit.location = new Location(
                 Bukkit.getWorld(section.getString(".World")),
                 Double.parseDouble(section.getString(".X")),
@@ -121,19 +112,14 @@ public class SpaceUnit {
                 Float.parseFloat(section.getString(".Yaw")),
                 Float.parseFloat(section.getString(".Pitch"))
         );
-        unit.displayName = name;
-        unit.playerUUID = UUID.fromString(section.getString(".UUID"));
-        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
-        unit.purview = section.getString(".purview");
-        unit.time = Integer.parseInt(section.getString(".time"));
-        unit.icon = section.getString(".icon");
         return unit;
     }
-    public void addUnit() {
-        String prefix = displayName+".";
+    public void saveUnit() {
+        String prefix = unitUUID+".";
+        fileSet.data.set(prefix+"unitName", unitName);
         fileSet.data.set(prefix+"purview",purview);
-        fileSet.data.set(prefix+"UUID",playerUUID.toString());
-        fileSet.data.set(prefix+"icon",icon);
+        fileSet.data.set(prefix+"ownerUUID", ownerUUID.toString());
+        fileSet.data.set(prefix+"unitIcon", unitIcon);
         fileSet.data.set(prefix+"time", String.valueOf(time));
         fileSet.data.set(prefix+"gravity",String.valueOf(gravity));
         fileSet.data.set(prefix+"World",location.getWorld().getName());
@@ -144,48 +130,53 @@ public class SpaceUnit {
         fileSet.data.set(prefix+"Pitch",String.valueOf(location.getPitch()));
         fileSet.save();
     }
-    public static void deleteUnit(Player player,String name) {
-        if (player.isOp() || fileSet.data.getKeys(false).contains(name)) {
-            fileSet.data.set(name, null);
+    public static void deleteUnit(Player player,String id) {
+        if (fileSet.data.getKeys(false).contains(id)) {
+            fileSet.data.set(id, null);
             fileSet.save();
         }
     }
     public void deleteUnit() {
-        fileSet.data.set(displayName,null);
+        fileSet.data.set(unitName,null);
         fileSet.save();
     }
-    public static List<String> getUnitList(Player player) {
-        List<String> list = new ArrayList<>(fileSet.data.getKeys(false));
-        list.removeIf(n-> (!query(n).playerUUID.equals(player.getUniqueId())));
-        return list;
+    public static List<SpaceUnit> getPrivateUnits(Player player) {
+        List<SpaceUnit> unitList = new ArrayList<>();
+        fileSet.data.getKeys(false).forEach(id -> {
+            if (!fileSet.data.getConfigurationSection(id).getKeys(false).contains("ownerUUID")) return;
+            if (!UUID.fromString(fileSet.data.getString(id+".ownerUUID")).equals(player.getUniqueId())) return;
+            unitList.add(queryIDAsPlayer(id,player));
+        });
+        return unitList;
     }
-    public static List<String> getUnitList() {
-        return new ArrayList<>(fileSet.data.getKeys(false));
+    public static List<String> getPrivateUnitsNames(Player player) {
+        return getPrivateUnits(player).stream().map(unit -> unit.unitName).collect(Collectors.toList());
+    }
+    public static List<String> getUnitListNames() {
+        return getPrivateUnits().stream().map(unit -> unit.unitName).collect(Collectors.toList());
+    }
+    public static List<SpaceUnit> getPrivateUnits() {
+        List<SpaceUnit> result = new ArrayList<>();
+        fileSet.data.getKeys(false).forEach(id -> result.add(queryIDAsSystem(fileSet.data.getString(id))));
+        return result;
     }
     public static List<SpaceUnit> getPublicUnits() {
-        List<SpaceUnit> publicUnits = new ArrayList<>();
-        List<String> list = new ArrayList<>(fileSet.data.getKeys(false));
-        list.removeIf(n-> (!query(n).purview.equals("public")));
-        list.forEach(n -> publicUnits.add(query(n)));
-        return publicUnits;
-    }
-    public static List<SpaceUnit> getTribeUnits() {
-        List<SpaceUnit> tribeUnits = new ArrayList<>();
-        List<String> list = new ArrayList<>(fileSet.data.getKeys(false));
-        list.removeIf(n-> (!query(n).purview.equals("tribe")));
-        list.forEach(n -> tribeUnits.add(query(n)));
-        return tribeUnits;
+        List<SpaceUnit> result = new ArrayList<>();
+        fileSet.data.getKeys(false).forEach(id -> {
+            if (queryIDAsSystem(id).purview.equals("public")) result.add(queryIDAsSystem(id));
+        });
+        return result;
     }
     /*=================================teleport================================================*/
     public void toUnit(Player player) {
-        if (playerUUID.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) return;
+        if (ownerUUID.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) return;
         switch (purview) {
             case "private": {
-                if(player.getUniqueId().equals(playerUUID) || player.isOp()) {
+                if(player.getUniqueId().equals(ownerUUID) || player.isOp()) {
                     player.teleport(location);
                 }
                 else {
-                    player.sendMessage(ChatColor.RED + "Private space [ "+displayName+" ] belongs to [ "+ ChatSet.query(playerUUID) +" ]");
+                    player.sendMessage(ChatColor.RED + "Private space [ "+ unitName +" ] belongs to [ "+ ChatSet.query(ownerUUID) +" ]");
                 }
                 return;
             }

@@ -40,8 +40,8 @@ public class IconsPage implements InventoryHolder {
 
     public void setIcon(String material) {
         spaceUnit.deleteUnit();
-        spaceUnit.icon = material;
-        spaceUnit.addUnit();
+        spaceUnit.unitIcon = material;
+        spaceUnit.saveUnit();
     }
 
     @Override @Nonnull

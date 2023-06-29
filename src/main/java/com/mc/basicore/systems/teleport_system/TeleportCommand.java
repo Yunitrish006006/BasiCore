@@ -35,7 +35,7 @@ public class TeleportCommand implements CommandExecutor {
                 switch (strings[0]) {
                     case "add": {
                         SpaceUnit unit = SpaceUnit.create(strings[1],player);
-                        unit.addUnit();
+                        unit.saveUnit();
                         return true;
                     }
                     case "delete": {
@@ -43,12 +43,12 @@ public class TeleportCommand implements CommandExecutor {
                         return true;
                     }
                     case "own": {
-                        SpaceUnit unit = SpaceUnit.query(strings[1],player);
+                        SpaceUnit unit = SpaceUnit.queryFromName(strings[1],player);
                         unit.toUnit(player);
                         return true;
                     }
                     case "allSpaces": {
-                        SpaceUnit unit = new SpaceUnit(strings[1]);
+                        SpaceUnit unit = SpaceUnit.queryIDAsSystem(strings[1]);
                         unit.toUnit(player);
                         return true;
                     }
@@ -66,17 +66,17 @@ public class TeleportCommand implements CommandExecutor {
             }
             case 3: {
                 if (strings[0].equals("rename")) {
-                    SpaceUnit unit = SpaceUnit.query(strings[1], player);
+                    SpaceUnit unit = SpaceUnit.queryFromName(strings[1], player);
                     unit.deleteUnit();
-                    unit.displayName = strings[2];
-                    unit.addUnit();
+                    unit.unitName = strings[2];
+                    unit.saveUnit();
                     return true;
                 }
                 else if (strings[0].equals("set_icon")) {
-                    SpaceUnit unit = SpaceUnit.query(strings[1], player);
+                    SpaceUnit unit = SpaceUnit.queryFromName(strings[1], player);
                     unit.deleteUnit();
-                    unit.icon = strings[2];
-                    unit.addUnit();
+                    unit.unitIcon = strings[2];
+                    unit.saveUnit();
                     return true;
                 }
                 return true;

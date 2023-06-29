@@ -1,5 +1,6 @@
 package com.mc.basicore.systems.world_index;
 
+import com.mc.basicore.Basics;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -72,7 +73,7 @@ public class requestPage implements InventoryHolder {
         switch (ID) {
             case "accept":
                 if (!press.isLeftClick()) break;
-                if (Reason[0].equals("recruit") && !tribe.ID.toString().equals(Tribe.errorID)) {
+                if (Reason[0].equals("recruit") && !tribe.ID.equals(Basics.errorID)) {
                     if (!tribe.isMember(player)) {
                         player.sendMessage(ChatColor.GREEN+"你接受了來自"+tribe.name+ChatColor.GREEN+"的部落邀請!");
                         tribe.members.add(player.getUniqueId());
@@ -81,7 +82,7 @@ public class requestPage implements InventoryHolder {
                     else {
                         player.sendMessage("你已經在該部落中!");
                     }
-                } else if (Reason[0].equals("apply") && !tribe.ID.toString().equals(Tribe.errorID)) {
+                } else if (Reason[0].equals("apply") && !tribe.ID.equals(Basics.errorID)) {
                     if (!tribe.isMember(from)) {
                         tribe.getOwner().sendMessage(ChatColor.GREEN+"你批准了來自"+tribe.name+ChatColor.GREEN+"的部落加入申請!");
                         tribe.members.add(from.getUniqueId());

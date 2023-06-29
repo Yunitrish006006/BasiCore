@@ -14,8 +14,7 @@ import java.util.*;
 public class Tribe {
     public static FileSet fileSet = new FileSet("tribes.yml");
     public static FileConfiguration config = fileSet.data;
-    public static final String errorID = "00000000-0000-0000-0000-000000000000";
-    public UUID ID = UUID.fromString(errorID);
+    public UUID ID = Basics.errorID;
     public String name = "Error Unknown";
     public int level = 1;
     public List<UUID> members = new ArrayList<>();
@@ -72,7 +71,6 @@ public class Tribe {
     }
     public static Tribe Query(String tribeName) {
         Tribe tribe = new Tribe();
-        tribe.ID = Basics.errorID;
         if (config.getKeys(false).isEmpty()) return tribe;
         for(String t:config.getKeys(false)) {
             if (Objects.equals(config.getString(t + ".type"), "tribe") && tribeName.equalsIgnoreCase(config.getString(t + ".name"))) {
@@ -87,13 +85,22 @@ public class Tribe {
         tribe.name = config.getString(tribe.ID+".name");
         tribe.level = config.getInt(tribe.ID+".level");
         tribe.icon = config.getString(tribe.ID+".icon");
-        tribe.owner = UUID.fromString(config.getString(tribe.ID+".owner",errorID));
-        List<Player> players = new ArrayList<>();
+        tribe.owner = UUID.fromString(config.getString(tribe.ID+".owner",Basics.errorID.toString()));
         tribe.members = new ArrayList<>();
         for (String id:config.getStringList(tribe.ID+".members")) {
             tribe.members.add(UUID.fromString(id));
 
         }
+        return tribe;
+    }
+    public static Tribe QueryID(String id) {
+        Tribe tribe = new Tribe();
+        if (!config.getKeys(false).contains(id)) return tribe;
+        tribe.name = config.getString(id+".name");
+        tribe.level = config.getInt(id+".level");
+        tribe.icon = config.getString(id+".icon");
+        tribe.owner = UUID.fromString(config.getString(tribe.ID+".owner",Basics.errorID.toString()));
+        config.getStringList(id+".members").forEach(member -> tribe.members.add(UUID.fromString(member)));
         return tribe;
     }
     public static List<Tribe> List() {
@@ -145,6 +152,15 @@ public class Tribe {
         }
         config.set(prefix+".members",member_IDs);
         fileSet.save();
+    }
+    public static List<Tribe> getTribeList(Player player) {
+        List<Tribe> tribes = new ArrayList<>();
+        config.getKeys(false).forEach(id -> {
+            Tribe temp = QueryID(id);
+            if (temp.members.contains(player.getUniqueId())) tribes.add(QueryID(id));
+        });
+        if (tribes.isEmpty()) player.sendMessage("EMPTY!!");
+        return tribes;
     }
     public boolean isMember(Player player) {
         return members.contains(player.getUniqueId());

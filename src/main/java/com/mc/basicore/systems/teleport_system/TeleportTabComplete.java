@@ -45,17 +45,17 @@ public class TeleportTabComplete implements TabCompleter {
                     }
                     case "delete": {
                         if (player.isOp()) {
-                            return SpaceUnit.getUnitList();
+                            return SpaceUnit.getUnitListNames();
                         }
                         else {
-                            return SpaceUnit.getUnitList(player);
+                            return SpaceUnit.getPrivateUnitsNames(player);
                         }
                     }
                     case "query":
                     case "own":
                     case "set_icon":
                     case "rename": {
-                        return SpaceUnit.getUnitList(player);
+                        return SpaceUnit.getPrivateUnitsNames(player);
                     }
                     case "player": {
                         return Basics.getPlayerList();
@@ -63,12 +63,12 @@ public class TeleportTabComplete implements TabCompleter {
                     case "group":
                     case "public": {
                         for (SpaceUnit unit: SpaceUnit.getPublicUnits()) {
-                            options.add(unit.displayName);
+                            options.add(unit.unitName);
                         }
                         return options;
                     }
                     case "allSpaces": {
-                        if(player.isOp()) options = SpaceUnit.getUnitList();
+                        if(player.isOp()) options = SpaceUnit.getUnitListNames();
                         return options;
                     }
                 }

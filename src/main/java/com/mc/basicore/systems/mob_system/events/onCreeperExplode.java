@@ -1,11 +1,9 @@
 package com.mc.basicore.systems.mob_system.events;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,6 +18,7 @@ import java.util.Objects;
 public class onCreeperExplode implements Listener {
     @EventHandler
     public void explode(EntityExplodeEvent event) {
+        if (!event.getEntity().getType().equals(EntityType.CREEPER)) return;
         event.setCancelled(true);
     }
     void explodeOld(Location location,double range) {

@@ -45,13 +45,12 @@ public class CherryJuice extends Food implements Listener {
         if (!event.getItem().hasItemMeta()) return;
         if (!Basics.getID(event.getItem()).equals("BasiCore.CherryJuice")) return;
         event.getPlayer().setMetadata("CherryJuice",new FixedMetadataValue(BasiCore.getPlugin(),true));
-        Basics.later(20*3*60,() -> {
-            event.getPlayer().removeMetadata("CherryJuice",BasiCore.getPlugin());
-        });
+        Basics.later(20*3*60,() -> event.getPlayer().removeMetadata("CherryJuice",BasiCore.getPlugin()));
         event.setCancelled(false);
     }
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
+        if (!event.getPlayer().hasMetadata("CherryJuice")) return;
         if (!event.getPlayer().getMetadata("CherryJuice").get(0).asBoolean()) return;
         Basics.SpawnParticle(event.getPlayer(),Particle.CHERRY_LEAVES,30,0.2,0.2,0.2,0.2);
     }

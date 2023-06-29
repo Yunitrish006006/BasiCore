@@ -11,12 +11,12 @@ com\mc\basicore\itemGroups$13.class
 com\mc\basicore\itemGroups$19.class
 com\mc\basicore\systems\SkillSystem\coolDownSystem.class
 com\mc\basicore\systems\ChatSystem\ChatSet.class
+com\mc\basicore\systems\collector_system\onDispenserShot.class
 com\mc\basicore\systems\teleport_system\TeleportTabComplete.class
 com\mc\basicore\itemGroups$16.class
 com\mc\basicore\itemGroups$8.class
 com\mc\basicore\itemGroups$3.class
 com\mc\basicore\itemGroups$20.class
-com\mc\basicore\systems\others\events\onDispenserShot.class
 com\mc\basicore\systems\others\events\onPlayerRide.class
 com\mc\basicore\itemGroups$TreeStructure.class
 com\mc\basicore\systems\collector_system\collector.class
@@ -44,6 +44,7 @@ com\mc\basicore\itemGroups$6.class
 com\mc\basicore\systems\Diet\Food.class
 com\mc\basicore\systems\ChatSystem\Pages\PlayerDataPage.class
 com\mc\basicore\systems\collector_system\tools\Shovel$SoilData.class
+com\mc\basicore\systems\Diet\Foods\CherryJuice.class
 com\mc\basicore\systems\LockorSystem\LockorEvents.class
 com\mc\basicore\itemGroups$1.class
 com\mc\basicore\systems\teleport_system\Pages\PlayersPage.class
@@ -64,7 +65,6 @@ com\mc\basicore\systems\others\events\AllEvents.class
 com\mc\basicore\systems\Sleep\SleepFunction.class
 com\mc\basicore\itemGroups$15.class
 com\mc\basicore\systems\ChatSystem\discord.class
-com\mc\basicore\systems\teleport_system\Pages\UnitsPage$1.class
 com\mc\basicore\systems\ChatSystem\ChatTabComplete.class
 com\mc\basicore\systems\collector_system\CollectorSet$2.class
 com\mc\basicore\systems\WorldManager\IsleLand\ChunkGenerator.class

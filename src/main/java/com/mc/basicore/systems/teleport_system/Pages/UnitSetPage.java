@@ -2,6 +2,7 @@ package com.mc.basicore.systems.teleport_system.Pages;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
+import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +36,7 @@ public class UnitSetPage implements InventoryHolder {
 
     public UnitSetPage(SpaceUnit u) {
         unit = u;
-        owner = Bukkit.getPlayer(unit.playerUUID);
+        owner = Bukkit.getPlayer(unit.ownerUUID);
         this.inventory = Bukkit.createInventory(this,9*3, translate(owner,"GUI.unit","GUI.set"));
         this.inventory.setItem(10,setNameButton());
         this.inventory.setItem(12,setIconButton());
@@ -45,8 +47,8 @@ public class UnitSetPage implements InventoryHolder {
     }
     void setIcon(String material) {
         unit.deleteUnit();
-        unit.icon = material;
-        unit.addUnit();
+        unit.unitIcon = material;
+        unit.saveUnit();
     }
     @Override @Nonnull
     public Inventory getInventory() {
@@ -58,7 +60,9 @@ public class UnitSetPage implements InventoryHolder {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.setPurview");
         meta.setDisplayName(translate(owner,"GUI.set","GUI.purview"));
-        meta.setLore(Collections.singletonList(translate(owner, "GUI.dot", "GUI." + unit.purview)));
+        String p = unit.purview;
+        if (Arrays.asList("private","all","public").contains(unit.purview)) p = "GUI." + unit.purview;
+        meta.setLore(Collections.singletonList(translate(owner, "GUI.dot", p)));
         item.setItemMeta(meta);
         return item;
     }
@@ -69,7 +73,7 @@ public class UnitSetPage implements InventoryHolder {
         meta.setLocalizedName("BasiCore.GUI.setIcon");
         meta.setDisplayName(translate(owner,"GUI.set","GUI.icon"));
         meta.setLore(Arrays.asList(
-                translate(owner,"GUI.dot")+ChatColor.GOLD+unit.icon,
+                translate(owner,"GUI.dot")+ChatColor.GOLD+unit.unitIcon,
                 translate(owner,"GUI.left_click","GUI.round","GUI.icon"),
                 translate(owner,"GUI.right_click","GUI.enter","GUI.icon","GUI.interface")
                 ));
@@ -99,7 +103,7 @@ public class UnitSetPage implements InventoryHolder {
         switch (ID) {
             case "deleteUnit": {
                 if (press.isLeftClick()) {
-                    SpaceUnit.deleteUnit(player, unit.displayName);
+                    SpaceUnit.deleteUnit(player, unit.unitUUID.toString());
                     player.closeInventory();
                     player.openInventory(new UnitsPage(player,"private").getInventory());
                 }
@@ -117,11 +121,12 @@ public class UnitSetPage implements InventoryHolder {
                 break;
             }
             case "setPurview": {
-                List<String> purviews = Arrays.asList("private","tribe","public");
+                List<String> purviews = new ArrayList<>(Arrays.asList("private", "public"));
+                Tribe.getTribeList(player).forEach(tribe -> purviews.add(tribe.name));
                 if (press.isLeftClick()) {
                     unit.deleteUnit();
                     unit.purview = purviews.get((purviews.indexOf(unit.purview)+1)%purviews.size());
-                    unit.addUnit();
+                    unit.saveUnit();
                     inventory.setItem(14,setPurviewButton());
                 }
                 break;
@@ -129,12 +134,12 @@ public class UnitSetPage implements InventoryHolder {
             case "setIcon": {
                 if (press.isLeftClick()) {
                     unit.deleteUnit();
-                    int next = (recommendIcons().indexOf(Basics.getMaterialFromName(unit.icon)) + 1) % 6;
-                    unit.icon = recommendIcons().get(next).toString();
-                    unit.addUnit();
+                    int next = (recommendIcons().indexOf(Basics.getMaterialFromName(unit.unitIcon)) + 1) % 6;
+                    unit.unitIcon = recommendIcons().get(next).toString();
+                    unit.saveUnit();
                     inventory.setItem(12, setIconButton());
                 } else if (press.isRightClick()) {
-                    player.openInventory(new IconsPage(player, SpaceUnit.query(unit.displayName, player)).getInventory());
+                    player.openInventory(new IconsPage(player, SpaceUnit.queryFromName(unit.unitName, player)).getInventory());
                 }
                 break;
             }

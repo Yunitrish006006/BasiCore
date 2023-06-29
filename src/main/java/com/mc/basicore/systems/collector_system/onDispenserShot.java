@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.others.events;
+package com.mc.basicore.systems.collector_system;
 
 import com.mc.basicore.Basics;
 import com.mc.basicore.itemGroups;
@@ -17,6 +17,21 @@ public class onDispenserShot implements Listener {
     @EventHandler
     public void onShot(BlockDispenseEvent event) {
         DTechMinor(event);
+        DTechPlacer(event);
+    }
+    private void DTechPlacer(BlockDispenseEvent event) {
+        if (!(event.getBlock().getState() instanceof Dispenser)) return;
+        Dispenser dispenser = (Dispenser) event.getBlock().getState();
+        if (!event.getItem().getType().equals(Material.OAK_SAPLING)) return;
+        event.setCancelled(true);
+        BlockFace facing = ((Directional) dispenser.getLocation().getBlock().getBlockData()).getFacing();
+        Location target = dispenser.getLocation().add(facing.getDirection());
+        if (target.getBlock().getType().equals(Material.AIR)) {
+            target.getBlock().setType(Material.OAK_SAPLING);
+            for (ItemStack item:dispenser.getInventory().getStorageContents()) {
+                if (item.getType().equals(Material.OAK_SAPLING)) item.setAmount(item.getAmount()-1);
+            }
+        }
     }
     private void DTechMinor(BlockDispenseEvent event) {
         if (!(event.getBlock().getState() instanceof Dispenser)) return;
