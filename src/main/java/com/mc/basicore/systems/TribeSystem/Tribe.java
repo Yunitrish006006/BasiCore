@@ -18,7 +18,7 @@ public class Tribe {
     public String name = "Error Unknown";
     public int level = 1;
     public List<UUID> members = new ArrayList<>();
-    public UUID owner;
+    public UUID owner = Basics.errorID;
     public String icon = "GREEN_BANNER";
     public static Tribe create(Player creator) {
         Tribe tribe = new Tribe();
@@ -89,7 +89,6 @@ public class Tribe {
         tribe.members = new ArrayList<>();
         for (String id:config.getStringList(tribe.ID+".members")) {
             tribe.members.add(UUID.fromString(id));
-
         }
         return tribe;
     }
@@ -159,7 +158,6 @@ public class Tribe {
             Tribe temp = QueryID(id);
             if (temp.members.contains(player.getUniqueId())) tribes.add(QueryID(id));
         });
-        if (tribes.isEmpty()) player.sendMessage("EMPTY!!");
         return tribes;
     }
     public boolean isMember(Player player) {

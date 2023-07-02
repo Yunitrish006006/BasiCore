@@ -32,6 +32,8 @@ public class VillagerEvents implements Listener {
         villager.setMetadata("Owner",new FixedMetadataValue(BasiCore.getPlugin(),player.getUniqueId().toString()));
         ChatSet name = ChatSet.query(UUID.fromString(villager.getMetadata("Owner").get(0).asString()));
         player.sendMessage(villager.getCustomName()+"的合作夥伴是"+name.getName());
+        OnlineStorePage.villagerFileSet.data.set(villager.getUniqueId().toString(),player.getUniqueId().toString());
+        OnlineStorePage.villagerFileSet.save();
         event.setCancelled(true);
     }
 }

@@ -4,6 +4,7 @@ import com.mc.basicore.BasiCore;
 import com.mc.basicore.Basics;
 import com.mc.basicore.systems.ChatSystem.ChatSet;
 import com.mc.basicore.systems.FileSystem.FileSet;
+import com.mc.basicore.systems.TribeSystem.Tribe;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -11,6 +12,8 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.mc.basicore.systems.translate.Translator.translate;
 
 @SuppressWarnings("ConstantConditions")
 public class SpaceUnit {
@@ -41,6 +44,12 @@ public class SpaceUnit {
         if (units.isEmpty()) return new SpaceUnit();
         else return units.get(0);
     }
+    public static SpaceUnit queryFromName(String name) {
+        List<SpaceUnit> units = getUnits();
+        units.removeIf(u -> !u.unitName.equals(name));
+        if (units.isEmpty()) return new SpaceUnit();
+        else return units.get(0);
+    }
     public static SpaceUnit queryIDAsPlayer(String id, Player player) {
         SpaceUnit unit = new SpaceUnit();
         if (!fileSet.data.getKeys(false).contains(id)) {
@@ -49,6 +58,30 @@ public class SpaceUnit {
         }
         ConfigurationSection section = fileSet.data.getConfigurationSection(id);
         if (!UUID.fromString(section.getString(".ownerUUID")).equals(player.getUniqueId())) return unit;
+        unit.unitUUID = UUID.fromString(id);
+        unit.unitName = section.getString(".unitName");
+        unit.purview = section.getString(".purview");
+        unit.ownerUUID = UUID.fromString(section.getString(".ownerUUID"));
+        unit.unitIcon = section.getString(".unitIcon");
+        unit.time = Integer.parseInt(section.getString(".time"));
+        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
+        unit.location = new Location(
+                Bukkit.getWorld(section.getString(".World")),
+                Double.parseDouble(section.getString(".X")),
+                Double.parseDouble(section.getString(".Y")),
+                Double.parseDouble(section.getString(".Z")),
+                Float.parseFloat(section.getString(".Yaw")),
+                Float.parseFloat(section.getString(".Pitch"))
+        );
+        return unit;
+    }
+    public static SpaceUnit queryIDAsSystem(String id) {
+        SpaceUnit unit = new SpaceUnit();
+        if (!fileSet.data.getKeys(false).contains(id)) {
+            unit.unitName = "unit ID not found!";
+            return unit;
+        }
+        ConfigurationSection section = fileSet.data.getConfigurationSection(id);
         unit.unitUUID = UUID.fromString(id);
         unit.unitName = section.getString(".unitName");
         unit.purview = section.getString(".purview");
@@ -93,27 +126,6 @@ public class SpaceUnit {
         unit.unitIcon = section.getString(".icon");
         return unit;
     }
-    public static SpaceUnit queryIDAsSystem(String id) {
-        SpaceUnit unit = new SpaceUnit();
-        if (!fileSet.data.contains(id)) return unit;
-        ConfigurationSection section = fileSet.data.getConfigurationSection(id);
-        unit.unitUUID = UUID.fromString(id);
-        unit.unitName = section.getString(".unitName");
-        unit.purview = section.getString(".purview");
-        unit.ownerUUID = UUID.fromString(section.getString(".ownerUUID"));
-        unit.unitIcon = section.getString(".unitIcon");
-        unit.time = Integer.parseInt(section.getString(".time"));
-        unit.gravity = Boolean.parseBoolean(section.getString(".gravity"));
-        unit.location = new Location(
-                Bukkit.getWorld(section.getString(".World")),
-                Double.parseDouble(section.getString(".X")),
-                Double.parseDouble(section.getString(".Y")),
-                Double.parseDouble(section.getString(".Z")),
-                Float.parseFloat(section.getString(".Yaw")),
-                Float.parseFloat(section.getString(".Pitch"))
-        );
-        return unit;
-    }
     public void saveUnit() {
         String prefix = unitUUID+".";
         fileSet.data.set(prefix+"unitName", unitName);
@@ -153,11 +165,11 @@ public class SpaceUnit {
         return getPrivateUnits(player).stream().map(unit -> unit.unitName).collect(Collectors.toList());
     }
     public static List<String> getUnitListNames() {
-        return getPrivateUnits().stream().map(unit -> unit.unitName).collect(Collectors.toList());
+        return getUnits().stream().map(unit -> unit.unitName).collect(Collectors.toList());
     }
-    public static List<SpaceUnit> getPrivateUnits() {
+    public static List<SpaceUnit> getUnits() {
         List<SpaceUnit> result = new ArrayList<>();
-        fileSet.data.getKeys(false).forEach(id -> result.add(queryIDAsSystem(fileSet.data.getString(id))));
+        fileSet.data.getKeys(false).forEach(id -> result.add(queryIDAsSystem(id)));
         return result;
     }
     public static List<SpaceUnit> getPublicUnits() {
@@ -167,9 +179,19 @@ public class SpaceUnit {
         });
         return result;
     }
+    public static List<SpaceUnit> getTribeUnits(Tribe tribe) {
+        List<SpaceUnit> result = new ArrayList<>();
+        fileSet.data.getKeys(false).forEach(id -> {
+            if (queryIDAsSystem(id).purview.equals(tribe.name)) result.add(queryIDAsSystem(id));
+        });
+        return result;
+    }
     /*=================================teleport================================================*/
     public void toUnit(Player player) {
-        if (ownerUUID.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) return;
+        if (ownerUUID.equals(UUID.fromString("00000000-0000-0000-0000-000000000000"))) {
+            player.sendMessage("Error Point!");
+            return;
+        }
         switch (purview) {
             case "private": {
                 if(player.getUniqueId().equals(ownerUUID) || player.isOp()) {
@@ -184,10 +206,13 @@ public class SpaceUnit {
                 player.teleport(location);
                 return;
             }
-            case "group": {
-            }
             default: {
-                player.sendMessage(ChatColor.RED + "wrong purview settings[ "+purview+" ]");
+                Tribe tribe = Tribe.Query(purview);
+                if (!tribe.name.equals("tribe not found!")) {
+                    if (tribe.isMember(player.getUniqueId())) player.teleport(location);
+                    else player.sendMessage(translate(player,"你不是該部落成員!"));
+                }
+                else player.sendMessage(ChatColor.RED + "wrong purview settings[ "+purview+" ]");
             }
         }
     }
@@ -222,5 +247,15 @@ public class SpaceUnit {
                 player.playSound(player.getLocation(), Sound.ITEM_CHORUS_FRUIT_TELEPORT, SoundCategory.MASTER, 0.6f, 0.96f);
             }
         },time*20L);
+    }
+    public void debug(Player player) {
+        player.sendMessage("=========================================================");
+        player.sendMessage(unitName);
+        player.sendMessage("ID: "+unitUUID);
+        player.sendMessage("Icon: "+unitIcon);
+        player.sendMessage("owner: "+ownerUUID);
+        player.sendMessage("Gravity: "+gravity);
+        player.sendMessage("Purview: "+purview);
+        player.sendMessage("Time: "+time);
     }
 }

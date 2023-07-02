@@ -20,6 +20,17 @@ public class reset implements CommandExecutor {
             assert speed != null;
             speed.setBaseValue(0.1);
             commandSender.sendMessage("速度已重置");
+            AttributeInstance playerMaxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            AttributeInstance playerSpeed = player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+            assert playerMaxHealth != null && playerSpeed != null;
+            playerMaxHealth.getModifiers().forEach(attributeModifier -> {
+                player.sendMessage(attributeModifier.getUniqueId()+" removed");
+                playerMaxHealth.removeModifier(attributeModifier);
+            });
+            playerSpeed.getModifiers().forEach(attributeModifier -> {
+                player.sendMessage(attributeModifier.getUniqueId()+" removed");
+                playerSpeed.removeModifier(attributeModifier);
+            });
             return true;
         }
         return false;

@@ -198,6 +198,7 @@ public class Basics {
         target.setMetadata(key,new FixedMetadataValue(BasiCore.getPlugin(),value));
     }
     public static String getBlockValue(Block target, String key) {
+        if (target.hasMetadata(key)) return "error";
         return target.getMetadata(key).get(0).asString();
     }
 }

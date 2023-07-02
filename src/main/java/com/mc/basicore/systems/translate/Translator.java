@@ -40,7 +40,6 @@ public class Translator {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 translationJson = stringBuilder.toString();
             }
         } catch (IOException e) {

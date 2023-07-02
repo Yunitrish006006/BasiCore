@@ -1,6 +1,5 @@
 package com.mc.basicore.systems.EconomySystem;
 
-import com.mc.basicore.Basics;
 import com.mc.basicore.systems.ChatSystem.ChatSet;
 import com.mc.basicore.systems.FileSystem.FileSet;
 import org.bukkit.Bukkit;
@@ -24,6 +23,7 @@ public class OnlineStorePage implements InventoryHolder {
     public Inventory inventory;
     private final Player player;
     static FileSet fileSet = new FileSet("award.yml");
+    public static FileSet villagerFileSet = new FileSet("villagers.yml");
     public static ItemStack villagerPageButton(String language) {
         ItemStack item = new ItemStack(OAK_HANGING_SIGN);
         ItemMeta meta = item.getItemMeta();
@@ -37,11 +37,14 @@ public class OnlineStorePage implements InventoryHolder {
     public OnlineStorePage(Player player) {
         this.player = player;
         this.inventory = Bukkit.createInventory(this,9*6, translate(player,"GUI.online","GUI.store"));
-        Basics.getVillagers(player.getWorld()).forEach(
-                villager -> {
-                    if (villager.hasMetadata("Owner")) inventory.addItem(VillagerButton(villager));
-                }
-        );
+        if (!villagerFileSet.data.getKeys(false).isEmpty()) {
+            villagerFileSet.data.getKeys(false).forEach(villagerID -> {
+                Villager villager = (Villager) Bukkit.getEntity(UUID.fromString(villagerID));
+                if (villager == null) return;
+                if (!villager.hasMetadata("Owner")) return;
+                inventory.addItem(VillagerButton(villager));
+            });
+        }
     }
 
     public ItemStack VillagerButton(Villager villager) {
@@ -75,16 +78,16 @@ public class OnlineStorePage implements InventoryHolder {
     }
 
     public void trigger(InventoryClickEvent event, String ID, ClickType press, Player player) {
-        switch (ID) {
-            case "villager": {
-                if (press.isLeftClick()) {
-                    player.closeInventory();
-                    Villager villager = (Villager) Bukkit.getServer().getEntity(UUID.fromString(event.getCurrentItem().getItemMeta().getLore().get(0)));
-                    if (villager != null) {
-                        player.openMerchant(villager, true);
-                    }
+        if (ID.equals("villager")) {
+            if (press.isLeftClick()) {
+                player.closeInventory();
+                if (event.getCurrentItem() == null) return;
+                if (event.getCurrentItem().getItemMeta() == null) return;
+                if (event.getCurrentItem().getItemMeta().getLore() == null) return;
+                Villager villager = (Villager) Bukkit.getServer().getEntity(UUID.fromString(event.getCurrentItem().getItemMeta().getLore().get(0)));
+                if (villager != null) {
+                    player.openMerchant(villager, true);
                 }
-                break;
             }
         }
     }

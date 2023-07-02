@@ -6,7 +6,7 @@ import com.mc.basicore.systems.EconomySystem.AwardPage;
 import com.mc.basicore.systems.ChatSystem.Pages.PlayerDataPage;
 import com.mc.basicore.systems.EconomySystem.OnlineStorePage;
 import com.mc.basicore.systems.TribeSystem.Pages.TribesListPage;
-import com.mc.basicore.systems.collector_system.CollectorSetPage;
+import com.mc.basicore.systems.ResourceSystem.CollectorSetPage;
 import com.mc.basicore.systems.teleport_system.Pages.*;
 import com.mc.basicore.systems.teleport_system.SpaceUnit;
 import org.bukkit.*;
@@ -49,15 +49,6 @@ public class WorldIndex implements Listener {
         assert meta != null;
         meta.setLocalizedName("BasiCore.GUI.return");
         meta.setDisplayName(translate(language,"GUI.return"));
-        item.setItemMeta(meta);
-        return item;
-    }
-    public static ItemStack playerPageButton(String language) {
-        ItemStack item = new ItemStack(PLAYER_HEAD);
-        ItemMeta meta = item.getItemMeta();
-        assert meta != null;
-        meta.setLocalizedName("BasiCore.GUI.playerPage");
-        meta.setDisplayName(translate(language,"GUI.player","GUI.list"));
         item.setItemMeta(meta);
         return item;
     }
@@ -120,18 +111,13 @@ public class WorldIndex implements Listener {
         event.setCancelled(true);
         InventoryHolder holder = event.getInventory().getHolder();
         ((Player)event.getWhoClicked()).playSound(event.getWhoClicked(), "basicore.button",0.4f,1.3f);
-        if (Arrays.asList("playerPage","publicPage","playerData","tribeList","collectorSet","AwardPage","return").contains(ID[2])) {
+        if (Arrays.asList("publicPage","playerData","tribeList","collectorSet","AwardPage","return").contains(ID[2])) {
             ClickType press = event.getClick();
             Player player = (Player) event.getWhoClicked();
             switch (ID[2]) {
                 case "return":
                     if (press.isLeftClick()) {
                         player.openInventory(new UnitsPage(player,"private").getInventory());
-                    }
-                    break;
-                case "playerPage":
-                    if (press.isLeftClick()) {
-                        player.openInventory(new PlayersPage(player).getInventory());
                     }
                     break;
                 case "playerData":
@@ -167,9 +153,6 @@ public class WorldIndex implements Listener {
             }
             else if (holder instanceof IconsPage) {
                 ((IconsPage)holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
-            }
-            else if (holder instanceof PlayersPage) {
-                ((PlayersPage)holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());
             }
             else if (holder instanceof PlayerDataPage){
                 ((PlayerDataPage) holder).trigger(event,ID[2],event.getClick(), (Player) event.getWhoClicked());

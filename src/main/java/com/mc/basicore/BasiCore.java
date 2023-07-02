@@ -5,12 +5,13 @@ import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
 import com.mc.basicore.systems.EconomySystem.VillagerEvents;
 import com.mc.basicore.systems.LockorSystem.LockorEvents;
-import com.mc.basicore.systems.SkillSystem.fireBall;
+import com.mc.basicore.systems.MobSystem.MobSystem;
+import com.mc.basicore.systems.SkillSystem.*;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.ChatSystem.*;
-import com.mc.basicore.systems.collector_system.*;
-import com.mc.basicore.systems.mob_system.events.onCreeperExplode;
+import com.mc.basicore.systems.ResourceSystem.*;
+import com.mc.basicore.systems.MobSystem.events.onCreeperExplode;
 import com.mc.basicore.systems.others.commands.*;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.systems.others.events.*;
@@ -53,7 +54,8 @@ public final class BasiCore extends JavaPlugin {
         EnchantSystem.register();
         getServer().getPluginManager().registerEvents(new EnchantSystem(),this);
         /*==================register====================*/
-        getServer().getPluginManager().registerEvents(new skill_system(),this);
+        getServer().getPluginManager().registerEvents(new swordDash(),this);
+//        getServer().getPluginManager().registerEvents(new SkillSet(),this);
         getCommand("puppet").setExecutor(new PlacerPuppet());
         getCommand("reset").setExecutor(new reset());
         getCommand("test").setExecutor(new test());
@@ -62,10 +64,11 @@ public final class BasiCore extends JavaPlugin {
         getCommand("laugh").setExecutor(new laugh());
         getCommand("head").setExecutor(new head());
         getCommand("head").setTabCompleter(new head());
-        collector.init();
+        ResourceSystem.init();
         /*============================other little system==============================*/
         getServer().getPluginManager().registerEvents(new VillagerEvents(),this);
         getServer().getPluginManager().registerEvents(new fireBall(),this);
+        getServer().getPluginManager().registerEvents(new arrow(),this);
         getServer().getPluginManager().registerEvents(new onCreeperExplode(),this);
         getServer().getPluginManager().registerEvents(new ExtraFoodsEvent(),this);
         getServer().getPluginManager().registerEvents(new onPlayerJoin(),this);
@@ -81,6 +84,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
+        MobSystem.init();
         DietSystem.initializeDiet();
         getServer().getPluginManager().registerEvents(new LockorEvents(),this);
     }

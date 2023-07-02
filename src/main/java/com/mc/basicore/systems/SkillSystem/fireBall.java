@@ -2,6 +2,8 @@ package com.mc.basicore.systems.SkillSystem;
 
 import com.mc.basicore.Basics;
 import org.bukkit.Sound;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Damageable;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,8 +31,11 @@ public class fireBall implements Listener {
     public void onProjectileHit(ProjectileHitEvent event) {
         if (!(event.getEntity() instanceof Fireball)) return;
         Fireball fireball = (Fireball) event.getEntity();
-        if (!(fireball.getShooter() instanceof Player))  return;
+        if (!(fireball.getShooter() instanceof Player || fireball.getShooter() instanceof Arrow))  return;
+        event.setCancelled(true);
         Player player = (Player) fireball.getShooter();
-        fireball.getWorld().createExplosion(fireball.getLocation(), 0.2f);
+        fireball.getNearbyEntities(1.6,1,1.6).forEach(entity -> ((Damageable) entity).damage(2.0));
+        fireball.getWorld().createExplosion(fireball.getLocation(), 0.01f);
+        fireball.remove();
     }
 }
