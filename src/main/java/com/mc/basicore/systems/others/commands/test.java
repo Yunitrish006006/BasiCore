@@ -28,6 +28,14 @@ public class test implements CommandExecutor {
         switch (strings.length) {
             case 1: {
                 switch (strings[0]) {
+                    case "ts_item": {
+                        ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD);
+                        ItemMeta itemMeta = itemStack.getItemMeta();
+                        assert itemMeta != null;
+                        itemMeta.setDisplayName(ChatColor.RESET + ChatColor.translateAlternateColorCodes('&', "&r") + ChatColor.translateAlternateColorCodes('&', "&6") + "item.mug");
+                        itemStack.setItemMeta(itemMeta);
+                        player.getInventory().addItem(itemStack);
+                    }
                     case "hat": {
                         ItemStack itemStack = new ItemStack(Material.CHAINMAIL_HELMET);
                         itemStack.addEnchantment(EnchantSystem.HEAD_CEASE,1);

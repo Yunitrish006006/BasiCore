@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -52,7 +53,7 @@ public class CherryJuice extends Food implements Listener {
     public void onMove(PlayerMoveEvent event) {
         if (!event.getPlayer().hasMetadata("CherryJuice")) return;
         if (!event.getPlayer().getMetadata("CherryJuice").get(0).asBoolean()) return;
-        Basics.SpawnParticle(event.getPlayer(),Particle.CHERRY_LEAVES,30,0.2,0.2,0.2,0.2);
+        Basics.SpawnParticle(event.getPlayer().getLocation(),Particle.CHERRY_LEAVES,30,0.2,0.2,0.2,0.2);
     }
     @EventHandler
     public void onMake(CraftItemEvent event) {
@@ -64,6 +65,23 @@ public class CherryJuice extends Food implements Listener {
             return;
         }
         event.setCurrentItem(generate());
+    }
+    @EventHandler
+    public void finishDrink(PlayerItemConsumeEvent event) {
+        if (!Basics.getID(event.getItem()).equals("BasiCore.CherryJuice")) return;
+        event.getPlayer().getInventory().forEach(itemStack -> {
+            if (!itemStack.getType().equals(Material.GLASS_BOTTLE)) return;
+            assert itemStack.getItemMeta() != null;
+            if (itemStack.getItemMeta().getCustomModelData() != 1) return;
+            itemStack.setAmount(itemStack.getAmount()-1);
+        });
+        ItemStack itemStack = new ItemStack(Material.GLASS_BOTTLE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        assert itemMeta != null;
+        itemMeta.setDisplayName(translate(event.getPlayer(),"item.mug"));
+        itemMeta.setCustomModelData(1);
+        itemStack.setItemMeta(itemMeta);
+        event.getPlayer().getInventory().addItem(itemStack);
     }
     public void Recipe() {
         recipe = new ShapelessRecipe(new NamespacedKey(BasiCore.getPlugin(),"foods.cherry_juice"),new CherryJuice().item);

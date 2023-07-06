@@ -24,10 +24,10 @@ public class Axe implements Listener {
     @EventHandler
     public void handleBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        CollectorSet set = CollectorSet.query(player);
+        CollectorSet set = CollectorSet.query(player.getUniqueId());
         Block block = event.getBlock();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(axes().contains(tool.getType()) && set.data.get("axe"))) return;
+        if (!(axes().contains(tool.getType()) && set.stats.get("axe"))) return;
         if(!inBLockTypes(itemGroups.Stems(),block.getType())) return;
 
         List<ItemStack> drops = new ArrayList<>();

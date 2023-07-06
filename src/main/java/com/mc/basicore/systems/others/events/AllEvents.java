@@ -2,7 +2,7 @@ package com.mc.basicore.systems.others.events;
 
 import com.mc.basicore.BasiCore;
 import com.mc.basicore.systems.Sleep.sleepEvent;
-import com.mc.basicore.systems.MobSystem.events.skeleton_sword;
+import com.mc.basicore.systems.CreatureSystem.events.skeleton_sword;
 
 public class AllEvents {
     public static void init() {

@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.MobSystem.events;
+package com.mc.basicore.systems.CreatureSystem.events;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,17 +19,20 @@ public class ZombieVariety  implements Listener {
     @EventHandler
     public void onSkeletonSpawn(EntitySpawnEvent event) {
         if (!event.getEntity().getType().equals(EntityType.ZOMBIE)) return;
+        if (!event.getLocation().add(0,-0.1,0).getBlock().getType().equals(Material.GRASS_BLOCK)) return;
         Random random = new Random();
         if (random.nextInt(10) > 1 ) return;
         Location location = event.getLocation();
         assert location.getWorld() != null;
         ZombieHorse horse = (ZombieHorse) location.getWorld().spawnEntity(event.getLocation(),EntityType.ZOMBIE_HORSE,true);
+        horse.setRemoveWhenFarAway(true);
         Zombie mob = (Zombie) event.getEntity();
         AttributeModifier maxHealthModifier = new AttributeModifier("double_health",1.6, AttributeModifier.Operation.MULTIPLY_SCALAR_1);
         AttributeInstance maxHealth = horse.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         assert maxHealth != null;
         maxHealth.addModifier(maxHealthModifier);
         horse.addPassenger(mob);
+        horse.setHealth(maxHealth.getValue());
         assert mob.getEquipment() != null;
         mob.getEquipment().setChestplate(new ItemStack(Material.CHAINMAIL_CHESTPLATE));
         mob.getEquipment().setItemInMainHand(new ItemStack(Material.IRON_SWORD));

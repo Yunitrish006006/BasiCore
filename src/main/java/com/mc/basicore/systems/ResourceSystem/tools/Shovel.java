@@ -62,10 +62,10 @@ public class Shovel implements Listener {
     @EventHandler
     public void onShoveling(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        CollectorSet set = CollectorSet.query(player);
+        CollectorSet set = CollectorSet.query(player.getUniqueId());
         Block block = event.getBlock();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(shovels().contains(tool.getType()) && set.data.get("shovel"))) return;
+        if (!(shovels().contains(tool.getType()) && set.stats.get("shovel"))) return;
         if(!inBLockTypes(SoilTargets(),block.getType())) return;
         if (willBreak(tool)) {
             event.setCancelled(true);

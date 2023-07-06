@@ -25,7 +25,7 @@ public class AwardPage implements InventoryHolder {
     public Inventory inventory;
     public ChatSet chatSet;
     private final Player player;
-    static FileSet fileSet = new FileSet("villagers.yml");
+    static FileSet fileSet = new FileSet("award.yml");
 
     public AwardPage(Player player) {
         this.player = player;

@@ -1,4 +1,4 @@
-package com.mc.basicore.systems.MobSystem.events;
+package com.mc.basicore.systems.CreatureSystem.events;
 
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;

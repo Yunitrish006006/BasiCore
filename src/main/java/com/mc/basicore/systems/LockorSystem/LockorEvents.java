@@ -11,9 +11,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.mc.basicore.systems.translate.Translator.translate;
 
 public class LockorEvents implements Listener {
@@ -26,7 +23,7 @@ public class LockorEvents implements Listener {
         Player player = event.getPlayer();
         assert target != null;
         if (Lockor.canNotLock(target)) return;
-        Lockor lockor = new Lockor(target.getLocation(),player);
+        Lockor lockor = Lockor.query(target.getLocation(),player);
         if (!lockor.isOwner(player)) return;
         lockor.round();
         player.sendTitle("",translate(player,"generic.space","Lockor."+lockor.purview),1,100,1);
@@ -34,11 +31,14 @@ public class LockorEvents implements Listener {
     @EventHandler
     public void LockReset(BlockBreakEvent event) {
         if (Lockor.canNotLock(event.getBlock())) return;
-        Lockor lockor = new Lockor(event.getBlock().getLocation(),event.getPlayer());
+        Lockor lockor = Lockor.query(event.getBlock().getLocation(),event.getPlayer());
         if (lockor.isOwner(event.getPlayer())) {
+            lockor.getOwner().sendMessage("you have break ur chest!");
             lockor.reset();
-        }
-        else {
+        } else if (event.getPlayer().isOp()) {
+            lockor.reset();
+            event.getPlayer().sendMessage("you do this as op!");
+        } else {
             event.setCancelled(true);
         }
     }
@@ -48,51 +48,27 @@ public class LockorEvents implements Listener {
         Block block = event.getClickedBlock();
         Player player = event.getPlayer();
         assert block != null;
-        if (Lockor.getLockPurview(block).equals("none")) return;
         if (Lockor.canNotLock(block)) return;
-        Lockor lockor = new Lockor(block.getLocation());
-        if (lockor.owner == null) {
-            player.sendMessage("玩家未上線!");
-            event.setCancelled(true);
-            return;
-        }
+        Lockor lockor = Lockor.query(block.getLocation(),player);
         switch (lockor.purview){
             case "private":
                 if (!lockor.isOwner(player)){
-                    player.sendTitle("","此箱子屬於"+ ChatSet.query(lockor.owner).getName()+"私人所有",4,6,4);
+                    player.sendTitle("","此容器屬於"+ ChatSet.query(lockor.owner).getName()+"私人所有",4,6,4);
                     event.setCancelled(true);
                 }
-                return;
-            case "tribe":
-                if (lockor.isOwner(player)) {
-                    return;
-                }
-                boolean blockAway = true;
-                List<Tribe> tribes = new ArrayList<>();
-                for (Tribe t:Tribe.List()) {
-                    if (t.isMember(lockor.owner)) {
-                        tribes.add(t);
-                    }
-                }
-                List<String> names = new ArrayList<>();
-                for (Tribe q:tribes) {
-                    if (q.isMember(player)) {
-                        blockAway = false;
-                    }
-                    names.add(q.name);
-                }
-                if (blockAway) {
-                    player.sendMessage("此箱子屬於部落:");
-                    for (String n:names) {
-                        player.sendMessage(" - "+n);
-                    }
-                }
-                event.setCancelled(blockAway);
+                player.sendMessage("你打開了你的私人容器");
                 return;
             case "public":
-                player.sendTitle("","你打開了"+ ChatSet.query(lockor.owner).getName()+"的箱子",4,6,4);
+                player.sendTitle("","你打開了"+ ChatSet.query(lockor.owner).getName()+"的容器",4,12,4);
+                player.sendMessage("你打開了"+ ChatSet.query(lockor.owner).getName()+"的容器");
                 return;
             default:
+                Tribe tribe = Tribe.Query(lockor.purview);
+                if (!tribe.name.equals("tribe not found!")) {
+                    if (tribe.isMember(player.getUniqueId())) player.sendMessage("你打開了"+ ChatSet.query(lockor.owner).getName()+"的容器");
+                    else player.sendMessage(translate(player,"你不是該部落成員!"));
+                    return;
+                }
                 Bukkit.broadcastMessage("error for value: "+lockor.purview);
         }
     }

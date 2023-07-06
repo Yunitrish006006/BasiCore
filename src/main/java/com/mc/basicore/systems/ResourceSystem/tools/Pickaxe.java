@@ -26,10 +26,10 @@ public class Pickaxe implements Listener {
     @EventHandler
     public void Minor(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        CollectorSet set = CollectorSet.query(player);
+        CollectorSet set = CollectorSet.query(player.getUniqueId());
         Block block = event.getBlock();
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!(pickaxes().contains(tool.getType()) && set.data.get("pickaxe"))) return;
+        if (!(pickaxes().contains(tool.getType()) && set.stats.get("pickaxe"))) return;
         if(!inBLockTypes(itemGroups.MineTargets(),block.getType())) return;
 
         if (!(tool.getItemMeta() instanceof Damageable)) return;

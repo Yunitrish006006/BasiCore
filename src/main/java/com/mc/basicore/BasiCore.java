@@ -5,13 +5,13 @@ import com.mc.basicore.systems.Diet.DietSystem;
 import com.mc.basicore.systems.Diet.ExtraFoodsEvent;
 import com.mc.basicore.systems.EconomySystem.VillagerEvents;
 import com.mc.basicore.systems.LockorSystem.LockorEvents;
-import com.mc.basicore.systems.MobSystem.MobSystem;
+import com.mc.basicore.systems.CreatureSystem.CreatureSystem;
 import com.mc.basicore.systems.SkillSystem.*;
 import com.mc.basicore.systems.TribeSystem.Tribe;
 import com.mc.basicore.systems.WorldManager.worldManager;
 import com.mc.basicore.systems.ChatSystem.*;
 import com.mc.basicore.systems.ResourceSystem.*;
-import com.mc.basicore.systems.MobSystem.events.onCreeperExplode;
+import com.mc.basicore.systems.CreatureSystem.events.onCreeperExplode;
 import com.mc.basicore.systems.others.commands.*;
 import com.mc.basicore.systems.enchant_system.EnchantSystem;
 import com.mc.basicore.systems.others.events.*;
@@ -43,7 +43,6 @@ public final class BasiCore extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(plugin);
         worldManager.registerNewWorld();
         this.saveDefaultConfig();
-        Basics.init();
         ChatSet.chatInit();
         Translator.initFile();
         Tribe.init();
@@ -84,7 +83,7 @@ public final class BasiCore extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldIndex(),this);
         getServer().getPluginManager().registerEvents(new onPlayerDeathOrReborn(),this);
         /*=============================================test=================================================*/
-        MobSystem.init();
+        CreatureSystem.init();
         DietSystem.initializeDiet();
         getServer().getPluginManager().registerEvents(new LockorEvents(),this);
     }

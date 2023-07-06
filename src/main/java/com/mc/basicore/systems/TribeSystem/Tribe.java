@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Tribe {
     public static FileSet fileSet = new FileSet("tribes.yml");
@@ -160,8 +161,19 @@ public class Tribe {
         });
         return tribes;
     }
-    public boolean isMember(Player player) {
-        return members.contains(player.getUniqueId());
+    public static List<Tribe> getTribeList(UUID uuid) {
+        List<Tribe> tribes = new ArrayList<>();
+        config.getKeys(false).forEach(id -> {
+            Tribe temp = QueryID(id);
+            if (temp.members.contains(uuid)) tribes.add(QueryID(id));
+        });
+        return tribes;
+    }
+    public static List<String> getTribeListNames(UUID uuid) {
+        return getTribeList(uuid).stream().map(tribe -> tribe.name).collect(Collectors.toList());
+    }
+    public boolean isNotMember(Player player) {
+        return !members.contains(player.getUniqueId());
     }
     public boolean isMember(UUID id) {
         return members.contains(id);

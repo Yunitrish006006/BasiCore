@@ -22,46 +22,7 @@ import java.util.UUID;
 import static java.lang.Math.round;
 
 public class Basics {
-    public static void init() {
-        initDatabase();
-    }
-    /*==================================================================*/
-    public static File databaseFile;
-    public static FileConfiguration database;
-    public static final String PLAYER_DATA_YML = "PlayerData.yml";
-    public static void setUpDatabase() {
-        databaseFile = new File(BasiCore.getRootFolder(), PLAYER_DATA_YML);
-        if (!databaseFile.exists()) {
-            try {
-                if (databaseFile.createNewFile()) {
-                    Bukkit.getServer().getConsoleSender().sendMessage("creating files: ");
-                    Bukkit.getServer().getConsoleSender().sendMessage(BasiCore.getRootFolder(), PLAYER_DATA_YML);
-                }
-                else {
-                    Bukkit.getServer().getConsoleSender().sendMessage("initializing files");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        database = YamlConfiguration.loadConfiguration(databaseFile);
-    }
-    public static void saveDatabase() {
-        try {
-            database.save(databaseFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static void initDatabase() {
-        setUpDatabase();
-        saveDatabase();
-    }
-    /*==================================================================*/
     public static UUID errorID = UUID.fromString("00000000-0000-0000-0000-000000000000");
-    public static List<String> UUIDS() {
-        return new ArrayList<>(database.getKeys(false));
-    }
     public static List<String> getPlayerList() {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
         List<String> names = new ArrayList<>();
@@ -75,9 +36,9 @@ public class Basics {
             player.playSound(location,sound,SoundCategory.BLOCKS,1.0f,1.0f);
         }
     }
-    public static void SpawnParticle(Player from,Particle particle,int count,double dx,double dy, double dz, double speed) {
+    public static void SpawnParticle(Location from,Particle particle,int count,double dx,double dy, double dz, double speed) {
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-            player.spawnParticle(Particle.CHERRY_LEAVES, from.getLocation(), count, dx, dy, dz, speed);
+            player.spawnParticle(Particle.CHERRY_LEAVES, from, count, dx, dy, dz, speed);
         }
     }
     public static boolean inBLockTypes(List<Material> blocks, Material target) {
@@ -198,7 +159,7 @@ public class Basics {
         target.setMetadata(key,new FixedMetadataValue(BasiCore.getPlugin(),value));
     }
     public static String getBlockValue(Block target, String key) {
-        if (target.hasMetadata(key)) return "error";
+        if (!target.hasMetadata(key)) return "error";
         return target.getMetadata(key).get(0).asString();
     }
 }

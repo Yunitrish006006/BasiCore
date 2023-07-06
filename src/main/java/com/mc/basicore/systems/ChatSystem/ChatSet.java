@@ -5,7 +5,6 @@ import com.mc.basicore.systems.FileSystem.FileSet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -48,7 +47,10 @@ public class ChatSet {
     public static ChatSet query(UUID uuid){
         ChatSet chatSet = new ChatSet();
         chatSet.CustomName = "Unknown Error!";
-        if (!Basics.UUIDS().contains(uuid.toString())) return chatSet;
+        if (!fileSet.data.contains(uuid.toString())) {
+            Bukkit.broadcastMessage("error uuid:"+ uuid);
+            return chatSet;
+        }
         ConfigurationSection section = fileSet.data.getConfigurationSection(uuid.toString());
         chatSet.CustomName = section.getString(".ChatSets.CustomName");
         chatSet.discordName = section.getString(".ChatSets.DiscordName")==null ? "None":section.getString(".ChatSets.DiscordName");
